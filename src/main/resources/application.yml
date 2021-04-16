@@ -26,13 +26,27 @@ spring:
       path: /h2-console
 
   datasource:
+#    driver-class-name: org.h2.jdbcx.JdbcDataSource
     driver-class-name: org.h2.Driver  #h2 드라이버 설정
     url: jdbc:h2:mem:toyseven;DB_CLOSE_ON_EXIT=TRUE;MODE=MYSQL  #접속 URL
     username: userName
     password: password
-
-mybatis:
-  type-aliases-package: com.toyseven.server.model
-  mapper-locations: mybatis/**/*.xml
-  configuration:
-    map-underscore-to-camel-case: true
+    
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    database: MYSQL
+    generate-ddl: false
+    open-in-view: false
+    show-sql: true
+    hibernate:
+#      ddl-auto: validate
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        cache:
+          usesecondlevelcache: true
+          usequerycache: false
+          region:
+            factoryclass: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+        generatestatistics: true
