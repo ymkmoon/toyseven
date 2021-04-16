@@ -5,8 +5,6 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,6 +17,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.toyseven.ymk.model.AdminItem;
 
 @RestController
 @RequestMapping("JpaTest")
@@ -36,7 +36,7 @@ public class JpaTestRestController {
 	
 	// 회원번호로 한명의 회원 조회
 	@GetMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<AdminItem> getMember(@PathVariable("id") Integer id) {
+	public ResponseEntity<AdminItem> getMember(@PathVariable("id") Long id) {
 		Optional<AdminItem> adminItem = jpaTestService.findById(id);
 		return new ResponseEntity<AdminItem>(adminItem.get(), HttpStatus.OK);
 	}
@@ -44,7 +44,7 @@ public class JpaTestRestController {
 	
 	// 회원번호로 회원 삭제
 	@DeleteMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<Void> deleteMember(@PathVariable("id") Integer id) {
+	public ResponseEntity<Void> deleteMember(@PathVariable("id") Long id) {
 		jpaTestService.deleteById(id);
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
@@ -52,7 +52,7 @@ public class JpaTestRestController {
 	
 	// 회원번호로 회원 수정(id로 회원을 찾아 Member 객체의 id, name 수정)
 	@PutMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<AdminItem> updateMember(@PathVariable("id") Integer id, AdminItem adminItem) {
+	public ResponseEntity<AdminItem> updateMember(@PathVariable("id") Long id, AdminItem adminItem) {
 		jpaTestService.updateById(id, adminItem);
 		return new ResponseEntity<AdminItem>(adminItem, HttpStatus.OK);
 	}
