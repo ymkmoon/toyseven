@@ -10,6 +10,10 @@ logging:
     root: info
     
 spring:
+  redis:
+    host: localhost
+    port: 8080
+    
   pid:
     file: logfiles/toyseven/toyseven.pid
     
