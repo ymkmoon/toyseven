@@ -5,8 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration;
 import org.springframework.stereotype.Service;
+
+import com.toyseven.ymk.model.AdminItem;
 
 @Service
 public class JpaTestService {
@@ -21,13 +22,13 @@ public class JpaTestService {
 		return jpaTest;
 	}
 	
-	public Optional<AdminItem> findById(Integer mbrNo) {
-		Optional<AdminItem> adminItem = jpaTestRepository.findById(mbrNo);
+	public Optional<AdminItem> findById(Long id) {
+		Optional<AdminItem> adminItem = jpaTestRepository.findById(id);
 		return adminItem;
 	}
 	
-	public void deleteById(Integer mbrNo) {
-		jpaTestRepository.deleteById(mbrNo);
+	public void deleteById(Long id) {
+		jpaTestRepository.deleteById(id);
 	}
 	
 	public AdminItem save(AdminItem adminItem) {
@@ -35,17 +36,16 @@ public class JpaTestService {
 		return adminItem;
 	}
 	
-	public void updateById(Integer mbrNo, AdminItem adminItem) {
-		Optional<AdminItem> e = jpaTestRepository.findById(mbrNo);
+	public void updateById(Long id, AdminItem adminItem) {
+		Optional<AdminItem> e = jpaTestRepository.findById(id);
 		
 		if (e.isPresent()) {
-			e.get().setId(adminItem.getId());
 			e.get().setUserName(adminItem.getUserName());
 			e.get().setName(adminItem.getName());
 			
 			e.get().setPassword(adminItem.getPassword());
 			e.get().setRole(adminItem.getRole());
-			e.get().setModified_at(adminItem.getModified_at());
+			e.get().setModifiedAt(adminItem.getModifiedAt());
 			e.get().setStatus(adminItem.getStatus());
 			jpaTestRepository.save(adminItem);
 		}
