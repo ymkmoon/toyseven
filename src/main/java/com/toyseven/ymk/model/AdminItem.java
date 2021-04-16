@@ -4,9 +4,12 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,8 +31,11 @@ public class AdminItem{
 	private String name;
 	@Column(name = "password", nullable = false, updatable = true, insertable = true)
 	private String password;
-	@Column(name = "role", nullable = false, updatable = true, insertable = true)
+	
+	@OneToOne(fetch = FetchType.LAZY, targetEntity = AdminRoleItem.class)
+	@JoinColumn(name="role", referencedColumnName = "name", nullable = false, updatable = true, insertable = true)
 	private String role;
+	
 	@Column(name = "create_at", nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private LocalDateTime createAt;
 	@Column(name = "modified_at", nullable = false, updatable = true, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
