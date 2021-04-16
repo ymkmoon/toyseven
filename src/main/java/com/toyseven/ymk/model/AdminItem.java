@@ -1,6 +1,6 @@
-package com.toyseven.ymk.jpaTest;
+package com.toyseven.ymk.model;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,32 +15,39 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 @Entity(name="admin") 
-public class AdminItem {
+public class AdminItem{
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	@Column(name = "id", nullable = false, updatable = false, insertable = false)
+	private long id;
 	
+	@Column(name = "userName", nullable = false, updatable = true, insertable = true)
 	private String userName;
+	@Column(name = "name", nullable = false, updatable = true, insertable = true)
 	private String name;
+	@Column(name = "password", nullable = false, updatable = true, insertable = true)
 	private String password;
+	@Column(name = "role", nullable = false, updatable = true, insertable = true)
 	private String role;
 	@Column(name = "create_at", nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-	private Timestamp create_at;
+	private LocalDateTime createAt;
 	@Column(name = "modified_at", nullable = false, updatable = true, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-	private Timestamp modified_at;
+	private LocalDateTime modifiedAt;
+	@Column(name = "status", nullable = false, updatable = true, insertable = false, columnDefinition = "INTEGER DEFAULT 1")
 	private int status;
 	
 	public AdminItem() {}
 	
 	@Builder
-	public AdminItem(String userName, String name, String password, String role, Timestamp create_at,
-			Timestamp modified_at, int status) {
+	public AdminItem(String userName, String name, String password, String role, LocalDateTime createAt,
+			LocalDateTime modifiedAt, int status) {
 		this.userName = userName;
 		this.name = name;
 		this.password = password;
 		this.role = role;
-		this.create_at = create_at;
-		this.modified_at = modified_at;
+		this.createAt = createAt;
+		this.modifiedAt = modifiedAt;
 		this.status = status;
 	}
 }
