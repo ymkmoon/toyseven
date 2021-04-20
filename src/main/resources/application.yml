@@ -10,6 +10,19 @@ logging:
     root: info
     
 spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+      
+  security:  
+    oauth2:  
+      client:  
+        registration:
+          google:
+            client-id: 903583187105-ntgridg041te8mr1rqe5h8bn6h126hp6.apps.googleusercontent.com
+            client-secret: TPMWBQ6ulxDoHvHgOWFdPJ9b
+            scope: profile,email
   redis:
     host: localhost
     port: 8080
@@ -33,8 +46,8 @@ spring:
 #    driver-class-name: org.h2.jdbcx.JdbcDataSource
     driver-class-name: org.h2.Driver  #h2 드라이버 설정
     url: jdbc:h2:mem:toyseven;MODE=MYSQL;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1; #접속 URL
-    username: userName
-    password: password
+    username: test
+    password: test
     type: com.zaxxer.hikari.HikariDataSource
     
     hikari: 
