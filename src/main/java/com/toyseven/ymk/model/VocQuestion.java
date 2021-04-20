@@ -11,14 +11,18 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import com.toyseven.ymk.oauth.BaseTimeEntity;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper=false)
 @AllArgsConstructor
 @Entity(name="voc_question")
-public class VocQuestion {
+public class VocQuestion extends BaseTimeEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
