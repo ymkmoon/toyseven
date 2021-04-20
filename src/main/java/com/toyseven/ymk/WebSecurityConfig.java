@@ -1,7 +1,5 @@
 package com.toyseven.ymk;
 
-import java.util.Arrays;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,8 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.header.writers.frameoptions.WhiteListedAllowFromStrategy;
-import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -27,7 +24,7 @@ import com.toyseven.ymk.oauth.CustomOAuth2UserService;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired private CustomOAuth2UserService customOAuth2UserService;
-
+    
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -51,7 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		// static 디렉터리의 하위 파일 목록은 인증 무시 ( = 항상통과 )
-		web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/plugins/**", "/websocket/**");
+//		web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/plugins/**", "/websocket/**");
 	}
 
 	@Override
@@ -89,7 +86,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.userService(customOAuth2UserService);
 		
 
-		http.csrf().disable();
+//		http.csrf().disable()
+		http.csrf()
+	      	.csrfTokenRepository(new CookieCsrfTokenRepository());
 		http
 	        .httpBasic().disable()
 	        .cors().configurationSource(corsConfigurationSource());
