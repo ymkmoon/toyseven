@@ -34,7 +34,7 @@ public class AdminItem{
 	
 	@OneToOne(fetch = FetchType.LAZY, targetEntity = AdminRoleItem.class)
 	@JoinColumn(name="role", referencedColumnName = "name", nullable = false, updatable = true, insertable = true)
-	private String role;
+	private AdminRoleItem role;
 	
 	@Column(name = "create_at", nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private LocalDateTime createAt;
@@ -46,7 +46,7 @@ public class AdminItem{
 	public AdminItem() {}
 	
 	@Builder
-	public AdminItem(String userName, String name, String password, String role, LocalDateTime createAt,
+	public AdminItem(String userName, String name, String password, AdminRoleItem role, LocalDateTime createAt,
 			LocalDateTime modifiedAt, int status) {
 		this.userName = userName;
 		this.name = name;
