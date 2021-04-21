@@ -17,6 +17,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.toyseven.ymk.handler.AuthFailureHandler;
+import com.toyseven.ymk.handler.AuthSuccessHandler;
 import com.toyseven.ymk.oauth.CustomOAuth2UserService;
 import com.toyseven.ymk.user.UserService;
 
@@ -67,13 +69,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.formLogin()
 	//				.loginPage("/loginForm")
 	//				.loginProcessingUrl("/login")
-	//				.failureUrl("/loginFail")
 					.permitAll()
+					.successHandler(new AuthSuccessHandler())
+					.failureHandler(new AuthFailureHandler())
 					.and()
 				// 로그아웃 설정
 				.logout()
 					.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-					.logoutSuccessUrl("/loginForm")
+					.logoutSuccessUrl("/login")
 					.invalidateHttpSession(true)
 					.and()
 				// 403 예외처리 핸들링
@@ -82,6 +85,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				// oauth2
 				.oauth2Login()
 					.defaultSuccessUrl("/swagger-ui.html")
+					.successHandler(new AuthSuccessHandler())
 					.userInfoEndpoint()
 					.userService(customOAuth2UserService);
 		

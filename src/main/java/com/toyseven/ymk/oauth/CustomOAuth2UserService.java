@@ -36,7 +36,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 				oAuth2User.getAttributes());
 
 		User user = saveOrUpdate(attributes);
-		System.out.println("this -> "+user.getEmail());
 		httpSession.setAttribute("user", new SessionUser(user));
 		
 		// 아마도 로그인 부분을 처리하려면 여기서 작업해야 하지 않을까 싶어서 메모
