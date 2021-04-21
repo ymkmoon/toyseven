@@ -57,7 +57,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 				// 페이지 권한 설정
 //				.antMatchers("/admin/**").hasRole("ADMIN")
-				.antMatchers("/**").hasRole("USER")
+				.antMatchers(
+						"/h2-console/**", 
+						"/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger/**")
+						.permitAll()
 				.antMatchers("/loginForm").permitAll()
 				.antMatchers("/loginFail").permitAll()
 				.antMatchers("/login").permitAll()
@@ -65,33 +68,35 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.cors().and()
 				// 로그인 설정
 				.formLogin()
-				.loginPage("/loginForm")
-				.loginProcessingUrl("/login")
-				.failureUrl("/loginFail")
-				.permitAll()
-				.and()
+	//				.loginPage("/loginForm")
+	//				.loginProcessingUrl("/login")
+	//				.failureUrl("/loginFail")
+					.permitAll()
+					.and()
 				// 로그아웃 설정
 				.logout()
-				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-				.logoutSuccessUrl("/loginForm")
-				.invalidateHttpSession(true)
-				.and()
+					.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+					.logoutSuccessUrl("/loginForm")
+					.invalidateHttpSession(true)
+					.and()
 				// 403 예외처리 핸들링
 				.exceptionHandling().accessDeniedPage("/user/denied")
+					.and()
 				// oauth2
-				.and()
 				.oauth2Login()
-				.defaultSuccessUrl("/swagger-ui.html")
-				.userInfoEndpoint()
-				.userService(customOAuth2UserService);
+					.defaultSuccessUrl("/swagger-ui.html")
+					.userInfoEndpoint()
+					.userService(customOAuth2UserService);
 		
 
 //		http.csrf().disable()
 		http.csrf()
+			.ignoringAntMatchers("/h2-console/**") //2. csrf 설정으로 h2-console 콘솔에서 접속 시도하면 인증화면으로 변경되는 문제 해결
 	      	.csrfTokenRepository(new CookieCsrfTokenRepository());
 		http
 	        .httpBasic().disable()
 	        .cors().configurationSource(corsConfigurationSource());
-		http.headers().frameOptions().disable();
+//		http.headers().frameOptions().disable();
+		http.headers().frameOptions().sameOrigin(); //3. h2-console 콘솔 접속 후 화면 표시 이상 해결 
 	}
 }
