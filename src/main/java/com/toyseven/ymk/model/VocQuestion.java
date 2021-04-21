@@ -32,7 +32,7 @@ public class VocQuestion extends BaseTimeEntity {
 //	@Column(name = "category", nullable = false, updatable = true, insertable = true)
 	@OneToOne(fetch = FetchType.LAZY, targetEntity = VocCategory.class)
 	@JoinColumn(name="category", referencedColumnName = "name", nullable = false)
-	private String category;
+	private VocCategory category;
 	
 	@Column(name = "title", nullable = false, updatable = true, insertable = true)
 	private String title;
@@ -45,7 +45,7 @@ public class VocQuestion extends BaseTimeEntity {
 	
 	@OneToOne(fetch = FetchType.LAZY, targetEntity = StationInformation.class)
 	@JoinColumn(name="station_id", referencedColumnName = "station_id", nullable = false, updatable = true, insertable = true)
-	private String stationId;
+	private StationInformation stationId;
 	
 	
 	@Column(name = "need_reply", nullable = false, updatable = true, insertable = true)
@@ -56,7 +56,7 @@ public class VocQuestion extends BaseTimeEntity {
 	public VocQuestion() {}
 
 	@Builder
-	public VocQuestion(String category, String title, String content, String username, String email, String stationId,
+	public VocQuestion(VocCategory category, String title, String content, String username, String email, StationInformation stationId,
 			int needReply, LocalDateTime createAt) {
 		this.category = category;
 		this.title = title;
