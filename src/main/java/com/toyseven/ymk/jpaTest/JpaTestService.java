@@ -40,7 +40,7 @@ public class JpaTestService {
 		Optional<AdminItem> e = jpaTestRepository.findById(id);
 		
 		if (e.isPresent()) {
-			e.get().setUserName(adminItem.getUserName());
+			e.get().setUsername(adminItem.getUsername());
 			e.get().setName(adminItem.getName());
 			
 			e.get().setPassword(adminItem.getPassword());

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,6 +18,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.toyseven.ymk.oauth.CustomOAuth2UserService;
+import com.toyseven.ymk.user.UserService;
 
 @EnableWebSecurity
 @Configuration
@@ -24,11 +26,6 @@ import com.toyseven.ymk.oauth.CustomOAuth2UserService;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired private CustomOAuth2UserService customOAuth2UserService;
-    
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
 
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
@@ -98,5 +95,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	        .cors().configurationSource(corsConfigurationSource());
 //		http.headers().frameOptions().disable();
 		http.headers().frameOptions().sameOrigin(); //3. h2-console 콘솔 접속 후 화면 표시 이상 해결 
+	}
+	
+	@Autowired
+	private UserService userService;
+	
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+	
+	@Override
+	public void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
 	}
 }

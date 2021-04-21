@@ -25,8 +25,8 @@ public class AdminItem{
 	@Column(name = "id", nullable = false, updatable = false, insertable = false)
 	private long id;
 	
-	@Column(name = "userName", nullable = false, updatable = true, insertable = true)
-	private String userName;
+	@Column(name = "username", nullable = false, updatable = true, insertable = true)
+	private String username;
 	@Column(name = "name", nullable = false, updatable = true, insertable = true)
 	private String name;
 	@Column(name = "password", nullable = false, updatable = true, insertable = true)
@@ -46,9 +46,9 @@ public class AdminItem{
 	public AdminItem() {}
 	
 	@Builder
-	public AdminItem(String userName, String name, String password, AdminRoleItem role, LocalDateTime createAt,
+	public AdminItem(String username, String name, String password, AdminRoleItem role, LocalDateTime createAt,
 			LocalDateTime modifiedAt, int status) {
-		this.userName = userName;
+		this.username = username;
 		this.name = name;
 		this.password = password;
 		this.role = role;
