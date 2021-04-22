@@ -55,9 +55,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// CORS 설정
 		http.authorizeRequests()
 				// 페이지 권한 설정
-//				.antMatchers("/admin/**").hasRole("ADMIN")
+//				.antMatchers("/h2-console/**").hasRole("USER")
+				.antMatchers("/h2-console/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
 				.antMatchers(
-						"/h2-console/**", 
+//						"/h2-console/**", 
 						"/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger/**")
 						.permitAll()
 				.antMatchers("/loginForm").permitAll()
