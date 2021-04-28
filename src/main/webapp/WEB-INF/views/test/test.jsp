@@ -20,10 +20,10 @@
 		<thead>
 			<tr>
 				<th>
-					<p>masterArea.id : <spring:message code="masterArea.id" text="default text" /></p>
+					<p>test.id : <spring:message code="test.id" text="default text" /></p>
 				</th>
 				<th>
-					<p>masterArea.name : <spring:message code="masterArea.name" text="default text" /></p>
+					<p>test.name : <spring:message code="test.name" text="default text" /></p>
 				</th>
 			</tr>
 		</thead>
