@@ -20,6 +20,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.toyseven.ymk.handler.AuthFailureHandler;
 import com.toyseven.ymk.handler.AuthSuccessHandler;
 import com.toyseven.ymk.jwtToken.JwtAuthenticationEntryPoint;
 import com.toyseven.ymk.jwtToken.JwtRequestFilter;
@@ -94,8 +95,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/h2-console/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
 				.antMatchers(
 //						"/h2-console/**", 
-						"/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger/**",
-						"/jwt/creeate", "/jwt/auth")
+						"/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger/**")
 						.permitAll()
 				.antMatchers("/loginForm").permitAll()
 				.antMatchers("/loginFail").permitAll()
@@ -148,8 +148,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //	@Autowired
 //	private UserService userService;
 //	
-//	@Override
-//	public void configure(AuthenticationManagerBuilder auth) throws Exception {
-//		auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
-//	}
+	@Override
+	public void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder());
+	}
 }
