@@ -4,31 +4,65 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.toyseven.ymk.handler.AuthFailureHandler;
 import com.toyseven.ymk.handler.AuthSuccessHandler;
+import com.toyseven.ymk.jwtToken.JwtAuthenticationEntryPoint;
+import com.toyseven.ymk.jwtToken.JwtRequestFilter;
+import com.toyseven.ymk.jwtToken.JwtUserDetailsService;
 import com.toyseven.ymk.oauth.CustomOAuth2UserService;
 import com.toyseven.ymk.user.UserService;
 
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @Configuration
 @PropertySource(value = "classpath:application.yml")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired private CustomOAuth2UserService customOAuth2UserService;
+	
+	@Autowired
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
+    @Autowired
+    private JwtUserDetailsService jwtUserDetailsService;
+
+    @Autowired
+    private JwtRequestFilter jwtRequestFilter;
+    
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        // configure AuthenticationManager so that it knows from where to load
+        // user for matching credentials
+        // Use BCryptPasswordEncoder
+        auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder());
+    }
+    
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+    
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+    
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
@@ -43,7 +77,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
 	}
-
+//
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		// static 디렉터리의 하위 파일 목록은 인증 무시 ( = 항상통과 )
@@ -56,10 +90,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 				// 페이지 권한 설정
 //				.antMatchers("/h2-console/**").hasRole("USER")
+				.antMatchers("/authenticate").permitAll()
 				.antMatchers("/h2-console/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
 				.antMatchers(
 //						"/h2-console/**", 
-						"/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger/**")
+						"/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger/**",
+						"/jwt/creeate", "/jwt/auth")
 						.permitAll()
 				.antMatchers("/loginForm").permitAll()
 				.antMatchers("/loginFail").permitAll()
@@ -67,22 +103,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.anyRequest().authenticated().and()
 				.cors().and()
 				// 로그인 설정
-				.formLogin()
-	//				.loginPage("/loginForm")
-	//				.loginProcessingUrl("/login")
-					.permitAll()
-					.successHandler(new AuthSuccessHandler())
-					.failureHandler(new AuthFailureHandler())
-					.and()
+//				.formLogin()
+//	//				.loginPage("/loginForm")
+//	//				.loginProcessingUrl("/login")
+//					.permitAll()
+//					.successHandler(new AuthSuccessHandler())
+//					.failureHandler(new AuthFailureHandler())
+//					.and()
 				// 로그아웃 설정
-				.logout()
-					.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-					.logoutSuccessUrl("/login")
-					.invalidateHttpSession(true)
-					.and()
-				// 403 예외처리 핸들링
-				.exceptionHandling().accessDeniedPage("/user/denied")
-					.and()
+//				.logout()
+//					.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+//					.logoutSuccessUrl("/login")
+//					.invalidateHttpSession(true)
+//					.and()
 				// oauth2
 				.oauth2Login()
 					.defaultSuccessUrl("/swagger-ui.html")
@@ -91,27 +124,32 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 					.userService(customOAuth2UserService);
 		
 
-//		http.csrf().disable()
-		http.csrf()
-			.ignoringAntMatchers("/h2-console/**") //2. csrf 설정으로 h2-console 콘솔에서 접속 시도하면 인증화면으로 변경되는 문제 해결
-	      	.csrfTokenRepository(new CookieCsrfTokenRepository());
+		http.csrf().disable();
+//		http.csrf()
+//			.ignoringAntMatchers("/h2-console/**") //2. csrf 설정으로 h2-console 콘솔에서 접속 시도하면 인증화면으로 변경되는 문제 해결
+//	      	.csrfTokenRepository(new CookieCsrfTokenRepository());
+		
+		http.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
+			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		
 		http
 	        .httpBasic().disable()
-	        .cors().configurationSource(corsConfigurationSource());
+//	        .cors().configurationSource(corsConfigurationSource());
+			.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()); // For CORS error
+
 //		http.headers().frameOptions().disable();
-		http.headers().frameOptions().sameOrigin(); //3. h2-console 콘솔 접속 후 화면 표시 이상 해결 
+		//3. h2-console 콘솔 접속 후 화면 표시 이상 해결 
+		http.headers().frameOptions().sameOrigin();
+		
+		// Add a filter to validate the tokens with every request
+		http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 	
-	@Autowired
-	private UserService userService;
-	
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-	
-	@Override
-	public void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
-	}
+//	@Autowired
+//	private UserService userService;
+//	
+//	@Override
+//	public void configure(AuthenticationManagerBuilder auth) throws Exception {
+//		auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
+//	}
 }

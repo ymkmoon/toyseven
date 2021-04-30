@@ -31,7 +31,7 @@ public class ApiTestServiceImpl implements ApiTestService{
 		strBufUrl.append("/784e68756e73696c36334f5a426b4a");
 		strBufUrl.append("/json");
 		strBufUrl.append("/bikeList");
-		strBufUrl.append("/0/0");
+		strBufUrl.append("/1/10");
 		
 		String apiUrl = strBufUrl.toString();
 		
