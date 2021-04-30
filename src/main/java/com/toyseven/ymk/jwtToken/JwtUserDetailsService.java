@@ -1,5 +1,6 @@
 package com.toyseven.ymk.jwtToken;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,13 +10,11 @@ import org.springframework.stereotype.Service;
 import com.toyseven.ymk.model.AdminItem;
 import com.toyseven.ymk.user.UserRepository;
 
-import lombok.RequiredArgsConstructor;
-
 @Service
-@RequiredArgsConstructor
 public class JwtUserDetailsService implements UserDetailsService {
 	
-	private final UserRepository userRepository;
+	@Autowired
+	private UserRepository userRepository;
 	
 	@Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
