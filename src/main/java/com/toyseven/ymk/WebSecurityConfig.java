@@ -15,35 +15,32 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.toyseven.ymk.handler.AuthFailureHandler;
 import com.toyseven.ymk.handler.AuthSuccessHandler;
 import com.toyseven.ymk.jwtToken.JwtAuthenticationEntryPoint;
 import com.toyseven.ymk.jwtToken.JwtRequestFilter;
 import com.toyseven.ymk.jwtToken.JwtUserDetailsService;
 import com.toyseven.ymk.oauth.CustomOAuth2UserService;
-import com.toyseven.ymk.user.UserService;
+
+import lombok.RequiredArgsConstructor;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Configuration
 @PropertySource(value = "classpath:application.yml")
+@RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
-	@Autowired private CustomOAuth2UserService customOAuth2UserService;
+	private final CustomOAuth2UserService customOAuth2UserService;
 	
-	@Autowired
-    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+	private final  JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
-    @Autowired
-    private JwtUserDetailsService jwtUserDetailsService;
+	private final JwtUserDetailsService jwtUserDetailsService;
 
-    @Autowired
-    private JwtRequestFilter jwtRequestFilter;
+	private final JwtRequestFilter jwtRequestFilter;
     
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
