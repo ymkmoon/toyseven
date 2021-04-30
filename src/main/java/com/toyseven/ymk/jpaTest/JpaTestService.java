@@ -4,16 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.toyseven.ymk.model.AdminItem;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class JpaTestService {
 	
-	@Autowired
-	private JpaTestRepository jpaTestRepository;
+	private final JpaTestRepository jpaTestRepository;
 	
 	public List<AdminItem> findAll() {
 		List<AdminItem> jpaTest = new ArrayList<>();
