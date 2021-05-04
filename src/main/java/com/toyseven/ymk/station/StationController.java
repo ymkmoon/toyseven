@@ -35,10 +35,11 @@ public class StationController {
     
     @GetMapping(value = "/save")
     public ResponseEntity<?> saveStations() {
-//    	return stationService.callApi();
-//    	List<List<StationInformation>> stations = stationService.callApi();
-//        return new ResponseEntity<StationInformation>(stationService.save(stations), HttpStatus.OK);
-        stationService.callApi();
-        return new ResponseEntity<StationInformation>(HttpStatus.OK);
+    	List<StationInformation> stations = stationService.getStationList();
+    	if(stations != null) {
+    		stationService.save(stations);
+    		return new ResponseEntity<StationInformation>(HttpStatus.OK);
+    	}
+    	return new ResponseEntity<StationInformation>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }
