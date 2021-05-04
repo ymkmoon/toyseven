@@ -10,5 +10,5 @@ import com.toyseven.ymk.model.StationInformation;
 
 @Repository
 public interface StationRepository extends JpaRepository<StationInformation, Long> {
-	Optional<List<StationInformation>> findByStationName(String stationName);
+	Optional<List<StationInformation>> findByStationNameContaining(String stationName);
 }

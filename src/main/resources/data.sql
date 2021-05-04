@@ -8,7 +8,7 @@ INSERT INTO admin (username, name, password, role) values ('guke', 'guke', '$2a$
 INSERT INTO voc_category (name, display_name) values ('breakdown', '고장');
 INSERT INTO voc_category (name, display_name) values ('theft', '도난');
 
-INSERT INTO station_information (station_id, name, latitude, longitude, total_rack_count, total_parking_bike_count) VALUES ('station1', 'name 1', 1, 1, 1, 1);
+INSERT INTO station_information (station_id, name, latitude, longitude, total_rack_count, total_parking_bike_count, shared) VALUES ('station1', 'name 1', 1, 1, 1, 1, 1);
 
 INSERT INTO voc_question (category, title, content, username, email, station_id, need_reply) VALUES ('theft', 'title 1', 'content 1', 'username 1', 'email 1', 'station1', 1);
 
