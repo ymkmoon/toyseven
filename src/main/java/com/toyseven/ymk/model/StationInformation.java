@@ -22,26 +22,30 @@ public class StationInformation {
 	@Column(name = "station_id", nullable = false, updatable = true, insertable = true)
 	private String stationId;
 	@Column(name = "name", nullable = false, updatable = true, insertable = true)
-	private String name;
+	private String stationName;
 	@Column(name = "latitude", nullable = false, updatable = true, insertable = true)
-	private Double latitude;
+	private Double stationLatitude;
 	@Column(name = "longitude", nullable = false, updatable = true, insertable = true)
-	private Double longitude;
+	private Double stationLongitude;
 	@Column(name = "total_rack_count", nullable = false, updatable = true, insertable = true)
-	private String totalRackCount;
+	private String rackTotCnt;
 	@Column(name = "total_parking_bike_count", nullable = false, updatable = true, insertable = true)
-	private String totalParkingBikeCount;
+	private String parkingBikeTotCnt;
+	
+	@Column(name = "shared", nullable = true, updatable = true, insertable = true)
+	private int shared;
 	
 	public StationInformation() {}
 
 	@Builder
-	public StationInformation(String stationId, String name, Double latitude, Double longitude,
-			String totalRackCount, String totalParkingBikeCount) {
+	public StationInformation(String stationId, String stationName, Double stationLatitude, Double stationLongitude,
+			String rackTotCnt, String parkingBikeTotCnt, int shared) {
 		this.stationId = stationId;
-		this.name = name;
-		this.latitude = latitude;
-		this.longitude = longitude;
-		this.totalRackCount = totalRackCount;
-		this.totalParkingBikeCount = totalParkingBikeCount;
+		this.stationName = stationName;
+		this.stationLatitude = stationLatitude;
+		this.stationLongitude = stationLongitude;
+		this.rackTotCnt = rackTotCnt;
+		this.parkingBikeTotCnt = parkingBikeTotCnt;
+		this.shared = shared;
 	}
 }

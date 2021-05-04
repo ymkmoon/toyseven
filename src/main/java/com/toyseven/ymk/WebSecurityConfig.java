@@ -19,6 +19,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.toyseven.ymk.handler.AuthFailureHandler;
 import com.toyseven.ymk.handler.AuthSuccessHandler;
 import com.toyseven.ymk.jwtToken.JwtAuthenticationEntryPoint;
 import com.toyseven.ymk.jwtToken.JwtRequestFilter;
@@ -35,11 +36,8 @@ import lombok.RequiredArgsConstructor;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	private final CustomOAuth2UserService customOAuth2UserService;
-	
-	private final  JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-
+	private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 	private final JwtUserDetailsService jwtUserDetailsService;
-
 	private final JwtRequestFilter jwtRequestFilter;
     
     @Autowired
@@ -88,8 +86,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 				// 페이지 권한 설정
 //				.antMatchers("/h2-console/**").hasRole("USER")
-				.antMatchers("/authenticate").permitAll()
-				.antMatchers("/h2-console/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+				.antMatchers("/authenticate", "/h2-console/**").permitAll()
+//				.antMatchers("/h2-console/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
 				.antMatchers(
 //						"/h2-console/**", 
 						"/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger/**")
@@ -100,13 +98,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.anyRequest().authenticated().and()
 				.cors().and()
 				// 로그인 설정
-//				.formLogin()
-//	//				.loginPage("/loginForm")
-//	//				.loginProcessingUrl("/login")
-//					.permitAll()
-//					.successHandler(new AuthSuccessHandler())
-//					.failureHandler(new AuthFailureHandler())
-//					.and()
+				.formLogin()
+	//				.loginPage("/loginForm")
+	//				.loginProcessingUrl("/login")
+					.permitAll()
+					.successHandler(new AuthSuccessHandler())
+					.failureHandler(new AuthFailureHandler())
+					.and()
 				// 로그아웃 설정
 //				.logout()
 //					.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
@@ -126,6 +124,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //			.ignoringAntMatchers("/h2-console/**") //2. csrf 설정으로 h2-console 콘솔에서 접속 시도하면 인증화면으로 변경되는 문제 해결
 //	      	.csrfTokenRepository(new CookieCsrfTokenRepository());
 		
+		// 시큐리티 login 페이지를 보여주고 싶으면 아래 핸들링을 주석처리 
 		http.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		

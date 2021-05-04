@@ -31,7 +31,7 @@ public class ApiTestServiceImpl implements ApiTestService{
 		strBufUrl.append("/784e68756e73696c36334f5a426b4a");
 		strBufUrl.append("/json");
 		strBufUrl.append("/bikeList");
-		strBufUrl.append("/1/10");
+		strBufUrl.append("/1/1000");
 		
 		String apiUrl = strBufUrl.toString();
 		
@@ -55,6 +55,7 @@ public class ApiTestServiceImpl implements ApiTestService{
         	}
         }
         
+        System.out.println("list size : "+list.size());
 		return list;
 	}
 	
