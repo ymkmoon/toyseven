@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import com.toyseven.ymk.admin.Admin;
 import com.toyseven.ymk.oauth.BaseTimeEntity;
 
 import lombok.AllArgsConstructor;
@@ -36,9 +37,9 @@ public class VocAnswer extends BaseTimeEntity {
 	@Column(name = "content", nullable = false, updatable = true, insertable = true)
 	private String content;
 	
-	@OneToOne(fetch = FetchType.LAZY, targetEntity = AdminItem.class)
+	@OneToOne(fetch = FetchType.LAZY, targetEntity = Admin.class)
 	@JoinColumn(name="admin_id", referencedColumnName = "id", nullable = false, updatable = true, insertable = true)
-	private AdminItem adminId;
+	private Admin adminId;
 	
 	@Column(name = "create_at", nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private LocalDateTime createAt;
@@ -46,7 +47,7 @@ public class VocAnswer extends BaseTimeEntity {
 	public VocAnswer() {}
 
 	@Builder
-	public VocAnswer(VocQuestion questionId, String content, AdminItem adminId, LocalDateTime createAt) {
+	public VocAnswer(VocQuestion questionId, String content, Admin adminId, LocalDateTime createAt) {
 		this.questionId = questionId;
 		this.content = content;
 		this.adminId = adminId;
