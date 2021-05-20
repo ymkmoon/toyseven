@@ -18,7 +18,7 @@ public class StationParam {
     private String serviceKey;
 	private final String dataType = "JSON";
 	private final String service = "bikeList";
-	private final Integer startIndex = 1;
-	private final Integer endIndex = 1000;
+	private Integer startIndex;
+	private Integer endIndex;
 	
 }
