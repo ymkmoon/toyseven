@@ -84,3 +84,8 @@ spring:
           region:
             factoryclass: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
         generatestatistics: true
+        
+        
+api:
+  key:
+    station: 784e68756e73696c36334f5a426b4a
