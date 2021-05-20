@@ -12,7 +12,7 @@ import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.Proxy;
 
-import com.toyseven.ymk.oauth.BaseTimeEntity;
+import com.toyseven.ymk.common.model.BaseTimeEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

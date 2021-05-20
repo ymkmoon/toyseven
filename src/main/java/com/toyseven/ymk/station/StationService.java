@@ -15,7 +15,6 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.toyseven.ymk.model.StationInformation;
 
 import lombok.RequiredArgsConstructor;
 

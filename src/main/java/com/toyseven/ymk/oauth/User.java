@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.toyseven.ymk.common.model.BaseTimeEntity;
+
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

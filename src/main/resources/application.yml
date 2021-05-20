@@ -15,9 +15,9 @@ spring:
       prefix: /WEB-INF/views/
       suffix: .jsp
   main:    allow-bean-definition-overriding: true
-  redis:
-    host: localhost
-    port: 8080
+#  redis:
+#    host: localhost
+#    port: 8080
     
   pid:
     file: logfiles/toyseven/toyseven.pid
@@ -75,7 +75,17 @@ spring:
           region:
             factoryclass: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
         generatestatistics: true
-        
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: gmail address
+    password: gmail password
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
         
 api:
   key:

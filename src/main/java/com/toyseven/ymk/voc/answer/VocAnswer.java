@@ -1,4 +1,4 @@
-package com.toyseven.ymk.model;
+package com.toyseven.ymk.voc.answer;
 
 import java.time.LocalDateTime;
 
@@ -11,8 +11,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.Proxy;
+
 import com.toyseven.ymk.admin.Admin;
-import com.toyseven.ymk.oauth.BaseTimeEntity;
+import com.toyseven.ymk.common.model.BaseTimeEntity;
+import com.toyseven.ymk.voc.question.VocQuestion;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,6 +25,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper=false)
 @AllArgsConstructor
+@Proxy(lazy = false)
 @Entity(name="voc_answer")
 public class VocAnswer extends BaseTimeEntity {
 	
@@ -31,18 +35,15 @@ public class VocAnswer extends BaseTimeEntity {
 	private long id;
 	
 	@OneToOne(fetch = FetchType.LAZY, targetEntity = VocQuestion.class)
-	@JoinColumn(name="question_id", referencedColumnName = "id", nullable = false, updatable = true, insertable = true)
+	@JoinColumn(name="question_id", referencedColumnName = "id", nullable = false)
 	private VocQuestion questionId;
 	
-	@Column(name = "content", nullable = false, updatable = true, insertable = true)
+	@Column(name = "content", nullable = false)
 	private String content;
 	
 	@OneToOne(fetch = FetchType.LAZY, targetEntity = Admin.class)
-	@JoinColumn(name="admin_id", referencedColumnName = "id", nullable = false, updatable = true, insertable = true)
+	@JoinColumn(name="admin_id", referencedColumnName = "id", nullable = false)
 	private Admin adminId;
-	
-	@Column(name = "create_at", nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-	private LocalDateTime createAt;
 	
 	public VocAnswer() {}
 
@@ -51,6 +52,5 @@ public class VocAnswer extends BaseTimeEntity {
 		this.questionId = questionId;
 		this.content = content;
 		this.adminId = adminId;
-		this.createAt = createAt;
 	}
 }
