@@ -28,18 +28,18 @@ public class StationController {
     }
 
     @GetMapping(value = "/search")
-    public ResponseEntity<Optional<List<StationInformation>>> searchStations(@RequestParam("name") String stationName) {
-        Optional<List<StationInformation>> stations = stationService.findByStationName(stationName);
+    public ResponseEntity<Optional<List<StationInformation>>> searchStations(@RequestParam("name") String name) {
+        Optional<List<StationInformation>> stations = stationService.findByStationName(name);
         return new ResponseEntity<>(stations, HttpStatus.OK);
     }
-    
+
     @GetMapping(value = "/save")
     public ResponseEntity<StationInformation> saveStations() {
     	List<StationInformation> stations = stationService.getStationList();
     	if(stations != null) {
     		stationService.save(stations);
-    		return new ResponseEntity<StationInformation>(HttpStatus.OK);
+    		return new ResponseEntity<>(HttpStatus.OK);
     	}
-    	return new ResponseEntity<StationInformation>(HttpStatus.INTERNAL_SERVER_ERROR);
+    	return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }
