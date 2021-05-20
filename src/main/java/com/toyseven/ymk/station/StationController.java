@@ -44,7 +44,6 @@ public class StationController {
     	return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
     
-//    @Scheduled(cron = "0 * * * * *")
     @Scheduled(fixedDelay = 210000)
     public void stationsBatch() {
         List<StationInformation> stations = stationService.getStationList();

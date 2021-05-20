@@ -1,7 +1,5 @@
 package com.toyseven.ymk.voc.question;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -61,7 +59,7 @@ public class VocQuestion extends BaseTimeEntity {
 	
 	@Builder
 	public VocQuestion(VocCategory category, String title, String content, String username, String email, StationInformation stationId,
-			int needReply, LocalDateTime createAt) {
+			int needReply) {
 		this.category = category;
 		this.title = title;
 		this.content = content;
