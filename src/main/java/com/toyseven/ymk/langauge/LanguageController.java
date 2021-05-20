@@ -1,6 +1,4 @@
-package com.toyseven.ymk.apiTest;
-
-import java.util.List;
+package com.toyseven.ymk.langauge;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,18 +13,9 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-public class ApiTestController {
+public class LanguageController {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
-	private final ApiTestService sampleService;
-
-	@RequestMapping(value = "/apiTest", method = RequestMethod.GET)
-	@ResponseBody
-	public List<?> test() {
-		logger.info("this is test method");
-		return sampleService.apiTest();
-	}
 	
 	@RequestMapping(value = "/language", method = RequestMethod.GET)
 	@ResponseBody
