@@ -1,6 +1,10 @@
 server:
   servlet:
     context-path: /toyseven
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
   port: 8000
   tomcat:
     connection-timeout: 120000
@@ -14,7 +18,7 @@ spring:
     view:
       prefix: /WEB-INF/views/
       suffix: .jsp
-  main:    allow-bean-definition-overriding: true
+#  main:#    allow-bean-definition-overriding: true
 #  redis:
 #    host: localhost
 #    port: 8080
