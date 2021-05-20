@@ -1,8 +1,6 @@
 package com.toyseven.ymk.voc;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +15,7 @@ import com.toyseven.ymk.voc.answer.VocAnswer;
 import com.toyseven.ymk.voc.answer.VocAnswerService;
 import com.toyseven.ymk.voc.dto.request.VocAnswerRequest;
 import com.toyseven.ymk.voc.dto.request.VocQuestionRequest;
+import com.toyseven.ymk.voc.dto.response.VocResponse;
 import com.toyseven.ymk.voc.question.VocQuestion;
 import com.toyseven.ymk.voc.question.VocQuestionService;
 
@@ -43,12 +42,12 @@ public class VocController {
 	}
 	
 	@GetMapping(value = "/search/{id}")
-	public Map<String, Object> getVocQuestion(
+	public ResponseEntity<VocResponse> getVocQuestion(
 			@PathVariable(value = "id") Long id) {
-		Map<String, Object> map = new HashMap<>();
-		map.put("QUESTION", vocQuestionService.findByVocQuestion(id));
-		map.put("ANSWER", vocAnswerService.findByVocAnswer(vocQuestionService.findByVocQuestion(id)));
-		return map;
+		VocResponse vocResponse = new VocResponse();
+		vocResponse.setVocQuestion(vocQuestionService.findByVocQuestion(id));
+		vocResponse.setVocAnswer(vocAnswerService.findByVocAnswer(vocQuestionService.findByVocQuestion(id)));
+		return new ResponseEntity<>(vocResponse, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/answer")
