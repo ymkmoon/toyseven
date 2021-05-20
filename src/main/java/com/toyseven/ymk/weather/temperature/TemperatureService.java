@@ -88,16 +88,17 @@ public class TemperatureService {
             Map<?, ?> body = responseData.get("body") != null ?
             		(Map<?, ?>)responseData.get("body") : new HashMap<>();
             
-            HashMap<String, Object> items = (HashMap<String, Object>)body.get("items");
-            List<HashMap<String, String>> itemArray = (List<HashMap<String, String>>) items.get("item");
-
-            for (HashMap<String, String> item : itemArray) {
-                if(item.get("category").equals("POP")) {
-                    temperature.put("precipitation", Integer.parseInt(item.get("fcstValue")));
-                }
-                if(item.get("category").equals("T3H")) {
-                    temperature.put("temperature", Integer.parseInt(item.get("fcstValue")));
-                }
+            if(!body.isEmpty()) {
+	            HashMap<String, Object> items = (HashMap<String, Object>)body.get("items");
+	            List<HashMap<String, String>> itemArray = (List<HashMap<String, String>>) items.get("item");
+	            for (HashMap<String, String> item : itemArray) {
+	                if(item.get("category").equals("POP")) {
+	                    temperature.put("precipitation", Integer.parseInt(item.get("fcstValue")));
+	                }
+	                if(item.get("category").equals("T3H")) {
+	                    temperature.put("temperature", Integer.parseInt(item.get("fcstValue")));
+	                }
+	            }
             }
         }
 

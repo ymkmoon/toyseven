@@ -62,11 +62,12 @@ public class FineDustService {
                 
                 Map<?, ?> body = responseData.get("body") != null ?
                 		(Map<?, ?>)responseData.get("body") : new HashMap<>();
-
-                List<HashMap<String, String>> itemArray = (List<HashMap<String, String>>)body.get("items");
-
-                for (HashMap<String, String> item : itemArray) {
-                    fineDust = Integer.parseInt(item.get("khaiValue"));
+                
+                if(!body.isEmpty()) {
+	                List<HashMap<String, String>> itemArray = (List<HashMap<String, String>>)body.get("items");
+	                for (HashMap<String, String> item : itemArray) {
+	                    fineDust = Integer.parseInt(item.get("khaiValue"));
+	                }
                 }
             }
         } catch (Exception e){
