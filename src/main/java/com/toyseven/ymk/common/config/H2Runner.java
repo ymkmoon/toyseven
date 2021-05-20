@@ -1,4 +1,4 @@
-package com.toyseven.ymk;
+package com.toyseven.ymk.common.config;
 
 import java.sql.Connection;
 
