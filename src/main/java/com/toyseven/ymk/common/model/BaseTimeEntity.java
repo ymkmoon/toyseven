@@ -1,4 +1,4 @@
-package com.toyseven.ymk.oauth;
+package com.toyseven.ymk.common.model;
 
 import java.time.LocalDateTime;
 
