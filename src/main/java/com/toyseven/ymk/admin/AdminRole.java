@@ -1,4 +1,4 @@
-package com.toyseven.ymk.model;
+package com.toyseven.ymk.admin;
 
 import java.io.Serializable;
 
@@ -15,7 +15,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 @Entity(name="admin_role")
-public class AdminRoleItem implements Serializable {
+public class AdminRole implements Serializable {
 
 	/**
 	 * 
@@ -27,16 +27,16 @@ public class AdminRoleItem implements Serializable {
 	@Column(name = "id", nullable = false, updatable = false, insertable = false)
 	private long id;
 	
-	@Column(name = "name", nullable = false, updatable = false, insertable = true)
+	@Column(name = "name", nullable = false, updatable = false)
 	private String name;
 	
-	@Column(name = "display_name", nullable = false, updatable = false, insertable = true)
+	@Column(name = "display_name", nullable = false, updatable = false)
 	private String displayName;
 	
-	public AdminRoleItem() {}
+	public AdminRole() {}
 
 	@Builder
-	public AdminRoleItem(String name, String displayName) {
+	public AdminRole(String name, String displayName) {
 		this.name = name;
 		this.displayName = displayName;
 	}
