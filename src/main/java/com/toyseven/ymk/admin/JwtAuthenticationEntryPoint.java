@@ -1,4 +1,4 @@
-package com.toyseven.ymk.jwtToken;
+package com.toyseven.ymk.admin;
 
 import java.io.IOException;
 
