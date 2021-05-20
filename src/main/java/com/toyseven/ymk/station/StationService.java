@@ -1,11 +1,11 @@
 package com.toyseven.ymk.station;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import org.json.simple.JSONObject;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -22,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class StationService {
 	private final StationRepository stationRepository;
+	private final StationParam stationParam;
 
     public List<StationInformation> findAll() {
         return stationRepository.findAll();
@@ -38,29 +39,31 @@ public class StationService {
         factory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.VALUES_ONLY);
         WebClient wc = WebClient.builder().uriBuilderFactory(factory).baseUrl(BASE_URL).build();
         
-        ResponseEntity<JSONObject> response = wc.get()
+        ResponseEntity<JSONObject> response = (wc.get()
                 .uri(uriBuilder -> uriBuilder
-                		.path("/784e68756e73696c36334f5a426b4a")
-                		.path("/json")
-                		.path("/bikeList")
-                		.path("/1")
-                		.path("/1000")
+                		.path("/"+stationParam.getServiceKey())
+                		.path("/"+stationParam.getDataType())
+                		.path("/"+stationParam.getService())
+                		.path("/"+stationParam.getStartIndex())
+                		.path("/"+stationParam.getEndIndex())
                         .build()
                 ).accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(JSONObject.class)
-                .block();
-		
-        if(response.getStatusCode() == HttpStatus.OK ){
-            Map<?, ?> responseData = (Map<?, ?>) response.getBody().get("rentBikeStatus");
-            if(!responseData.get("list_total_count").equals(0) && responseData.get("list_total_count") != null) {
-            	List<?> row = (List<?>) responseData.get("row");
-            	ObjectMapper mapper = new ObjectMapper();
-         	   	List<StationInformation> stations =  mapper.convertValue(row, new TypeReference<List<StationInformation>>() {});
-         	   	return stations;
-            }
+                .block());
+        
+        if(response != null && response.getBody() != null) {
+        	Map<?, ?> responseData =
+        			response.getBody().get("rentBikeStatus") != null ?
+        			(Map<?, ?>) response.getBody().get("rentBikeStatus") : null;
+        	
+        	if(responseData != null && !responseData.get("list_total_count").equals(0) && responseData.get("list_total_count") != null) {
+        		List<?> row = (List<?>) responseData.get("row");
+        		ObjectMapper mapper = new ObjectMapper();
+        		return mapper.convertValue(row, new TypeReference<List<StationInformation>>() {});
+        	}
         }
-        return null;
+        return new ArrayList<StationInformation>();
 	}
     
     public void save(List<StationInformation> stations) {
