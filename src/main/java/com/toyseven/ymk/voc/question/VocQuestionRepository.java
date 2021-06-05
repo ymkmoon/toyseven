@@ -7,7 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface VocQuestionRepository extends JpaRepository<VocQuestionEntity, Long> {
-	void save(VocQuestionEntity vocQuestion);
-
 	List<VocQuestionEntity> findTop10ByOrderByCreatedAtDesc();
 }
