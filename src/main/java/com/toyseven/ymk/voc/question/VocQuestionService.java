@@ -19,16 +19,16 @@ public class VocQuestionService {
 	private final VocQuestionRepository vocQuestionRepository;
 	private final ModelMapper modelMapper;
 	
-//	public List<VocQuestionEntity> findAll() {
-//		return vocQuestionRepository.findAll();
-//	}
 	public List<VocQuestionResponse> findAll() {
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-		List<VocQuestionEntity> questions = vocQuestionRepository.findAll();
 		List<VocQuestionResponse> result = new ArrayList<>();
-		for(VocQuestionEntity question : questions ) {
-			result.add(modelMapper.map(question, VocQuestionResponse.class));
-		}
+		
+		Optional<List<VocQuestionEntity>> questions = Optional.ofNullable(vocQuestionRepository.findAll());
+		questions.ifPresent(inQuestions -> {
+			for(VocQuestionEntity question : inQuestions ) {
+				result.add(modelMapper.map(question, VocQuestionResponse.class));
+			}
+		});
 		return result;
 	}
 	
@@ -38,20 +38,18 @@ public class VocQuestionService {
 	
 	public VocQuestionResponse findVocQuestionById(Long id) {
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-		
 		Optional<VocQuestionEntity> question = vocQuestionRepository.findById(id);
-		if(question.isPresent()) {
-			return modelMapper.map(question.get(), VocQuestionResponse.class);
-		}
-		return null;
+		return question.isPresent() ? modelMapper.map(question.get(), VocQuestionResponse.class) : null; // 코드 리펙토링 필요
 	}
 	
 	public List<VocQuestionResponse> getLatestVocQuestions() {
-		List<VocQuestionEntity> questions = vocQuestionRepository.findTop10ByOrderByCreatedAtDesc();
 		List<VocQuestionResponse> result = new ArrayList<>();
-		for(VocQuestionEntity question : questions) {
-			result.add(modelMapper.map(question, VocQuestionResponse.class));
-		}
+		Optional<List<VocQuestionEntity>> questions = Optional.ofNullable(vocQuestionRepository.findTop10ByOrderByCreatedAtDesc());
+		questions.ifPresent(inQuestions -> {
+			for(VocQuestionEntity question : inQuestions) {
+				result.add(modelMapper.map(question, VocQuestionResponse.class));
+			}
+		});
 		return result;
 	}
 	
