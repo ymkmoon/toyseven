@@ -28,32 +28,38 @@ public class VocAnswerService {
 	public void save(VocAnswerRequest vocAnswerRequest) {
 		vocAnswerRepository.save(vocAnswerRequest.toEntity());
 		Optional<VocQuestionEntity> question = vocQuestionRepository.findById(vocAnswerRequest.getQuestionId().getId());
-		if(question.isPresent()) {
+		question.ifPresent(inQuestion -> {
 			SimpleMailMessage message = new SimpleMailMessage();
-			message.setTo(question.get().getEmail());
+			message.setTo(inQuestion.getEmail());
 			message.setSubject("title");
 			message.setText("content");
-			mailSender.send(message);
-		}
-				
+//			mailSender.send(message);
+		});
 	}
 	
-	public VocAnswerResponse findVocAnswerByQuestionId(Long id) {
+	public List<VocAnswerResponse> findVocAnswerByQuestionId(Long id) {
+		List<VocAnswerResponse> result = new ArrayList<>();
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-		
-		Optional<VocAnswerEntity> answer = vocAnswerRepository.findVocAnswerByQuestionId(id);
-		if(answer.isPresent()) {
-			return modelMapper.map(answer.get(), VocAnswerResponse.class);
-		}
-		return null;
+		Optional<VocQuestionEntity> question = vocQuestionRepository.findById(id);
+		question.ifPresent(inQuestion -> {
+			Optional<List<VocAnswerEntity>> answers = Optional.ofNullable(vocAnswerRepository.findVocAnswerByQuestionId(inQuestion));
+			answers.ifPresent(inAnswers -> {
+				for(VocAnswerEntity answer : inAnswers) {
+					result.add(modelMapper.map(answer, VocAnswerResponse.class));
+				}
+			});
+		});
+		return result;
 	}
 	
 	public List<VocAnswerResponse> getLatestVocQAnswers() {
-		List<VocAnswerEntity> answers = vocAnswerRepository.findTop10ByOrderByCreatedAtDesc();
+		Optional<List<VocAnswerEntity>> answers = Optional.ofNullable(vocAnswerRepository.findTop10ByOrderByCreatedAtDesc());
 		List<VocAnswerResponse> result = new ArrayList<>();
-		for(VocAnswerEntity answer : answers) {
-			result.add(modelMapper.map(answer, VocAnswerResponse.class));
-		}
+		answers.ifPresent(inAnswers -> {
+			for(VocAnswerEntity answer : inAnswers) {
+				result.add(modelMapper.map(answer, VocAnswerResponse.class));
+			}
+		});
 		return result;
 	}
 }

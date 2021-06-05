@@ -5,6 +5,9 @@ import java.time.LocalDateTime;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.toyseven.ymk.admin.AdminEntity;
+import com.toyseven.ymk.voc.question.VocQuestionEntity;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,8 +15,9 @@ import lombok.Setter;
 @Setter
 public class VocAnswerResponse {
 	private long id;
-	@NotNull private long questionId;
+	@NotNull private VocQuestionEntity questionId;
 	@NotBlank private String content;
-	@NotNull private long adminId;
-	@NotNull private LocalDateTime createdAt;
+	@NotNull private AdminEntity adminId;
+	@NotBlank private LocalDateTime createdAt;
+	@NotBlank private LocalDateTime updatedAt;
 }

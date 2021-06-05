@@ -1,7 +1,5 @@
 package com.toyseven.ymk.voc.question;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
