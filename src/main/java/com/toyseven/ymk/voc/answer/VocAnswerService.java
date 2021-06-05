@@ -1,14 +1,19 @@
 package com.toyseven.ymk.voc.answer;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import com.toyseven.ymk.common.handler.MailHandler;
 import com.toyseven.ymk.voc.dto.request.VocAnswerRequest;
-import com.toyseven.ymk.voc.question.VocQuestion;
+import com.toyseven.ymk.voc.dto.response.VocAnswerResponse;
+import com.toyseven.ymk.voc.entity.VocAnswerEntity;
+import com.toyseven.ymk.voc.entity.VocQuestionEntity;
 import com.toyseven.ymk.voc.question.VocQuestionRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -19,36 +24,37 @@ public class VocAnswerService {
 	private final VocAnswerRepository vocAnswerRepository;
 	private final VocQuestionRepository vocQuestionRepository;
 	private final JavaMailSender mailSender;
-	
-	public List<VocAnswer> findAll() {
-		return vocAnswerRepository.findAll();
-	}
+	private final ModelMapper modelMapper;
 	
 	public void save(VocAnswerRequest vocAnswerRequest) {
-		vocAnswerRepository.save(vocAnswerRequest);
-		
-		Optional<VocQuestion> question = vocQuestionRepository.findById(vocAnswerRequest.getQuestion_id());
-		StringBuffer content = new StringBuffer();
+		vocAnswerRepository.save(vocAnswerRequest.toEntity());
+		Optional<VocQuestionEntity> question = vocQuestionRepository.findById(vocAnswerRequest.getQuestionId().getId());
 		if(question.isPresent()) {
-			MailHandler mailHandler;
-			try {
-				mailHandler = new MailHandler(mailSender);
-				mailHandler.setTo(question.get().getEmail());
-				mailHandler.setSubject("따릉이 서비스 문의 글에 답변이 등록 되었습니다.");
-				mailHandler.setText(content.append(question.get().getUsername()+"님 아래 링크를 눌러 바로 확인하세요 ! <br/>")
-								.append("<a href='http://218.153.121.205:8000/toyseven/voc/search/")
-								.append(vocAnswerRequest.getQuestion_id())
-								.append("'>답변 확인</a>")
-								.toString(), true);
-				mailHandler.setInline("sample-img", "static/sample.png");
-				mailHandler.send();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			SimpleMailMessage message = new SimpleMailMessage();
+			message.setTo(question.get().getEmail());
+			message.setSubject("title");
+			message.setText("content");
+			mailSender.send(message);
 		}
+				
 	}
 	
-	public Optional<List<VocAnswer>> findByVocAnswer(Optional<VocQuestion> vocQuestion) {
-		return vocAnswerRepository.findByQuestionId(vocQuestion);
+	public VocAnswerResponse findVocAnswerByQuestionId(Long id) {
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+		
+		Optional<VocAnswerEntity> answer = vocAnswerRepository.findVocAnswerByQuestionId(id);
+		if(answer.isPresent()) {
+			return modelMapper.map(answer.get(), VocAnswerResponse.class);
+		}
+		return null;
+	}
+	
+	public List<VocAnswerResponse> getVocAnswersTop10() {
+		List<VocAnswerEntity> answers = vocAnswerRepository.findTop10ByOrderByCreatedAtDesc();
+		List<VocAnswerResponse> result = new ArrayList<>();
+		for(VocAnswerEntity answer : answers) {
+			result.add(modelMapper.map(answer, VocAnswerResponse.class));
+		}
+		return result;
 	}
 }
