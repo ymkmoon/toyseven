@@ -14,20 +14,20 @@ import javax.persistence.OneToOne;
 import org.hibernate.annotations.Proxy;
 
 import com.toyseven.ymk.common.model.BaseTimeEntity;
-import com.toyseven.ymk.station.StationInformation;
+import com.toyseven.ymk.station.StationInformationEntity;
 import com.toyseven.ymk.voc.VocCategory;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
-@Data
+@Getter
 @EqualsAndHashCode(callSuper=false)
 @AllArgsConstructor
 @Proxy(lazy = false)
 @Entity(name="voc_question")
-public class VocQuestion extends BaseTimeEntity {
+public class VocQuestionEntity extends BaseTimeEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,23 +49,23 @@ public class VocQuestion extends BaseTimeEntity {
 	@Column(name = "email")
 	private String email;
 	
-	@OneToOne(targetEntity = StationInformation.class)
+	@OneToOne(targetEntity = StationInformationEntity.class)
 	@JoinColumn(name="station_id", referencedColumnName = "station_id", nullable = false)
-	private StationInformation stationId;
+	private StationInformationEntity stationId;
 	
 	
 	@Column(name = "need_reply", nullable = false)
 	private int needReply;
 	
-	public VocQuestion() {}
+	public VocQuestionEntity() {}
 	
-	public VocQuestion(long id) {
+	public VocQuestionEntity(long id) {
 		this.id = id;
 	}
 	
 	@Builder
-	public VocQuestion(VocCategory category, String title, String content, String username, String email, StationInformation stationId,
-			int needReply, LocalDateTime createdAt) {
+	public VocQuestionEntity(VocCategory category, String title, String content, String username, String email, StationInformationEntity stationId,
+			int needReply) {
 		this.category = category;
 		this.title = title;
 		this.content = content;

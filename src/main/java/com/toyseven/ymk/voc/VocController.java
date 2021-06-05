@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.toyseven.ymk.voc.answer.VocAnswer;
+import com.toyseven.ymk.voc.answer.VocAnswerEntity;
 import com.toyseven.ymk.voc.answer.VocAnswerService;
 import com.toyseven.ymk.voc.dto.request.VocAnswerRequest;
 import com.toyseven.ymk.voc.dto.request.VocQuestionRequest;
@@ -31,6 +31,10 @@ public class VocController {
 	private final VocQuestionService vocQuestionService;
 	private final VocAnswerService vocAnswerService;
 	
+//	@GetMapping()
+//	public ResponseEntity<List<VocQuestionEntity>> getVocQuestions() {
+//		return new ResponseEntity<>(vocQuestionService.findAll(), HttpStatus.OK);
+//	}
 	@GetMapping()
 	public ResponseEntity<List<VocQuestionResponse>> getVocQuestions() {
 		return new ResponseEntity<>(vocQuestionService.findAll(), HttpStatus.OK);
@@ -60,20 +64,20 @@ public class VocController {
 	}
 	
 	@PostMapping(value = "/answer")
-	public ResponseEntity<VocAnswer> saveVocAnswer(
+	public ResponseEntity<VocAnswerEntity> saveVocAnswer(
 			@RequestBody VocAnswerRequest vocAnswerRequest) {
 		vocAnswerService.save(vocAnswerRequest);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	
 	@GetMapping(value = "/questions")
-	public ResponseEntity<List<VocQuestionResponse>> getVocQuestionsTop10() {
-		return new ResponseEntity<>(vocQuestionService.getVocQuestionsTop10(), HttpStatus.OK);
+	public ResponseEntity<List<VocQuestionResponse>> getLatestVocQuestions() {
+		return new ResponseEntity<>(vocQuestionService.getLatestVocQuestions(), HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/answers")
-	public ResponseEntity<List<VocAnswerResponse>> getVocAnswersTop10() {
-		return new ResponseEntity<>(vocAnswerService.getVocAnswersTop10(), HttpStatus.OK);
+	public ResponseEntity<List<VocAnswerResponse>> getLatestVocQAnswers() {
+		return new ResponseEntity<>(vocAnswerService.getLatestVocQAnswers(), HttpStatus.OK);
 	}
 	
 }

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;;
 @Getter
 @NoArgsConstructor
 @Entity(name="station_information")
-public class StationInformation {
+public class StationInformationEntity {
     @Id
     @Column(name = "station_id", nullable = false, updatable = false)
     private String stationId;
@@ -34,12 +34,12 @@ public class StationInformation {
     @Column(name = "shared")
     private Integer shared;
     
-    public StationInformation(String stationId) {
+    public StationInformationEntity(String stationId) {
     	this.stationId = stationId;
     }
 
     @Builder
-    public StationInformation(String stationName, Double stationLatitude, Double stationLongitude,
+    public StationInformationEntity(String stationName, Double stationLatitude, Double stationLongitude,
                               Integer rackTotCnt, Integer parkingBikeTotCnt, Integer shared) {
         this.stationName = stationName;
         this.stationLatitude = stationLatitude;

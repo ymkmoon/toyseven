@@ -1,8 +1,8 @@
 package com.toyseven.ymk.voc.dto.request;
 
-import com.toyseven.ymk.admin.Admin;
-import com.toyseven.ymk.voc.answer.VocAnswer;
-import com.toyseven.ymk.voc.question.VocQuestion;
+import com.toyseven.ymk.admin.AdminEntity;
+import com.toyseven.ymk.voc.answer.VocAnswerEntity;
+import com.toyseven.ymk.voc.question.VocQuestionEntity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,12 +11,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class VocAnswerRequest {
 	private long id;
-	private VocQuestion questionId;
+	private VocQuestionEntity questionId;
 	private String content;
-	private Admin adminId;
+	private AdminEntity adminId;
 	
-	public VocAnswer toEntity() {
-		return VocAnswer.builder()
+	public VocAnswerEntity toEntity() {
+		return VocAnswerEntity.builder()
 				.questionId(questionId)
 				.content(content)
 				.adminId(adminId)

@@ -24,7 +24,7 @@ import lombok.EqualsAndHashCode;
 @AllArgsConstructor
 @Proxy(lazy = false)
 @Entity(name="admin") 
-public class Admin extends BaseTimeEntity {
+public class AdminEntity extends BaseTimeEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,14 +47,14 @@ public class Admin extends BaseTimeEntity {
 	@Column(name = "status", nullable = false, insertable = false, columnDefinition = "INTEGER DEFAULT 1")
 	private int status;
 	
-	public Admin() {}
+	public AdminEntity() {}
 	
-	public Admin(long id) {
+	public AdminEntity(long id) {
 		this.id = id;
 	}
 	
 	@Builder
-	public Admin(String userName, String name, String password, AdminRole role, LocalDateTime createAt,
+	public AdminEntity(String userName, String name, String password, AdminRole role, LocalDateTime createAt,
 			LocalDateTime modifiedAt, int status) {
 		this.username = userName;
 		this.name = name;

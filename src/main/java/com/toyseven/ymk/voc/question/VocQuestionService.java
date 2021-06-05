@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.toyseven.ymk.voc.dto.request.VocQuestionRequest;
 import com.toyseven.ymk.voc.dto.response.VocQuestionResponse;
-import com.toyseven.ymk.voc.entity.VocQuestionEntity;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,6 +19,9 @@ public class VocQuestionService {
 	private final VocQuestionRepository vocQuestionRepository;
 	private final ModelMapper modelMapper;
 	
+//	public List<VocQuestionEntity> findAll() {
+//		return vocQuestionRepository.findAll();
+//	}
 	public List<VocQuestionResponse> findAll() {
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 		List<VocQuestionEntity> questions = vocQuestionRepository.findAll();
@@ -44,7 +46,7 @@ public class VocQuestionService {
 		return null;
 	}
 	
-	public List<VocQuestionResponse> getVocQuestionsTop10() {
+	public List<VocQuestionResponse> getLatestVocQuestions() {
 		List<VocQuestionEntity> questions = vocQuestionRepository.findTop10ByOrderByCreatedAtDesc();
 		List<VocQuestionResponse> result = new ArrayList<>();
 		for(VocQuestionEntity question : questions) {
