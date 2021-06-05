@@ -30,11 +30,7 @@ public class VocController {
 	
 	private final VocQuestionService vocQuestionService;
 	private final VocAnswerService vocAnswerService;
-	
-//	@GetMapping()
-//	public ResponseEntity<List<VocQuestionEntity>> getVocQuestions() {
-//		return new ResponseEntity<>(vocQuestionService.findAll(), HttpStatus.OK);
-//	}
+	 
 	@GetMapping()
 	public ResponseEntity<List<VocQuestionResponse>> getVocQuestions() {
 		return new ResponseEntity<>(vocQuestionService.findAll(), HttpStatus.OK);
@@ -54,7 +50,7 @@ public class VocController {
 		VocQuestionResponse question = vocQuestionService.findVocQuestionById(id);
 		voc.put("question", question);
 		if(question != null) {
-			VocAnswerResponse answer =  vocAnswerService.findVocAnswerByQuestionId(question.getId());
+			List<VocAnswerResponse> answer =  vocAnswerService.findVocAnswerByQuestionId(question.getId());
 			if(answer != null) {
 				voc.put("answer", answer);
 			}
