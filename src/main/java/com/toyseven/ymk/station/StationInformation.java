@@ -33,6 +33,10 @@ public class StationInformation {
 
     @Column(name = "shared")
     private Integer shared;
+    
+    public StationInformation(String stationId) {
+    	this.stationId = stationId;
+    }
 
     @Builder
     public StationInformation(String stationName, Double stationLatitude, Double stationLongitude,

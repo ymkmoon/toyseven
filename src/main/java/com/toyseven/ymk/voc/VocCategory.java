@@ -11,10 +11,10 @@ import javax.persistence.Id;
 import org.hibernate.annotations.Proxy;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Data
+@Getter
 @NoArgsConstructor
 @Proxy(lazy = false)
 @Entity(name="voc_category")
@@ -23,10 +23,13 @@ public class VocCategory implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -5049789187171798678L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false, updatable = false, insertable = false)
 	private long id;
+	
+	
 	@Column(name="name", nullable = false, updatable = false)
 	private String name;
 	@Column(name="display_name", nullable = false, updatable = false)
@@ -34,12 +37,13 @@ public class VocCategory implements Serializable {
 	
 //	public VocCategory() {}
 	
-//	public VocCategory(String name) {
-//		this.name = name;
-//	}
+	public VocCategory(long id) {
+		this.id = id;
+	}
 
 	@Builder
-	public VocCategory(String name, String displayName) {
+	public VocCategory(Long id, String name, String displayName) {
+		this.id = id;
 		this.name = name;
 		this.displayName = displayName;
 	}

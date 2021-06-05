@@ -1,5 +1,7 @@
 package com.toyseven.ymk.voc.question;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -35,7 +37,7 @@ public class VocQuestion extends BaseTimeEntity {
 //	@Column(name = "category", nullable = false, updatable = true, insertable = true)
 //	@OneToOne(fetch = FetchType.LAZY)
 	@OneToOne(fetch = FetchType.LAZY, targetEntity = VocCategory.class)
-	@JoinColumn(name="category", referencedColumnName = "name", nullable = false)
+	@JoinColumn(name="category", referencedColumnName = "id", nullable = false)
 	private VocCategory category;
 	
 	@Column(name = "title", nullable = false)
@@ -57,9 +59,13 @@ public class VocQuestion extends BaseTimeEntity {
 	
 	public VocQuestion() {}
 	
+	public VocQuestion(long id) {
+		this.id = id;
+	}
+	
 	@Builder
 	public VocQuestion(VocCategory category, String title, String content, String username, String email, StationInformation stationId,
-			int needReply) {
+			int needReply, LocalDateTime createdAt) {
 		this.category = category;
 		this.title = title;
 		this.content = content;
