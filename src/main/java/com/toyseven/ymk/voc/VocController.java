@@ -1,6 +1,8 @@
 package com.toyseven.ymk.voc;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +17,8 @@ import com.toyseven.ymk.voc.answer.VocAnswer;
 import com.toyseven.ymk.voc.answer.VocAnswerService;
 import com.toyseven.ymk.voc.dto.request.VocAnswerRequest;
 import com.toyseven.ymk.voc.dto.request.VocQuestionRequest;
-import com.toyseven.ymk.voc.dto.response.VocResponse;
-import com.toyseven.ymk.voc.question.VocQuestion;
+import com.toyseven.ymk.voc.dto.response.VocAnswerResponse;
+import com.toyseven.ymk.voc.dto.response.VocQuestionResponse;
 import com.toyseven.ymk.voc.question.VocQuestionService;
 
 import lombok.RequiredArgsConstructor;
@@ -30,37 +32,48 @@ public class VocController {
 	private final VocAnswerService vocAnswerService;
 	
 	@GetMapping()
-	public List<VocQuestion> getVocQuestions() {
-		return vocQuestionService.findAll();
+	public ResponseEntity<List<VocQuestionResponse>> getVocQuestions() {
+		return new ResponseEntity<>(vocQuestionService.findAll(), HttpStatus.OK);
 	}
 	
 	@PostMapping()
-	public ResponseEntity<VocQuestion> saveVocQuestion(
+	public ResponseEntity<VocQuestionResponse> saveVocQuestion(
 			@RequestBody VocQuestionRequest vocQuestionRequest) {
 		vocQuestionService.save(vocQuestionRequest);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	
 	@GetMapping(value = "/search/{id}")
-	public ResponseEntity<VocResponse> getVocQuestion(
+	public ResponseEntity<Map<String, Object>> getVocQuestion(
 			@PathVariable(value = "id") Long id) {
-		VocResponse vocResponse = new VocResponse();
-		vocResponse.setVocQuestion(vocQuestionService.findByVocQuestion(id));
-		vocResponse.setVocAnswer(vocAnswerService.findByVocAnswer(vocQuestionService.findByVocQuestion(id)));
-		return new ResponseEntity<>(vocResponse, HttpStatus.OK);
-	}
-	
-	@GetMapping(value = "/answer")
-	public List<VocAnswer> getVocAnswers() {
-		return vocAnswerService.findAll();
+		Map<String, Object> voc = new HashMap<>();
+		VocQuestionResponse question = vocQuestionService.findVocQuestionById(id);
+		voc.put("question", question);
+		if(question != null) {
+			VocAnswerResponse answer =  vocAnswerService.findVocAnswerByQuestionId(question.getId());
+			if(answer != null) {
+				voc.put("answer", answer);
+			}
+		}
+		
+		return new ResponseEntity<>(voc, HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/answer")
 	public ResponseEntity<VocAnswer> saveVocAnswer(
 			@RequestBody VocAnswerRequest vocAnswerRequest) {
 		vocAnswerService.save(vocAnswerRequest);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	
+	@GetMapping(value = "/questions")
+	public ResponseEntity<List<VocQuestionResponse>> getVocQuestionsTop10() {
+		return new ResponseEntity<>(vocQuestionService.getVocQuestionsTop10(), HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/answers")
+	public ResponseEntity<List<VocAnswerResponse>> getVocAnswersTop10() {
+		return new ResponseEntity<>(vocAnswerService.getVocAnswersTop10(), HttpStatus.OK);
+	}
 	
 }

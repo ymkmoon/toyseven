@@ -48,7 +48,7 @@ public class VocAnswer extends BaseTimeEntity {
 	public VocAnswer() {}
 
 	@Builder
-	public VocAnswer(VocQuestion questionId, String content, Admin adminId, LocalDateTime createAt) {
+	public VocAnswer(VocQuestion questionId, String content, Admin adminId, LocalDateTime createdAt) {
 		this.questionId = questionId;
 		this.content = content;
 		this.adminId = adminId;

@@ -1,35 +1,36 @@
 package com.toyseven.ymk.voc.dto.request;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-
-import com.toyseven.ymk.common.model.BaseTimeEntity;
+import com.toyseven.ymk.station.StationInformation;
+import com.toyseven.ymk.voc.VocCategory;
+import com.toyseven.ymk.voc.question.VocQuestion;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@EnableJpaRepositories
-@Entity
 @NoArgsConstructor
-@Inheritance
-@Table(name="voc_question")
-public class VocQuestionRequest extends BaseTimeEntity {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+public class VocQuestionRequest {
 	private long id;
-	private String category;
-	private String title;
-	private String content;
-	private String email;
-	private String username;
-	private String station_id;
-	private int need_reply;
+	@NotBlank private VocCategory category;
+	@NotBlank private String title;
+	@NotBlank private String content;
+	@NotBlank private String email;
+	@NotBlank private String username;
+	@NotBlank private StationInformation stationId;
+	@NotNull private int needReply;
+	
+	public VocQuestion toEntity() {
+        return VocQuestion.builder()
+        		.category(category)
+        		.title(title)
+        		.content(content)
+                .email(email)
+                .username(username)
+                .stationId(stationId)
+                .needReply(needReply)
+                .build();
+    }
 }

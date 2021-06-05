@@ -49,6 +49,10 @@ public class Admin extends BaseTimeEntity {
 	
 	public Admin() {}
 	
+	public Admin(long id) {
+		this.id = id;
+	}
+	
 	@Builder
 	public Admin(String userName, String name, String password, AdminRole role, LocalDateTime createAt,
 			LocalDateTime modifiedAt, int status) {
