@@ -33,7 +33,8 @@ public class StationService {
         return stationRepository.findByStationNameContaining(stationName);
     }
     
-    public List<StationInformationEntity> getStationList() {
+    @SuppressWarnings("unchecked")
+	public List<StationInformationEntity> getStationList() {
 		String BASE_URL = "http://openapi.seoul.go.kr:8088";
 		
 		DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory(BASE_URL);
@@ -58,10 +59,11 @@ public class StationService {
                     .toEntity(JSONObject.class)
                     .block();
 
-            if(response.getStatusCode() == HttpStatus.OK){
-                Map<?, ?> responseData = (Map<?, ?>) response.getBody().get("rentBikeStatus");
-                if(!responseData.get("list_total_count").equals(0) && responseData.get("list_total_count") != null){
-                    @SuppressWarnings("unchecked")
+            if(response != null && response.getStatusCode() == HttpStatus.OK){
+            	Map<?, ?> responseBody = response.getBody() != null ? response.getBody() : null;
+            	Map<String, Object> responseData = responseBody != null ? (Map<String, Object>)responseBody.get("rentBikeStatus") : null;
+                
+                if(responseData != null && !responseData.get("list_total_count").equals(0) && responseData.get("list_total_count") != null){
 					List<StationInformationEntity> tmpRow = (List<StationInformationEntity>) responseData.get("row");
                     row.addAll(tmpRow);
                 }
