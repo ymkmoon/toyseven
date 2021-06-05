@@ -12,8 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.toyseven.ymk.voc.dto.request.VocAnswerRequest;
 import com.toyseven.ymk.voc.dto.response.VocAnswerResponse;
-import com.toyseven.ymk.voc.entity.VocAnswerEntity;
-import com.toyseven.ymk.voc.entity.VocQuestionEntity;
+import com.toyseven.ymk.voc.question.VocQuestionEntity;
 import com.toyseven.ymk.voc.question.VocQuestionRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -49,7 +48,7 @@ public class VocAnswerService {
 		return null;
 	}
 	
-	public List<VocAnswerResponse> getVocAnswersTop10() {
+	public List<VocAnswerResponse> getLatestVocQAnswers() {
 		List<VocAnswerEntity> answers = vocAnswerRepository.findTop10ByOrderByCreatedAtDesc();
 		List<VocAnswerResponse> result = new ArrayList<>();
 		for(VocAnswerEntity answer : answers) {

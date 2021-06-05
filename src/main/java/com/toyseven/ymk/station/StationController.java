@@ -23,20 +23,20 @@ public class StationController {
     private final StationService stationService;
 
     @GetMapping()
-    public ResponseEntity<List<StationInformation>> getStations() {
-        List<StationInformation> stations = stationService.findAll();
+    public ResponseEntity<List<StationInformationEntity>> getStations() {
+        List<StationInformationEntity> stations = stationService.findAll();
         return new ResponseEntity<>(stations, HttpStatus.OK);
     }
 
     @GetMapping(value = "/search")
-    public ResponseEntity<Optional<List<StationInformation>>> searchStations(@RequestParam("name") String name) {
-        Optional<List<StationInformation>> stations = stationService.findByStationName(name);
+    public ResponseEntity<Optional<List<StationInformationEntity>>> searchStations(@RequestParam("name") String name) {
+        Optional<List<StationInformationEntity>> stations = stationService.findByStationName(name);
         return new ResponseEntity<>(stations, HttpStatus.OK);
     }
 
     @GetMapping(value = "/save")
-    public ResponseEntity<StationInformation> saveStations() {
-    	List<StationInformation> stations = stationService.getStationList();
+    public ResponseEntity<StationInformationEntity> saveStations() {
+    	List<StationInformationEntity> stations = stationService.getStationList();
     	if(stations != null) {
     		stationService.save(stations);
     		return new ResponseEntity<>(HttpStatus.OK);
@@ -46,7 +46,7 @@ public class StationController {
     
     @Scheduled(fixedDelay = 210000)
     public void stationsBatch() {
-        List<StationInformation> stations = stationService.getStationList();
+        List<StationInformationEntity> stations = stationService.getStationList();
         if(stations != null) {
             stationService.save(stations);
         }

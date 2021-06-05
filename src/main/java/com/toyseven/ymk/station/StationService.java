@@ -25,21 +25,21 @@ public class StationService {
     private final StationRepository stationRepository;
     private final StationParam stationParam;
 
-    public List<StationInformation> findAll() {
+    public List<StationInformationEntity> findAll() {
         return stationRepository.findAll();
     }
 
-    public Optional<List<StationInformation>> findByStationName(String stationName) {
+    public Optional<List<StationInformationEntity>> findByStationName(String stationName) {
         return stationRepository.findByStationNameContaining(stationName);
     }
     
-    public List<StationInformation> getStationList() {
+    public List<StationInformationEntity> getStationList() {
 		String BASE_URL = "http://openapi.seoul.go.kr:8088";
 		
 		DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory(BASE_URL);
         factory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.VALUES_ONLY);
         WebClient wc = WebClient.builder().uriBuilderFactory(factory).baseUrl(BASE_URL).build();
-        List<StationInformation> row = new ArrayList<>();
+        List<StationInformationEntity> row = new ArrayList<>();
 
         for(int i=1 ; i<=2001 ; i+=1000){
             stationParam.setStartIndex(i);
@@ -62,16 +62,16 @@ public class StationService {
                 Map<?, ?> responseData = (Map<?, ?>) response.getBody().get("rentBikeStatus");
                 if(!responseData.get("list_total_count").equals(0) && responseData.get("list_total_count") != null){
                     @SuppressWarnings("unchecked")
-					List<StationInformation> tmpRow = (List<StationInformation>) responseData.get("row");
+					List<StationInformationEntity> tmpRow = (List<StationInformationEntity>) responseData.get("row");
                     row.addAll(tmpRow);
                 }
             }
         }
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.convertValue(row, new TypeReference<List<StationInformation>>() {});
+        return mapper.convertValue(row, new TypeReference<List<StationInformationEntity>>() {});
 	}
     
-    public void save(List<StationInformation> stations) {
+    public void save(List<StationInformationEntity> stations) {
     	stationRepository.saveAll(stations);
     }
 }

@@ -13,9 +13,9 @@ import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.Proxy;
 
-import com.toyseven.ymk.admin.Admin;
+import com.toyseven.ymk.admin.AdminEntity;
 import com.toyseven.ymk.common.model.BaseTimeEntity;
-import com.toyseven.ymk.voc.question.VocQuestion;
+import com.toyseven.ymk.voc.question.VocQuestionEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,28 +27,28 @@ import lombok.EqualsAndHashCode;
 @AllArgsConstructor
 @Proxy(lazy = false)
 @Entity(name="voc_answer")
-public class VocAnswer extends BaseTimeEntity {
+public class VocAnswerEntity extends BaseTimeEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false, updatable = false, insertable = false)
 	private long id;
 	
-	@OneToOne(fetch = FetchType.LAZY, targetEntity = VocQuestion.class)
+	@OneToOne(fetch = FetchType.LAZY, targetEntity = VocQuestionEntity.class)
 	@JoinColumn(name="question_id", referencedColumnName = "id", nullable = false)
-	private VocQuestion questionId;
+	private VocQuestionEntity questionId;
 	
 	@Column(name = "content", nullable = false)
 	private String content;
 	
-	@OneToOne(fetch = FetchType.LAZY, targetEntity = Admin.class)
+	@OneToOne(fetch = FetchType.LAZY, targetEntity = AdminEntity.class)
 	@JoinColumn(name="admin_id", referencedColumnName = "id", nullable = false)
-	private Admin adminId;
+	private AdminEntity adminId;
 	
-	public VocAnswer() {}
+	public VocAnswerEntity() {}
 
 	@Builder
-	public VocAnswer(VocQuestion questionId, String content, Admin adminId, LocalDateTime createdAt) {
+	public VocAnswerEntity(VocQuestionEntity questionId, String content, AdminEntity adminId, LocalDateTime createdAt) {
 		this.questionId = questionId;
 		this.content = content;
 		this.adminId = adminId;

@@ -6,11 +6,9 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.toyseven.ymk.voc.entity.VocAnswerEntity;
-
 @Repository
 public interface VocAnswerRepository extends JpaRepository<VocAnswerEntity, Long>{
 	Optional<VocAnswerEntity> findVocAnswerByQuestionId(long questionId);
-	void save(VocAnswer entity);
+	void save(VocAnswerEntity entity);
 	List<VocAnswerEntity> findTop10ByOrderByCreatedAtDesc();
 }
