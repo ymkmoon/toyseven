@@ -39,4 +39,5 @@ out/
 
 
 *.log
-*.pidREADME.md
+*.pid
+README.md
