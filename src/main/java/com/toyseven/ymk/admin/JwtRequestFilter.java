@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +19,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.toyseven.ymk.common.util.JwtUtil;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.SignatureException;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -30,29 +32,35 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
         throws ServletException, IOException {
-
         String accessToken = getAccessTokenFromRequestHeader(request);
         String username = null;
 
-        try {
-            username = jwtUtil.getUsernameFromToken(accessToken);
-        } catch (IllegalArgumentException e) {
-            logger.info("Unable to get JWT Token");
-        } catch (ExpiredJwtException e) {
-            logger.info("JWT Token has expired");
-        }
-
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
-            UserDetails userDetails = this.adminService.loadUserByUsername(username);
-
-            if (Boolean.TRUE.equals(jwtUtil.validateAccessToken(accessToken, userDetails))) {
-                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                    userDetails, null, userDetails.getAuthorities());
-                usernamePasswordAuthenticationToken
-                    .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-            }
+        if(accessToken != null) {
+        	try {
+        		username = jwtUtil.getUsernameFromToken(accessToken);
+        	} catch (IllegalArgumentException e) {
+        		logger.info("Unable to get JWT Token");
+        		response.sendError(401, "Unable to get JWT Token");
+        	} catch (ExpiredJwtException e) {
+        		logger.info("JWT Token has expired");
+        		response.sendError(401, "JWT Token has expired");
+        	} catch (SignatureException e) {
+        		logger.info("JWT signature does not match locally computed signature");
+        		response.sendError(401, "Unable to get JWT Token");
+        	}
+        	
+        	if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        		
+        		UserDetails userDetails = this.adminService.loadUserByUsername(username);
+        		
+        		if (Boolean.TRUE.equals(jwtUtil.validateAccessToken(accessToken, userDetails))) {
+        			UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+        					userDetails, null, userDetails.getAuthorities());
+        			usernamePasswordAuthenticationToken
+        			.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        			SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+        		}
+        	}
         }
         chain.doFilter(request, response);
     }
