@@ -14,10 +14,6 @@ logging:
     root: info
     
 spring:
-  mvc:
-    view:
-      prefix: /WEB-INF/views/
-      suffix: .jsp
 #  main:#    allow-bean-definition-overriding: true
 #  redis:
 #    host: localhost
