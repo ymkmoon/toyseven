@@ -54,9 +54,9 @@ public class AdminController {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         } catch (DisabledException exception) {
-            throw new IllegalArgumentException("Disabled user", exception);
+            throw new DisabledException("Disabled user", exception);
         } catch (BadCredentialsException exception) {
-            throw new IllegalArgumentException("Invalid credentials", exception);
+            throw new BadCredentialsException("Invalid credentials", exception);
         }
     }
 }

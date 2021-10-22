@@ -4,6 +4,9 @@ import java.nio.file.AccessDeniedException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -80,7 +83,27 @@ public class GlobalExceptionHandler {
         final ErrorResponse response = ErrorResponse.of(errorCode);
         return new ResponseEntity<>(response, HttpStatus.valueOf(errorCode.getStatus()));
     }
+    
+    @ExceptionHandler(DisabledException.class)
+    protected ResponseEntity<ErrorResponse> handleDisabledException(DisabledException e) {
+        log.error("DisabledException", e);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.UNAUTHORIZED);
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    }
+    
+    @ExceptionHandler(BadCredentialsException.class)
+    protected ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException e) {
+        log.error("BadCredentialsException", e);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.UNAUTHORIZED);
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    }
 
+    @ExceptionHandler(UsernameNotFoundException.class)
+    protected ResponseEntity<ErrorResponse> handleUsernameNotFoundException(UsernameNotFoundException e) {
+        log.error("UsernameNotFoundException", e);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.UNAUTHORIZED);
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    }
 
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<ErrorResponse> handleException(Exception e) {
