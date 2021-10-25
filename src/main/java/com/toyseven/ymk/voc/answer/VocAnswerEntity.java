@@ -19,10 +19,10 @@ import com.toyseven.ymk.voc.question.VocQuestionEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
-@Data
+@Getter
 @EqualsAndHashCode(callSuper=false)
 @AllArgsConstructor
 @Proxy(lazy = false)
