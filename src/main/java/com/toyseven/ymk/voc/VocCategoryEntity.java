@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Proxy(lazy = false)
 @Entity(name="voc_category")
-public class VocCategory implements Serializable {
+public class VocCategoryEntity implements Serializable {
 	/**
 	 * 
 	 */
@@ -37,12 +37,12 @@ public class VocCategory implements Serializable {
 	
 //	public VocCategory() {}
 	
-	public VocCategory(long id) {
+	public VocCategoryEntity(long id) {
 		this.id = id;
 	}
 
 	@Builder
-	public VocCategory(Long id, String name, String displayName) {
+	public VocCategoryEntity(Long id, String name, String displayName) {
 		this.id = id;
 		this.name = name;
 		this.displayName = displayName;

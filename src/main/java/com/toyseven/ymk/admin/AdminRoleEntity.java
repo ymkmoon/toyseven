@@ -10,12 +10,12 @@ import javax.persistence.Id;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-
-@Data
+import lombok.Getter;
+ 
+@Getter
 @AllArgsConstructor
 @Entity(name="admin_role")
-public class AdminRole implements Serializable {
+public class AdminRoleEntity implements Serializable {
 
 	/**
 	 * 
@@ -33,10 +33,10 @@ public class AdminRole implements Serializable {
 	@Column(name = "display_name", nullable = false, updatable = false)
 	private String displayName;
 	
-	public AdminRole() {}
+	public AdminRoleEntity() {}
 
 	@Builder
-	public AdminRole(String name, String displayName) {
+	public AdminRoleEntity(String name, String displayName) {
 		this.name = name;
 		this.displayName = displayName;
 	}
