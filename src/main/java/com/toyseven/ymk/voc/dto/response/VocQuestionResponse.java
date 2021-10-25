@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 
 import com.toyseven.ymk.common.model.BaseTimeEntity;
 import com.toyseven.ymk.station.StationInformationEntity;
-import com.toyseven.ymk.voc.VocCategory;
+import com.toyseven.ymk.voc.VocCategoryEntity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 public class VocQuestionResponse extends BaseTimeEntity {
 	private long id;
-	@NotBlank private VocCategory category;
+	@NotBlank private VocCategoryEntity category;
 	@NotBlank private String title;
 	@NotBlank private String content;
 	@NotBlank private String email;

@@ -13,7 +13,7 @@ import org.hibernate.annotations.Proxy;
 
 import com.toyseven.ymk.common.model.BaseTimeEntity;
 import com.toyseven.ymk.station.StationInformationEntity;
-import com.toyseven.ymk.voc.VocCategory;
+import com.toyseven.ymk.voc.VocCategoryEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,9 +34,9 @@ public class VocQuestionEntity extends BaseTimeEntity {
 	
 //	@Column(name = "category", nullable = false, updatable = true, insertable = true)
 //	@OneToOne(fetch = FetchType.LAZY)
-	@OneToOne(fetch = FetchType.LAZY, targetEntity = VocCategory.class)
+	@OneToOne(fetch = FetchType.LAZY, targetEntity = VocCategoryEntity.class)
 	@JoinColumn(name="category", referencedColumnName = "id", nullable = false)
-	private VocCategory category;
+	private VocCategoryEntity category;
 	
 	@Column(name = "title", nullable = false)
 	private String title;
@@ -62,7 +62,7 @@ public class VocQuestionEntity extends BaseTimeEntity {
 	}
 	
 	@Builder
-	public VocQuestionEntity(VocCategory category, String title, String content, String username, String email, StationInformationEntity stationId,
+	public VocQuestionEntity(VocCategoryEntity category, String title, String content, String username, String email, StationInformationEntity stationId,
 			int needReply) {
 		this.category = category;
 		this.title = title;

@@ -4,7 +4,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.toyseven.ymk.station.StationInformationEntity;
-import com.toyseven.ymk.voc.VocCategory;
+import com.toyseven.ymk.voc.VocCategoryEntity;
 import com.toyseven.ymk.voc.question.VocQuestionEntity;
 
 import lombok.Getter;
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class VocQuestionRequest {
 	private long id;
-	@NotBlank private VocCategory category;
+	@NotBlank private VocCategoryEntity category;
 	@NotBlank private String title;
 	@NotBlank private String content;
 	@NotBlank private String email;

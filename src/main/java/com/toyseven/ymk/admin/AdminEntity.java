@@ -16,10 +16,10 @@ import com.toyseven.ymk.common.model.BaseTimeEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
-@Data
+@Getter
 @EqualsAndHashCode(callSuper=false)
 @AllArgsConstructor
 @Proxy(lazy = false)
@@ -38,9 +38,9 @@ public class AdminEntity extends BaseTimeEntity {
 	@Column(name = "password", nullable = false)
 	private String password;
 	
-	@OneToOne(targetEntity = AdminRole.class)
+	@OneToOne(targetEntity = AdminRoleEntity.class)
 	@JoinColumn(name="role", referencedColumnName = "name", nullable = false)
-	private AdminRole role;
+	private AdminRoleEntity role;
 	
 	@Column(name = "modified_at", nullable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private LocalDateTime modifiedAt;
@@ -54,7 +54,7 @@ public class AdminEntity extends BaseTimeEntity {
 	}
 	
 	@Builder
-	public AdminEntity(String userName, String name, String password, AdminRole role, LocalDateTime createAt,
+	public AdminEntity(String userName, String name, String password, AdminRoleEntity role, LocalDateTime createAt,
 			LocalDateTime modifiedAt, int status) {
 		this.username = userName;
 		this.name = name;
