@@ -42,9 +42,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
+            .antMatchers(
+            		"/voc/answer").hasRole("ADMIN")
 	            .antMatchers("/**/**").permitAll()
-                .antMatchers(
-                		"/voc/answer/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
             .cors().and();
