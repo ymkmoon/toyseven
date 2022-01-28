@@ -1,4 +1,4 @@
-package com.toyseven.ymk.voc.answer;
+package com.toyseven.ymk.common.model.entity;
 
 import java.time.LocalDateTime;
 
@@ -13,9 +13,7 @@ import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.Proxy;
 
-import com.toyseven.ymk.admin.AdminEntity;
 import com.toyseven.ymk.common.model.BaseTimeEntity;
-import com.toyseven.ymk.voc.question.VocQuestionEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

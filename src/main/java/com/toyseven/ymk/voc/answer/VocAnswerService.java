@@ -10,9 +10,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import com.toyseven.ymk.voc.dto.request.VocAnswerRequest;
-import com.toyseven.ymk.voc.dto.response.VocAnswerResponse;
-import com.toyseven.ymk.voc.question.VocQuestionEntity;
+import com.toyseven.ymk.common.model.entity.VocAnswerEntity;
+import com.toyseven.ymk.common.model.entity.VocQuestionEntity;
 import com.toyseven.ymk.voc.question.VocQuestionRepository;
 
 import lombok.RequiredArgsConstructor;

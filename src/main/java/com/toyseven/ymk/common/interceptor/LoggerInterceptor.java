@@ -1,4 +1,4 @@
-package com.toyseven.ymk.common.interceptor.component;
+package com.toyseven.ymk.common.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

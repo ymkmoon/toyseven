@@ -1,4 +1,4 @@
-package com.toyseven.ymk.voc;
+package com.toyseven.ymk.common.model.entity;
 
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package com.toyseven.ymk.common.error.Exception;
+package com.toyseven.ymk.common.error;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

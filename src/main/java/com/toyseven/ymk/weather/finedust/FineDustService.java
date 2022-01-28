@@ -15,9 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
+import com.toyseven.ymk.common.error.ErrorCode;
 import com.toyseven.ymk.common.error.Exception.BusinessException;
-import com.toyseven.ymk.common.error.Exception.ErrorCode;
-import com.toyseven.ymk.weather.dto.request.WeatherRequest;
+import com.toyseven.ymk.weather.WeatherRequest;
 
 import lombok.RequiredArgsConstructor;
 

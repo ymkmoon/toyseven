@@ -1,4 +1,4 @@
-package com.toyseven.ymk.voc.dto.response;
+package com.toyseven.ymk.voc.question;
 
 import java.time.LocalDateTime;
 
@@ -6,8 +6,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.toyseven.ymk.common.model.BaseTimeEntity;
-import com.toyseven.ymk.station.StationInformationEntity;
-import com.toyseven.ymk.voc.VocCategoryEntity;
+import com.toyseven.ymk.common.model.entity.StationInformationEntity;
+import com.toyseven.ymk.common.model.entity.VocCategoryEntity;
 
 import lombok.Getter;
 import lombok.Setter;

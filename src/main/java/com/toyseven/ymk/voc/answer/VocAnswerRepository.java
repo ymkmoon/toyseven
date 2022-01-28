@@ -5,7 +5,8 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.toyseven.ymk.voc.question.VocQuestionEntity;
+import com.toyseven.ymk.common.model.entity.VocAnswerEntity;
+import com.toyseven.ymk.common.model.entity.VocQuestionEntity;
 
 @Repository
 public interface VocAnswerRepository extends JpaRepository<VocAnswerEntity, Long>{

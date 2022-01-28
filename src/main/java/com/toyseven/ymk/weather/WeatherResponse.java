@@ -1,4 +1,4 @@
-package com.toyseven.ymk.weather.dto.response;
+package com.toyseven.ymk.weather;
 
 import org.json.simple.JSONObject;
 

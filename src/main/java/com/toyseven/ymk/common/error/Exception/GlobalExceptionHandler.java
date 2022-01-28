@@ -1,4 +1,4 @@
-package com.toyseven.ymk.common.error;
+package com.toyseven.ymk.common.error.Exception;
 
 import java.nio.file.AccessDeniedException;
 
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import com.toyseven.ymk.common.error.Exception.BusinessException;
-import com.toyseven.ymk.common.error.Exception.ErrorCode;
+import com.toyseven.ymk.common.error.ErrorCode;
+import com.toyseven.ymk.common.error.ErrorResponse;
 
 import lombok.extern.slf4j.Slf4j;
 

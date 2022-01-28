@@ -1,4 +1,4 @@
-package com.toyseven.ymk.admin;
+package com.toyseven.ymk.common.model.entity;
 
 import java.time.LocalDateTime;
 
