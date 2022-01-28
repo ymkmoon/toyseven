@@ -1,4 +1,4 @@
-package com.toyseven.ymk.common.error;
+package com.toyseven.ymk.common.error.Exception;
 
 import java.nio.file.AccessDeniedException;
 
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import com.toyseven.ymk.common.error.Exception.BusinessException;
-import com.toyseven.ymk.common.error.Exception.ErrorCode;
+import com.toyseven.ymk.common.error.ErrorCode;
+import com.toyseven.ymk.common.error.ErrorResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -76,9 +76,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.valueOf(ErrorCode.HANDLE_ACCESS_DENIED.getStatus()));
     }
 
+    /**
+     * 로직 수행 중 예외가 발생 한 경우
+     */
     @ExceptionHandler(BusinessException.class)
     protected ResponseEntity<ErrorResponse> handleBusinessException(final BusinessException e) {
-        log.error("handleEntityNotFoundException", e);
+        log.error("BusinessException", e);
         final ErrorCode errorCode = e.getErrorCode();
         final ErrorResponse response = ErrorResponse.of(errorCode);
         return new ResponseEntity<>(response, HttpStatus.valueOf(errorCode.getStatus()));
@@ -91,6 +94,9 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
     
+    /**
+     * JWT Token 취득 시 암호가 일치하지 않은 경우
+     */
     @ExceptionHandler(BadCredentialsException.class)
     protected ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException e) {
         log.error("BadCredentialsException", e);
@@ -98,6 +104,9 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 
+    /**
+     * JWT Token 취득 시 존재하지 않는 유저인 경우
+     */
     @ExceptionHandler(UsernameNotFoundException.class)
     protected ResponseEntity<ErrorResponse> handleUsernameNotFoundException(UsernameNotFoundException e) {
         log.error("UsernameNotFoundException", e);

@@ -1,4 +1,4 @@
-package com.toyseven.ymk.common.error.Exception;
+package com.toyseven.ymk.common.error;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -12,7 +12,8 @@ public enum ErrorCode {
     INTERNAL_SERVER_ERROR(500, "C004", "Server Error"),
     INVALID_TYPE_VALUE(400, "C005", " Invalid Type Value"),
     HANDLE_ACCESS_DENIED(403, "C006", "Access is Denied"),
-    UNAUTHORIZED(401, "C007", "Unable to get JWT Token");
+    UNAUTHORIZED(401, "C007", "Unable to get JWT Token"),
+    ENCODING_ERROR(500, "C008", "Unsupported Encoding Exception");
 	
     private final String code;
     private final String message;

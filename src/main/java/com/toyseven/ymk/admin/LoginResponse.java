@@ -1,4 +1,4 @@
-package com.toyseven.ymk.admin.dto.response;
+package com.toyseven.ymk.admin;
 
 import com.sun.istack.NotNull;
 

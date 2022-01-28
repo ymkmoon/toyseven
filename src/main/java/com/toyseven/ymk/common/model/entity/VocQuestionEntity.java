@@ -1,4 +1,4 @@
-package com.toyseven.ymk.voc.question;
+package com.toyseven.ymk.common.model.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,8 +12,6 @@ import javax.persistence.OneToOne;
 import org.hibernate.annotations.Proxy;
 
 import com.toyseven.ymk.common.model.BaseTimeEntity;
-import com.toyseven.ymk.station.StationInformationEntity;
-import com.toyseven.ymk.voc.VocCategoryEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

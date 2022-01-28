@@ -1,12 +1,12 @@
-package com.toyseven.ymk.voc.dto.response;
+package com.toyseven.ymk.voc.answer;
 
 import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import com.toyseven.ymk.admin.AdminEntity;
-import com.toyseven.ymk.voc.question.VocQuestionEntity;
+import com.toyseven.ymk.common.model.entity.AdminEntity;
+import com.toyseven.ymk.common.model.entity.VocQuestionEntity;
 
 import lombok.Getter;
 import lombok.Setter;

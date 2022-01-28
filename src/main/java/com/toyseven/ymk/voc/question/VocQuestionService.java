@@ -8,8 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.stereotype.Service;
 
-import com.toyseven.ymk.voc.dto.request.VocQuestionRequest;
-import com.toyseven.ymk.voc.dto.response.VocQuestionResponse;
+import com.toyseven.ymk.common.model.entity.VocQuestionEntity;
 
 import lombok.RequiredArgsConstructor;
 

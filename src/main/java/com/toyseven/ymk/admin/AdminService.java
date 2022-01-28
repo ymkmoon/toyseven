@@ -6,6 +6,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.toyseven.ymk.common.model.entity.AdminEntity;
+
 import lombok.RequiredArgsConstructor;
 
 @Service

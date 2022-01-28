@@ -1,5 +1,7 @@
 package com.toyseven.ymk.common.error.Exception;
 
+import com.toyseven.ymk.common.error.ErrorCode;
+
 public class InvalidValueException extends BusinessException {
 
     /**

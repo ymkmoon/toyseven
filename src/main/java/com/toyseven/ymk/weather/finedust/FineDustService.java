@@ -1,20 +1,23 @@
 package com.toyseven.ymk.weather.finedust;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.StreamSupport;
 
 import org.json.simple.JSONObject;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
-import com.toyseven.ymk.weather.dto.request.WeatherRequest;
+import com.toyseven.ymk.common.error.ErrorCode;
+import com.toyseven.ymk.common.error.Exception.BusinessException;
+import com.toyseven.ymk.weather.WeatherRequest;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,54 +29,53 @@ public class FineDustService {
 
     @SuppressWarnings("unchecked")
 	public int getFineDustInfo(WeatherRequest weatherRequest) {
-        int fineDust = 0;
+        fineDustParam.setPageNo(1);
+        fineDustParam.setNumOfRows(1);
+        fineDustParam.setServiceKey(fineDustParam.getServiceKey());
+        StringBuffer stationName = new StringBuffer();
+		try {
+			stationName.append(URLEncoder.encode(weatherRequest.getStationName(), "UTF-8"));
+		} catch (final UnsupportedEncodingException e) {
+			throw new BusinessException(e.getMessage(), ErrorCode.ENCODING_ERROR);
+		}
+        fineDustParam.setStationName(stationName.toString());
+
+        DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory(BASE_URL);
+        factory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
+
+        WebClient wc = WebClient.builder().uriBuilderFactory(factory).baseUrl(BASE_URL).build();
+        ResponseEntity<JSONObject> response = wc.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/getMsrstnAcctoRltmMesureDnsty")
+                        .queryParam("serviceKey", fineDustParam.getServiceKey())
+                        .queryParam("stationName", fineDustParam.getStationName())
+                        .queryParam("returnType", fineDustParam.getReturnType())
+                        .queryParam("pageNo", fineDustParam.getPageNo())
+                        .queryParam("numOfRows", fineDustParam.getNumOfRows())
+                        .queryParam("dataTerm", fineDustParam.getDataTerm())
+                        .queryParam("ver", fineDustParam.getVer()).build()
+                ).headers(httpHeaders -> httpHeaders.add("Content-Type", "application/json;charset=UTF-8"))
+                .accept(MediaType.APPLICATION_JSON)
+                .acceptCharset(StandardCharsets.UTF_8)
+                .retrieve()
+                .toEntity(JSONObject.class)
+                .block();
         
-        try {
-            fineDustParam.setPageNo(1);
-            fineDustParam.setNumOfRows(1);
-            fineDustParam.setServiceKey(fineDustParam.getServiceKey());
-            String stationName = URLEncoder.encode(weatherRequest.getStationName(), "UTF-8");
-            fineDustParam.setStationName(stationName);
+        Map<String, Object> responseData = ((Map<String, Object>)response.getBody().get("response"))
+        		.entrySet().stream()
+        		.filter(e -> e.getKey().equals("body"))
+        		.collect(HashMap::new, (map, entry) -> map.put(entry.getKey(), entry.getValue()), HashMap::putAll);
+        
+        List<Map<String, Object>> items = (List<Map<String, Object>>)(((Map<String, Object>)responseData.get("body")).get("items"));
+        
+        String fineDust = (String)StreamSupport.stream(items.spliterator(), false)
+        		.map(item -> item)
+        		.filter(item -> !item.isEmpty())
+        		.filter(item -> !item.get("khaiValue").toString().isBlank())
+        		.findFirst()
+        		.map(item -> item.get("khaiValue"))
+        		.orElse(0);
 
-            DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory(BASE_URL);
-            factory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
-
-            WebClient wc = WebClient.builder().uriBuilderFactory(factory).baseUrl(BASE_URL).build();
-            ResponseEntity<JSONObject> response = wc.get()
-                    .uri(uriBuilder -> uriBuilder
-                            .path("/getMsrstnAcctoRltmMesureDnsty")
-                            .queryParam("serviceKey", fineDustParam.getServiceKey())
-                            .queryParam("stationName", fineDustParam.getStationName())
-                            .queryParam("returnType", fineDustParam.getReturnType())
-                            .queryParam("pageNo", fineDustParam.getPageNo())
-                            .queryParam("numOfRows", fineDustParam.getNumOfRows())
-                            .queryParam("dataTerm", fineDustParam.getDataTerm())
-                            .queryParam("ver", fineDustParam.getVer()).build()
-                    ).headers(httpHeaders -> httpHeaders.add("Content-Type", "application/json;charset=UTF-8"))
-                    .accept(MediaType.APPLICATION_JSON)
-                    .acceptCharset(StandardCharsets.UTF_8)
-                    .retrieve()
-                    .toEntity(JSONObject.class)
-                    .block();
-
-            if(response != null && response.getStatusCode() == HttpStatus.OK){
-                Map<?, ?> responseData = response.getBody().get("response") != null ?
-                		(Map<?, ?>) response.getBody().get("response") : new HashMap<>();
-                
-                Map<?, ?> body = responseData.get("body") != null ?
-                		(Map<?, ?>)responseData.get("body") : new HashMap<>();
-                
-                if(!body.isEmpty()) {
-	                List<HashMap<String, String>> itemArray = (List<HashMap<String, String>>)body.get("items");
-	                for (HashMap<String, String> item : itemArray) {
-	                    fineDust = Integer.parseInt(item.get("khaiValue"));
-	                }
-                }
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-
-        return fineDust;
+        return Integer.parseInt(fineDust);
     }
 }

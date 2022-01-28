@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.toyseven.ymk.admin.dto.request.LoginRequest;
-import com.toyseven.ymk.admin.dto.response.LoginResponse;
 import com.toyseven.ymk.common.Constants;
 import com.toyseven.ymk.common.util.CookieUtil;
 import com.toyseven.ymk.common.util.JwtUtil;

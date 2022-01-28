@@ -1,8 +1,8 @@
-package com.toyseven.ymk.voc.dto.request;
+package com.toyseven.ymk.voc.answer;
 
-import com.toyseven.ymk.admin.AdminEntity;
-import com.toyseven.ymk.voc.answer.VocAnswerEntity;
-import com.toyseven.ymk.voc.question.VocQuestionEntity;
+import com.toyseven.ymk.common.model.entity.AdminEntity;
+import com.toyseven.ymk.common.model.entity.VocAnswerEntity;
+import com.toyseven.ymk.common.model.entity.VocQuestionEntity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

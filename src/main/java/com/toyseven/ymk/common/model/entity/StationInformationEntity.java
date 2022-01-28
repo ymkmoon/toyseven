@@ -1,4 +1,4 @@
-package com.toyseven.ymk.station;
+package com.toyseven.ymk.common.model.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

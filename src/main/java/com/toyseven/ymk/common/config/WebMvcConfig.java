@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.toyseven.ymk.common.interceptor.component.LoggerInterceptor;
+import com.toyseven.ymk.common.interceptor.LoggerInterceptor;
 
 import lombok.RequiredArgsConstructor;
 
