@@ -76,6 +76,9 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.valueOf(ErrorCode.HANDLE_ACCESS_DENIED.getStatus()));
     }
 
+    /**
+     * 로직 수행 중 예외가 발생 한 경우
+     */
     @ExceptionHandler(BusinessException.class)
     protected ResponseEntity<ErrorResponse> handleBusinessException(final BusinessException e) {
         log.error("BusinessException", e);
@@ -91,6 +94,9 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
     
+    /**
+     * JWT Token 취득 시 암호가 일치하지 않은 경우
+     */
     @ExceptionHandler(BadCredentialsException.class)
     protected ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException e) {
         log.error("BadCredentialsException", e);
@@ -98,6 +104,9 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 
+    /**
+     * JWT Token 취득 시 존재하지 않는 유저인 경우
+     */
     @ExceptionHandler(UsernameNotFoundException.class)
     protected ResponseEntity<ErrorResponse> handleUsernameNotFoundException(UsernameNotFoundException e) {
         log.error("UsernameNotFoundException", e);
