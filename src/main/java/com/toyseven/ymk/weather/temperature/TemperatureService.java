@@ -1,5 +1,6 @@
 package com.toyseven.ymk.weather.temperature;
 
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -8,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.json.simple.JSONObject;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -56,8 +56,6 @@ public class TemperatureService {
         temperatureParam.setNumOfRows(10);
         temperatureParam.setServiceKey(temperatureParam.getServiceKey());
 
-        JSONObject temperature = new JSONObject();
-
         DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory(BASE_URL);
         factory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.VALUES_ONLY);
 
@@ -75,30 +73,25 @@ public class TemperatureService {
                         .queryParam("base_date", temperatureParam.getBaseDate())
                         .queryParam("base_time", temperatureParam.getBaseTime()).build()
                 ).accept(MediaType.APPLICATION_JSON)
+                .acceptCharset(StandardCharsets.UTF_8)
                 .retrieve()
                 .toEntity(JSONObject.class)
                 .block();
         
-        System.out.println("response : "+response);
+        Map<String, Object> responseData = ((Map<String, Object>)response.getBody().get("response"))
+        		.entrySet().stream()
+        		.filter(e -> e.getKey().equals("body"))
+        		.collect(HashMap::new, (map, entry) -> map.put(entry.getKey(), entry.getValue()), HashMap::putAll);
+        
+        List<Map<String, Object>> items = (List<Map<String, Object>>)(((Map<String, Object>)responseData.get("body")).get("items"));
 
-        if(response != null && response.getStatusCode() == HttpStatus.OK ){
-            Map<?, ?> responseData = response.getBody().get("response") != null ?
-            		(Map<?, ?>) response.getBody().get("response") : new HashMap<>();
-
-            Map<?, ?> body = responseData.get("body") != null ?
-            		(Map<?, ?>)responseData.get("body") : new HashMap<>();
-            
-            if(!body.isEmpty()) {
-	            HashMap<String, Object> items = (HashMap<String, Object>)body.get("items");
-	            List<HashMap<String, String>> itemArray = (List<HashMap<String, String>>) items.get("item");
-	            for (HashMap<String, String> item : itemArray) {
-	                if(item.get("category").equals("POP")) {
-	                    temperature.put("precipitation", Integer.parseInt(item.get("fcstValue")));
-	                }
-	                if(item.get("category").equals("T3H")) {
-	                    temperature.put("temperature", Integer.parseInt(item.get("fcstValue")));
-	                }
-	            }
+        JSONObject temperature = new JSONObject();
+        for (Map<String, Object> item : items) {
+            if(item.get("category").equals("POP")) {
+                temperature.put("precipitation", Integer.parseInt(item.get("fcstValue").toString()));
+            }
+            if(item.get("category").equals("T3H")) {
+                temperature.put("temperature", Integer.parseInt(item.get("fcstValue").toString()));
             }
         }
 
