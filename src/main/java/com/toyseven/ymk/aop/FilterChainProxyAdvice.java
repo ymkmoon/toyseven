@@ -1,4 +1,4 @@
-package com.toyseven.ymk.common;
+package com.toyseven.ymk.aop;
 
 import javax.servlet.http.HttpServletResponse;
 
