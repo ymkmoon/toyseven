@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
-import com.toyseven.ymk.admin.AdminService;
+import com.toyseven.ymk.admin.AdminServiceImpl;
 import com.toyseven.ymk.admin.JwtAuthenticationEntryPoint;
 import com.toyseven.ymk.admin.JwtRequestFilter;
 
@@ -30,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 	private final JwtRequestFilter jwtRequestFilter;
-	private final AdminService adminService;
+	private final AdminServiceImpl adminService;
     
     @Bean
     @Override
