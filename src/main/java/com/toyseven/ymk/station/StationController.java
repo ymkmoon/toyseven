@@ -36,7 +36,7 @@ public class StationController {
 
     @GetMapping(value = "/save")
     public ResponseEntity<StationInformationEntity> saveStations() {
-    	List<StationInformationEntity> stations = stationService.getStationList();
+    	List<StationInformationEntity> stations = stationService.getStations();
     	if(stations != null) {
     		stationService.save(stations);
     		return new ResponseEntity<>(HttpStatus.OK);

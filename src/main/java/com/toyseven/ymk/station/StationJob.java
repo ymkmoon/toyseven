@@ -17,7 +17,7 @@ public class StationJob {
 	
 	@Scheduled(fixedDelay = 10000)
     public void saveStations() {
-        List<StationInformationEntity> stations = stationService.getStationList();
+        List<StationInformationEntity> stations = stationService.getStations();
         if(stations != null) {
             stationService.save(stations);
         }
