@@ -3,6 +3,8 @@ package com.toyseven.ymk.common.error.Exception;
 import java.nio.file.AccessDeniedException;
 import java.util.NoSuchElementException;
 
+import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -124,6 +126,17 @@ public class GlobalExceptionHandler {
     	log.error("NoSuchElementException", e);
     	final ErrorResponse response = ErrorResponse.of(ErrorCode.NOT_FOUND);
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+    
+    /**
+     * 데이터 입력 시 Raw 가 정상적이지 않은 경우
+     * 	ex) 게시글 답변 입력 시 foreign key 인 question id 에 해당하는 데이터가 존재하지 않는 경우 
+     */
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    protected ResponseEntity<ErrorResponse> constraintViolationException(Exception e) {
+    	log.error("NoSuchElementException", e);
+    	final ErrorResponse response = ErrorResponse.of(ErrorCode.BAD_REQUEST);
+    	return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
     
     @ExceptionHandler(Exception.class)
