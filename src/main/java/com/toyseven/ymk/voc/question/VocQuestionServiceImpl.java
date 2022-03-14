@@ -41,7 +41,7 @@ public class VocQuestionServiceImpl implements VocQuestionService {
 	public VocQuestionResponse findVocQuestionById(Long id) {
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 		Optional<VocQuestionEntity> question = vocQuestionRepository.findById(id);
-		return question.isPresent() ? modelMapper.map(question.get(), VocQuestionResponse.class) : null; // 코드 리펙토링 필요
+		return modelMapper.map(question.get(), VocQuestionResponse.class);
 	}
 	
 	@Override
