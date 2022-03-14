@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.json.simple.JSONObject;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -14,6 +13,7 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.toyseven.ymk.common.ToysevenCommonUtil;
 import com.toyseven.ymk.common.model.entity.StationInformationEntity;
 
 import lombok.RequiredArgsConstructor;
@@ -61,16 +61,19 @@ public class StationServiceImpl implements StationService {
                     .retrieve()
                     .toEntity(JSONObject.class)
                     .block();
+            
+            if(!ToysevenCommonUtil.isSuccessResponse(response))
+            	return row;
 
-            if(response != null && response.getStatusCode() == HttpStatus.OK){
-            	Map<?, ?> responseBody = response.getBody() != null ? response.getBody() : null;
-            	Map<String, Object> responseData = responseBody != null ? (Map<String, Object>)responseBody.get("rentBikeStatus") : null;
-                
-                if(responseData != null && !responseData.get("list_total_count").equals(0) && responseData.get("list_total_count") != null){
-					List<StationInformationEntity> tmpRow = (List<StationInformationEntity>) responseData.get("row");
-                    row.addAll(tmpRow);
-                }
-            }
+            Map<String, Object> responseData = (Map<String, Object>)response.getBody().get("rentBikeStatus");
+            String listTotalCount = responseData.entrySet().stream()
+            		.filter(station -> station.getKey().equals("list_total_count"))
+            		.map(station -> station.getValue().toString())
+            		.findFirst()
+            		.orElse("0");
+            
+            if(!listTotalCount.equals("0")) 
+            	row.addAll((List<StationInformationEntity>)responseData.get("row"));
         }
         ObjectMapper mapper = new ObjectMapper();
         return mapper.convertValue(row, new TypeReference<List<StationInformationEntity>>() {});
