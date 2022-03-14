@@ -3,7 +3,6 @@ package com.toyseven.ymk.station;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.json.simple.JSONObject;
 import org.springframework.http.HttpStatus;
@@ -32,8 +31,8 @@ public class StationServiceImpl implements StationService {
     }
 
     @Override
-    public Optional<List<StationInformationEntity>> findByStationName(String stationName) {
-        return stationRepository.findByStationNameContaining(stationName);
+    public List<StationInformationEntity> findByStationName(String stationName) {
+        return stationRepository.findByStationNameContaining(stationName).get();
     }
     
     @SuppressWarnings("unchecked")
