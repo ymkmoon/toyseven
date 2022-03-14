@@ -41,14 +41,12 @@ public class VocAnswerServiceImpl implements VocAnswerService {
 	public List<VocAnswerResponse> findVocAnswerByQuestionId(Long id) {
 		List<VocAnswerResponse> result = new ArrayList<>();
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-		Optional<VocQuestionEntity> question = vocQuestionRepository.findById(id);
-		question.ifPresent(inQuestion -> {
-			Optional<List<VocAnswerEntity>> answers = Optional.ofNullable(vocAnswerRepository.findVocAnswerByQuestionId(inQuestion));
-			answers.ifPresent(inAnswers -> {
-				for(VocAnswerEntity answer : inAnswers) {
-					result.add(modelMapper.map(answer, VocAnswerResponse.class));
-				}
-			});
+		VocQuestionEntity question = vocQuestionRepository.findById(id).get();
+		Optional<List<VocAnswerEntity>> answers = Optional.ofNullable(vocAnswerRepository.findVocAnswerByQuestionId(question));
+		answers.ifPresent(inAnswers -> {
+			for(VocAnswerEntity answer : inAnswers) {
+				result.add(modelMapper.map(answer, VocAnswerResponse.class));
+			}
 		});
 		return result;
 	}

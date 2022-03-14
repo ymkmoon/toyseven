@@ -1,7 +1,6 @@
 package com.toyseven.ymk.station;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +29,8 @@ public class StationController {
     }
 
     @GetMapping(value = "/search")
-    public ResponseEntity<Optional<List<StationInformationEntity>>> searchStations(@RequestParam("name") String name) {
-        Optional<List<StationInformationEntity>> stations = stationService.findByStationName(name);
+    public ResponseEntity<List<StationInformationEntity>> searchStations(@RequestParam("name") String name) {
+        List<StationInformationEntity> stations = stationService.findByStationName(name);
         return new ResponseEntity<>(stations, HttpStatus.OK);
     }
 
