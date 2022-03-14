@@ -116,6 +116,9 @@ public class GlobalExceptionHandler {
     }
 
     
+    /**
+     * 해당 데이터가 존재하지 않는 경우
+     */
     @ExceptionHandler(NoSuchElementException.class)
     protected ResponseEntity<ErrorResponse> handleNoSuchElementException(Exception e) {
     	log.error("NoSuchElementException", e);
