@@ -1,6 +1,7 @@
 package com.toyseven.ymk.common.error.Exception;
 
 import java.nio.file.AccessDeniedException;
+import java.util.NoSuchElementException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -114,6 +115,14 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 
+    
+    @ExceptionHandler(NoSuchElementException.class)
+    protected ResponseEntity<ErrorResponse> handleNoSuchElementException(Exception e) {
+    	log.error("NoSuchElementException", e);
+    	final ErrorResponse response = ErrorResponse.of(ErrorCode.NOT_FOUND);
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+    
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<ErrorResponse> handleException(Exception e) {
         log.error("handleEntityNotFoundException", e);
