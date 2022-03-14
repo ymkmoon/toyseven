@@ -14,7 +14,8 @@ public enum ErrorCode {
     HANDLE_ACCESS_DENIED(403, "C006", "Access is Denied"),
     UNAUTHORIZED(401, "C007", "Unable to get JWT Token"),
     ENCODING_ERROR(500, "C008", "Unsupported Encoding Exception"),
-    NOT_FOUND(404, "C009", "Not Found");
+    NOT_FOUND(404, "C009", "Not Found"),
+    BAD_REQUEST(400, "C010", "Bad Request");
 	
     private final String code;
     private final String message;
