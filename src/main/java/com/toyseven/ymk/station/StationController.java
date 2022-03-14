@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,12 +44,4 @@ public class StationController {
     	}
     	return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-    
-    @Scheduled(fixedDelay = 210000)
-    public void stationsBatch() {
-        List<StationInformationEntity> stations = stationService.getStationList();
-        if(stations != null) {
-            stationService.save(stations);
-        }
-    }
 }
