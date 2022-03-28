@@ -1,12 +1,10 @@
 package com.toyseven.ymk.voc.question;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.toyseven.ymk.common.dto.CustomConvertValue;
 import com.toyseven.ymk.common.dto.voc.VocQuestionRequest;
 import com.toyseven.ymk.common.dto.voc.VocQuestionResponse;
 import com.toyseven.ymk.common.model.entity.VocQuestionEntity;
@@ -17,13 +15,12 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class VocQuestionServiceImpl implements VocQuestionService {
 	private final VocQuestionRepository vocQuestionRepository;
-	private final ObjectMapper objectMapper;
-	// private final ModelMapper modelMapper;
+	private final CustomConvertValue customConvertValue;
 	
 	@Override
 	public List<VocQuestionResponse> findAll() {
-		Optional<List<VocQuestionEntity>> questions = Optional.ofNullable(vocQuestionRepository.findAll());
-		return objectMapper.convertValue(questions.get(), new TypeReference<List<VocQuestionResponse>>() {});
+		List<VocQuestionEntity> questions = vocQuestionRepository.findAll();
+		return customConvertValue.vocQuestionEntityToDto(questions);
 	}
 	
 	@Override
@@ -33,14 +30,14 @@ public class VocQuestionServiceImpl implements VocQuestionService {
 	
 	@Override
 	public VocQuestionResponse findVocQuestionById(Long id) {
-		Optional<VocQuestionEntity> question = vocQuestionRepository.findById(id);
-		return objectMapper.convertValue(question.get(), new TypeReference<VocQuestionResponse>() {});
+		VocQuestionEntity question = vocQuestionRepository.findById(id).get();
+		return customConvertValue.vocQuestionEntityToDto(question);
 	}
 	
 	@Override
 	public List<VocQuestionResponse> getLatestVocQuestions() {
-		Optional<List<VocQuestionEntity>> questions = Optional.ofNullable(vocQuestionRepository.findTop10ByOrderByCreatedAtDesc());
-		return objectMapper.convertValue(questions.get(), new TypeReference<List<VocQuestionResponse>>() {});
+		List<VocQuestionEntity> questions = vocQuestionRepository.findTop10ByOrderByCreatedAtDesc();
+		return customConvertValue.vocQuestionEntityToDto(questions);
 	}
 	
 }

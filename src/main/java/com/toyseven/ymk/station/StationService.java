@@ -11,6 +11,6 @@ import com.toyseven.ymk.common.model.entity.StationInformationEntity;
 public interface StationService {
 	List<StationInformationResponse> findAll();
 	List<StationInformationResponse> findByStationName(String stationName);
-	List<StationInformationEntity> getStations();
+	List<StationInformationResponse> getStations();
 	void save(List<StationInformationEntity> stations);
 }
