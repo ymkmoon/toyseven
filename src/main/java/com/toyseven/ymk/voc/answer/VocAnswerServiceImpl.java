@@ -6,8 +6,7 @@ import java.util.Optional;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.toyseven.ymk.common.dto.CustomConvertValue;
 import com.toyseven.ymk.common.dto.voc.VocAnswerRequest;
 import com.toyseven.ymk.common.dto.voc.VocAnswerResponse;
 import com.toyseven.ymk.common.model.entity.VocAnswerEntity;
@@ -21,8 +20,10 @@ import lombok.RequiredArgsConstructor;
 public class VocAnswerServiceImpl implements VocAnswerService {
 	private final VocAnswerRepository vocAnswerRepository;
 	private final VocQuestionRepository vocQuestionRepository;
-	private final ObjectMapper objectMapper;
+	private final CustomConvertValue customConvertValue;
 //	private final JavaMailSender mailSender;
+	
+	String VOC_ANSWER_RESPONSE = "VocAnswerResponse";
 	
 	@Override
 	public void save(VocAnswerRequest vocAnswerRequest) {
@@ -41,12 +42,12 @@ public class VocAnswerServiceImpl implements VocAnswerService {
 	public List<VocAnswerResponse> findVocAnswerByQuestionId(Long id) {
 		VocQuestionEntity question = vocQuestionRepository.findById(id).get();
 		List<VocAnswerEntity> answers = vocAnswerRepository.findVocAnswerByQuestionId(question);
-		return objectMapper.convertValue(answers, new TypeReference<List<VocAnswerResponse>>() {});
+		return customConvertValue.vocAnswerEntityToDto(answers);
 	}
 	
 	@Override
 	public List<VocAnswerResponse> getLatestVocQAnswers() {
-		Optional<List<VocAnswerEntity>> answers = Optional.ofNullable(vocAnswerRepository.findTop10ByOrderByCreatedAtDesc());
-		return objectMapper.convertValue(answers.get(), new TypeReference<List<VocAnswerResponse>>() {});
+		List<VocAnswerEntity> answers = vocAnswerRepository.findTop10ByOrderByCreatedAtDesc();
+		return customConvertValue.vocAnswerEntityToDto(answers);
 	}
 }
