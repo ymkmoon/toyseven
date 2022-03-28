@@ -14,6 +14,8 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toyseven.ymk.common.ToysevenCommonUtil;
+import com.toyseven.ymk.common.dto.station.StationInformationResponse;
+import com.toyseven.ymk.common.dto.station.StationRequest;
 import com.toyseven.ymk.common.model.entity.StationInformationEntity;
 
 import lombok.RequiredArgsConstructor;
@@ -23,24 +25,30 @@ import lombok.RequiredArgsConstructor;
 public class StationServiceImpl implements StationService {
 
     private final StationRepository stationRepository;
-    private final StationParam stationParam;
+    private final StationRequest stationParam;
+    private final ObjectMapper objectMapper;
     private static final String BASE_URL = "http://openapi.seoul.go.kr:8088";
 
     @Override
-    public List<StationInformationEntity> findAll() {
-        return stationRepository.findAll();
+    public List<StationInformationResponse> findAll() {
+    	return objectMapper.convertValue(stationRepository.findAll(), new TypeReference<List<StationInformationResponse>>() {});
+        // return stationRepository.findAll();
     }
 
     @Override
-    public List<StationInformationEntity> findByStationName(String stationName) {
-        return stationRepository.findByStationNameContaining(stationName).get();
+    public List<StationInformationResponse> findByStationName(String stationName) {
+//        return stationRepository.findByStationNameContaining(stationName).get();
+        return objectMapper.convertValue(stationRepository.findByStationNameContaining(stationName).get(), new TypeReference<List<StationInformationResponse>>() {});
     }
     
     @Override
 	public List<StationInformationEntity> getStations() {
     	List<StationInformationEntity> row = reuqestToStation(1);
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.convertValue(row, new TypeReference<List<StationInformationEntity>>() {});
+//    	stationMapper.toDto(row);
+//        ObjectMapper mapper = new ObjectMapper();
+//        return mapper.convertValue(row, new TypeReference<List<StationInformationEntity>>() {});
+        
+        return objectMapper.convertValue(row, new TypeReference<List<StationInformationEntity>>() {});
 	}
     
     @Override
