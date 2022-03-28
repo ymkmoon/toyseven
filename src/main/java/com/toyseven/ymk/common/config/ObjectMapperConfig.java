@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.toyseven.ymk.common.model.dto.CustomLocalDateTimeDeserializer;
-import com.toyseven.ymk.common.model.dto.CustomLocalDateTimeSerializer;
+import com.toyseven.ymk.common.dto.CustomLocalDateTimeDeserializer;
+import com.toyseven.ymk.common.dto.CustomLocalDateTimeSerializer;
 
 @Configuration
 public class ObjectMapperConfig {

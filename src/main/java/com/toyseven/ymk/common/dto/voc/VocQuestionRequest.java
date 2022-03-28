@@ -1,4 +1,4 @@
-package com.toyseven.ymk.voc.question;
+package com.toyseven.ymk.common.dto.voc;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

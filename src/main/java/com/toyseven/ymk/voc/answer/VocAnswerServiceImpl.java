@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.toyseven.ymk.common.dto.voc.VocAnswerRequest;
+import com.toyseven.ymk.common.dto.voc.VocAnswerResponse;
 import com.toyseven.ymk.common.model.entity.VocAnswerEntity;
 import com.toyseven.ymk.common.model.entity.VocQuestionEntity;
 import com.toyseven.ymk.voc.question.VocQuestionRepository;

@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.toyseven.ymk.common.dto.voc.VocAnswerRequest;
+import com.toyseven.ymk.common.dto.voc.VocAnswerResponse;
+import com.toyseven.ymk.common.dto.voc.VocQuestionRequest;
+import com.toyseven.ymk.common.dto.voc.VocQuestionResponse;
 import com.toyseven.ymk.common.model.entity.VocAnswerEntity;
-import com.toyseven.ymk.voc.answer.VocAnswerRequest;
-import com.toyseven.ymk.voc.answer.VocAnswerResponse;
 import com.toyseven.ymk.voc.answer.VocAnswerService;
-import com.toyseven.ymk.voc.question.VocQuestionRequest;
-import com.toyseven.ymk.voc.question.VocQuestionResponse;
 import com.toyseven.ymk.voc.question.VocQuestionService;
 
 import lombok.RequiredArgsConstructor;

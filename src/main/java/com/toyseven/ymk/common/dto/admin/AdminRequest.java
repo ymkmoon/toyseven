@@ -1,11 +1,11 @@
-package com.toyseven.ymk.admin;
+package com.toyseven.ymk.common.dto.admin;
 
 import com.sun.istack.NotNull;
 
 import lombok.Getter;
 
 @Getter
-public class LoginRequest {
+public class AdminRequest {
 
     @NotNull
     private String username;

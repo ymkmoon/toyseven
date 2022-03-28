@@ -1,4 +1,4 @@
-package com.toyseven.ymk.voc.answer;
+package com.toyseven.ymk.common.dto.voc;
 
 import com.toyseven.ymk.common.model.entity.AdminEntity;
 import com.toyseven.ymk.common.model.entity.VocAnswerEntity;
