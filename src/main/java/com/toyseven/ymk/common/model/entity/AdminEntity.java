@@ -42,8 +42,6 @@ public class AdminEntity extends BaseTimeEntity {
 	@JoinColumn(name="role", referencedColumnName = "name", nullable = false)
 	private AdminRoleEntity role;
 	
-	@Column(name = "modified_at", nullable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-	private LocalDateTime modifiedAt;
 	@Column(name = "status", nullable = false, insertable = false, columnDefinition = "INTEGER DEFAULT 1")
 	private int status;
 	
@@ -55,12 +53,11 @@ public class AdminEntity extends BaseTimeEntity {
 	
 	@Builder
 	public AdminEntity(String userName, String name, String password, AdminRoleEntity role, LocalDateTime createAt,
-			LocalDateTime modifiedAt, int status) {
+			int status) {
 		this.username = userName;
 		this.name = name;
 		this.password = password;
 		this.role = role;
-		this.modifiedAt = modifiedAt;
 		this.status = status;
 	}
 }

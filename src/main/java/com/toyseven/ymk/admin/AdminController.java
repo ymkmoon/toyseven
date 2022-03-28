@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.toyseven.ymk.common.Constants;
+import com.toyseven.ymk.common.dto.admin.AdminRequest;
+import com.toyseven.ymk.common.dto.admin.AdminResponse;
 import com.toyseven.ymk.common.util.CookieUtil;
 import com.toyseven.ymk.common.util.JwtUtil;
 
@@ -32,20 +34,20 @@ public class AdminController {
     private final CookieUtil cookieUtil;
 
     @PostMapping(value = "/login")
-    public ResponseEntity<Object> login(@RequestBody LoginRequest loginRequest, HttpServletResponse response) throws IllegalArgumentException {
-        UserDetails userDetails = adminService.loadUserByUsername(loginRequest.getUsername());
+    public ResponseEntity<Object> login(@RequestBody AdminRequest adminRequest, HttpServletResponse response) throws IllegalArgumentException {
+        UserDetails userDetails = adminService.loadUserByUsername(adminRequest.getUsername());
         String token = jwtUtil.generateToken(userDetails);
 
-        LoginResponse loginResponse = new LoginResponse();
+        AdminResponse adminResponse = new AdminResponse();
 
-        authenticate(loginRequest.getUsername(), loginRequest.getPassword());
+        authenticate(adminRequest.getUsername(), adminRequest.getPassword());
 
         Cookie accessToken = cookieUtil.createCookie(Constants.ACCESS_TOKEN, token);
 
         response.addCookie(accessToken);
-        loginResponse.setAccessToken(token);
+        adminResponse.setAccessToken(token);
 
-        return new ResponseEntity<>(loginResponse, HttpStatus.OK);
+        return new ResponseEntity<>(adminResponse, HttpStatus.OK);
     }
 
     private void authenticate(String username, String password) throws IllegalArgumentException {

@@ -1,4 +1,4 @@
-package com.toyseven.ymk.station;
+package com.toyseven.ymk.common.dto.station;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -15,7 +15,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
-public class StationParam {
+public class StationRequest {
 	@Value("${api.key.station}")
     private String serviceKey;
 	private final String dataType = "JSON";

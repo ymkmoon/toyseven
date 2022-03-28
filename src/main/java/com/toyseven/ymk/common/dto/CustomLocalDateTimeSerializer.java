@@ -1,4 +1,4 @@
-package com.toyseven.ymk.common.model.dto;
+package com.toyseven.ymk.common.dto;
 
 import java.io.IOException;
 import java.time.LocalDateTime;

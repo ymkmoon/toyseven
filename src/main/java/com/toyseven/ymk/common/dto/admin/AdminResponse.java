@@ -1,4 +1,4 @@
-package com.toyseven.ymk.admin;
+package com.toyseven.ymk.common.dto.admin;
 
 import com.sun.istack.NotNull;
 
@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class LoginResponse {
+public class AdminResponse {
 
     @NotNull
     private String accessToken;
