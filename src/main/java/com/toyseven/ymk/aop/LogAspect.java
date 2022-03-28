@@ -18,14 +18,15 @@ public class LogAspect {
 	
     Logger logger =  LoggerFactory.getLogger(LogAspect.class);
     
-//    // 특정 패키지에서 로그 출력
+    // 특정 패키지에서 로그 출력
 //    @Around("execution(* ~~~.~~~.~~~.~~~..*Service.*(..))")
-//    public Object logging(ProceedingJoinPoint pjp) throws Throwable {
-//        logger.info("start - " + pjp.getSignature().getDeclaringTypeName() + " / " + pjp.getSignature().getName());
-//        Object result = pjp.proceed();
-//        logger.info("finished - " + pjp.getSignature().getDeclaringTypeName() + " / " + pjp.getSignature().getName());
-//        return result;
-//    }
+    @Around("execution(* com.toyseven.ymk..*Service.*(..))")
+    public Object logging(ProceedingJoinPoint pjp) throws Throwable {
+        logger.info("start - " + pjp.getSignature().getDeclaringTypeName() + " / " + pjp.getSignature().getName());
+        Object result = pjp.proceed();
+        logger.info("finished - " + pjp.getSignature().getDeclaringTypeName() + " / " + pjp.getSignature().getName());
+        return result;
+    }
     
     // 특정 메소드에서 로그 출력
     @Around("execution(* com.toyseven.ymk.voc.VocController.saveVocAnswer(..))")
