@@ -29,7 +29,7 @@ public class StationController {
     }
 
     @GetMapping(value = "/search")
-    public ResponseEntity<List<StationInformationEntity>> searchStations(@RequestParam("name") String name) {
+    public ResponseEntity<List<StationInformationEntity>> searchStations(@RequestParam(value = "name") String name) {
         List<StationInformationEntity> stations = stationService.findByStationName(name);
         return new ResponseEntity<>(stations, HttpStatus.OK);
     }
