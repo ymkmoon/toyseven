@@ -46,7 +46,7 @@ public class VocAnswerEntity extends BaseTimeEntity {
 	public VocAnswerEntity() {}
 
 	@Builder
-	public VocAnswerEntity(VocQuestionEntity questionId, String content, AdminEntity adminId, LocalDateTime createdAt) {
+	public VocAnswerEntity(VocQuestionEntity questionId, String content, AdminEntity adminId) {
 		this.questionId = questionId;
 		this.content = content;
 		this.adminId = adminId;

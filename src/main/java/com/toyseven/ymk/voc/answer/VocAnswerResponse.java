@@ -3,8 +3,11 @@ package com.toyseven.ymk.voc.answer;
 import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.toyseven.ymk.common.model.dto.CustomLocalDateTimeDeserializer;
+import com.toyseven.ymk.common.model.dto.CustomLocalDateTimeSerializer;
 import com.toyseven.ymk.common.model.entity.AdminEntity;
 import com.toyseven.ymk.common.model.entity.VocQuestionEntity;
 
@@ -15,9 +18,15 @@ import lombok.Setter;
 @Setter
 public class VocAnswerResponse {
 	private long id;
-	@NotNull private VocQuestionEntity questionId;
+	@NotBlank private VocQuestionEntity questionId;
 	@NotBlank private String content;
-	@NotNull private AdminEntity adminId;
-	@NotBlank private LocalDateTime createdAt;
-	@NotBlank private LocalDateTime updatedAt;
+	@NotBlank private AdminEntity adminId;
+
+	@JsonDeserialize(using = CustomLocalDateTimeDeserializer.class) 
+	@JsonSerialize(using = CustomLocalDateTimeSerializer.class)
+	private LocalDateTime createdAt;
+	
+	@JsonDeserialize(using = CustomLocalDateTimeDeserializer.class) 
+	@JsonSerialize(using = CustomLocalDateTimeSerializer.class)
+	private LocalDateTime updatedAt;
 }

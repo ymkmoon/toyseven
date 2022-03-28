@@ -1,13 +1,12 @@
 package com.toyseven.ymk.voc.question;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.modelmapper.ModelMapper;
-import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toyseven.ymk.common.model.entity.VocQuestionEntity;
 
 import lombok.RequiredArgsConstructor;
@@ -16,20 +15,13 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class VocQuestionServiceImpl implements VocQuestionService {
 	private final VocQuestionRepository vocQuestionRepository;
-	private final ModelMapper modelMapper;
+	private final ObjectMapper objectMapper;
+	// private final ModelMapper modelMapper;
 	
 	@Override
 	public List<VocQuestionResponse> findAll() {
-		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-		List<VocQuestionResponse> result = new ArrayList<>();
-		
 		Optional<List<VocQuestionEntity>> questions = Optional.ofNullable(vocQuestionRepository.findAll());
-		questions.ifPresent(inQuestions -> {
-			for(VocQuestionEntity question : inQuestions ) {
-				result.add(modelMapper.map(question, VocQuestionResponse.class));
-			}
-		});
-		return result;
+		return objectMapper.convertValue(questions.get(), new TypeReference<List<VocQuestionResponse>>() {});
 	}
 	
 	@Override
@@ -39,21 +31,14 @@ public class VocQuestionServiceImpl implements VocQuestionService {
 	
 	@Override
 	public VocQuestionResponse findVocQuestionById(Long id) {
-		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 		Optional<VocQuestionEntity> question = vocQuestionRepository.findById(id);
-		return modelMapper.map(question.get(), VocQuestionResponse.class);
+		return objectMapper.convertValue(question.get(), new TypeReference<VocQuestionResponse>() {});
 	}
 	
 	@Override
 	public List<VocQuestionResponse> getLatestVocQuestions() {
-		List<VocQuestionResponse> result = new ArrayList<>();
 		Optional<List<VocQuestionEntity>> questions = Optional.ofNullable(vocQuestionRepository.findTop10ByOrderByCreatedAtDesc());
-		questions.ifPresent(inQuestions -> {
-			for(VocQuestionEntity question : inQuestions) {
-				result.add(modelMapper.map(question, VocQuestionResponse.class));
-			}
-		});
-		return result;
+		return objectMapper.convertValue(questions.get(), new TypeReference<List<VocQuestionResponse>>() {});
 	}
 	
 }
