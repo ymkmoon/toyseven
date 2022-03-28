@@ -3,7 +3,6 @@ package com.toyseven.ymk.common.error.Exception;
 import java.nio.file.AccessDeniedException;
 import java.util.NoSuchElementException;
 
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -122,7 +122,7 @@ public class GlobalExceptionHandler {
      * 해당 데이터가 존재하지 않는 경우
      */
     @ExceptionHandler(NoSuchElementException.class)
-    protected ResponseEntity<ErrorResponse> handleNoSuchElementException(Exception e) {
+    protected ResponseEntity<ErrorResponse> handleNoSuchElementException(NoSuchElementException e) {
     	log.error("NoSuchElementException", e);
     	final ErrorResponse response = ErrorResponse.of(ErrorCode.NOT_FOUND);
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
@@ -133,8 +133,19 @@ public class GlobalExceptionHandler {
      * 	ex) 게시글 답변 입력 시 foreign key 인 question id 에 해당하는 데이터가 존재하지 않는 경우 
      */
     @ExceptionHandler(DataIntegrityViolationException.class)
-    protected ResponseEntity<ErrorResponse> constraintViolationException(Exception e) {
+    protected ResponseEntity<ErrorResponse> constraintViolationException(DataIntegrityViolationException e) {
     	log.error("NoSuchElementException", e);
+    	final ErrorResponse response = ErrorResponse.of(ErrorCode.BAD_REQUEST);
+    	return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+    
+    /**
+     * 필수 Parameter 값이 없는 경우
+     * 	ex) 특정 station 조회 시 필수 파마리터인 name 의 value 가 존재하지 않는 경우 
+     */
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    protected ResponseEntity<ErrorResponse> constraintRequestParameterException(MissingServletRequestParameterException e) {
+    	log.error("MissingServletRequestParameterException", e);
     	final ErrorResponse response = ErrorResponse.of(ErrorCode.BAD_REQUEST);
     	return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
