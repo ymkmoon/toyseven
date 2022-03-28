@@ -7,7 +7,9 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toyseven.ymk.common.dto.voc.VocAnswerResponse;
+import com.toyseven.ymk.common.dto.voc.VocQuestionResponse;
 import com.toyseven.ymk.common.model.entity.VocAnswerEntity;
+import com.toyseven.ymk.common.model.entity.VocQuestionEntity;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,6 +20,14 @@ public class CustomConvertValue {
 	
 	public List<VocAnswerResponse> vocAnswerEntityToDto(List<VocAnswerEntity> list) {
 		return objectMapper.convertValue(list, new TypeReference<List<VocAnswerResponse>>() {});
+	}
+	
+	public VocQuestionResponse vocQuestionEntityToDto(VocQuestionEntity question) {
+		return objectMapper.convertValue(question, new TypeReference<VocQuestionResponse>() {});
+	}
+	
+	public List<VocQuestionResponse> vocQuestionEntityToDto(List<VocQuestionEntity> list) {
+		return objectMapper.convertValue(list, new TypeReference<List<VocQuestionResponse>>() {});
 	}
 	
 	
