@@ -15,7 +15,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
-public class StationRequest {
+public class StationParam {
 	@Value("${api.key.station}")
     private String serviceKey;
 	private final String dataType = "JSON";
