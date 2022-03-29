@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
-import com.toyseven.ymk.weather.WeatherRequest;
+import com.toyseven.ymk.weather.WeatherDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,7 +27,7 @@ public class TemperatureServiceImpl implements TemperatureService {
 
     @SuppressWarnings("unchecked")
     @Override
-	public JSONObject getTemperature(WeatherRequest weatherRequest) {
+	public JSONObject getTemperature(WeatherDto.Request weatherRequest) {
         String currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         String currentTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HHmm"));
         int tmpTime = Integer.parseInt(currentTime);

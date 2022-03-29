@@ -17,7 +17,7 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 
 import com.toyseven.ymk.common.error.ErrorCode;
 import com.toyseven.ymk.common.error.Exception.BusinessException;
-import com.toyseven.ymk.weather.WeatherRequest;
+import com.toyseven.ymk.weather.WeatherDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,7 +29,7 @@ public class FineDustServiceImpl implements FineDustService {
 
     @SuppressWarnings("unchecked")
     @Override
-	public int getFineDustInfo(WeatherRequest weatherRequest) {
+	public int getFineDustInfo(WeatherDto.Request weatherRequest) {
         fineDustParam.setPageNo(1);
         fineDustParam.setNumOfRows(1);
         fineDustParam.setServiceKey(fineDustParam.getServiceKey());
