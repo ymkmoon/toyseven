@@ -8,8 +8,7 @@ import java.util.Optional;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
-import com.toyseven.ymk.common.dto.voc.VocAnswerRequest;
-import com.toyseven.ymk.common.dto.voc.VocAnswerResponse;
+import com.toyseven.ymk.common.dto.voc.VocAnswerDto;
 import com.toyseven.ymk.common.model.entity.VocAnswerEntity;
 import com.toyseven.ymk.common.model.entity.VocQuestionEntity;
 import com.toyseven.ymk.voc.question.VocQuestionRepository;
@@ -23,10 +22,8 @@ public class VocAnswerServiceImpl implements VocAnswerService {
 	private final VocQuestionRepository vocQuestionRepository;
 //	private final JavaMailSender mailSender;
 	
-	String VOC_ANSWER_RESPONSE = "VocAnswerResponse";
-	
 	@Override
-	public void save(VocAnswerRequest vocAnswerRequest) {
+	public void save(VocAnswerDto.Request vocAnswerRequest) {
 		vocAnswerRepository.save(vocAnswerRequest.toEntity());
 		Optional<VocQuestionEntity> question = vocQuestionRepository.findById(vocAnswerRequest.getQuestionId().getId());
 		question.ifPresent(inQuestion -> {
@@ -39,14 +36,14 @@ public class VocAnswerServiceImpl implements VocAnswerService {
 	}
 	
 	@Override
-	public List<VocAnswerResponse> findVocAnswerByQuestionId(Long id) {
+	public List<VocAnswerDto.Response> findVocAnswerByQuestionId(Long id) {
 		VocQuestionEntity question = vocQuestionRepository.findById(id).get();
 		List<VocAnswerEntity> answers = vocAnswerRepository.findVocAnswerByQuestionId(question);
 		return answers.stream().map(VocAnswerEntity::toVocAnswerResponse).collect(toList());
 	}
 	
 	@Override
-	public List<VocAnswerResponse> getLatestVocQAnswers() {
+	public List<VocAnswerDto.Response> getLatestVocQAnswers() {
 		List<VocAnswerEntity> answers = vocAnswerRepository.findTop10ByOrderByCreatedAtDesc();
 		return answers.stream().map(VocAnswerEntity::toVocAnswerResponse).collect(toList());
 	}

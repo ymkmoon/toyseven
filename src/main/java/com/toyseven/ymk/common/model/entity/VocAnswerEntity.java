@@ -11,7 +11,7 @@ import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.Proxy;
 
-import com.toyseven.ymk.common.dto.voc.VocAnswerResponse;
+import com.toyseven.ymk.common.dto.voc.VocAnswerDto;
 import com.toyseven.ymk.common.model.BaseTimeEntity;
 
 import lombok.AllArgsConstructor;
@@ -51,8 +51,8 @@ public class VocAnswerEntity extends BaseTimeEntity {
 		this.adminId = adminId;
 	}
 	
-	public VocAnswerResponse toVocAnswerResponse() {
-		return VocAnswerResponse.builder()
+	public VocAnswerDto.Response toVocAnswerResponse() {
+		return VocAnswerDto.Response.builder()
 				.id(id)
 				.content(content)
 				.questionId(questionId.getId())

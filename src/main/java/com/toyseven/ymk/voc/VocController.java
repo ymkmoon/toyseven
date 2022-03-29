@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.toyseven.ymk.common.dto.voc.VocAnswerRequest;
-import com.toyseven.ymk.common.dto.voc.VocAnswerResponse;
+import com.toyseven.ymk.common.dto.voc.VocAnswerDto;
 import com.toyseven.ymk.common.dto.voc.VocQuestionDto;
 import com.toyseven.ymk.common.model.entity.VocAnswerEntity;
 import com.toyseven.ymk.voc.answer.VocAnswerService;
@@ -49,7 +48,7 @@ public class VocController {
 		VocQuestionDto.Response question = vocQuestionService.findVocQuestionById(id);
 		voc.put("question", question);
 		if(question != null) {
-			List<VocAnswerResponse> answer =  vocAnswerService.findVocAnswerByQuestionId(question.getId());
+			List<VocAnswerDto.Response> answer =  vocAnswerService.findVocAnswerByQuestionId(question.getId());
 			if(answer != null) {
 				voc.put("answer", answer);
 			}
@@ -60,7 +59,7 @@ public class VocController {
 	
 	@PostMapping(value = "/answer")
 	public ResponseEntity<VocAnswerEntity> saveVocAnswer(
-			@RequestBody VocAnswerRequest vocAnswerRequest) {
+			@RequestBody VocAnswerDto.Request vocAnswerRequest) {
 		vocAnswerService.save(vocAnswerRequest);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
@@ -71,7 +70,7 @@ public class VocController {
 	}
 	
 	@GetMapping(value = "/answers")
-	public ResponseEntity<List<VocAnswerResponse>> getLatestVocQAnswers() {
+	public ResponseEntity<List<VocAnswerDto.Response>> getLatestVocQAnswers() {
 		return new ResponseEntity<>(vocAnswerService.getLatestVocQAnswers(), HttpStatus.OK);
 	}
 	
