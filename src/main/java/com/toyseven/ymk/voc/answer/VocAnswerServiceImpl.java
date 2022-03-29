@@ -1,12 +1,13 @@
 package com.toyseven.ymk.voc.answer;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
-import com.toyseven.ymk.common.dto.CustomConvertValue;
 import com.toyseven.ymk.common.dto.voc.VocAnswerRequest;
 import com.toyseven.ymk.common.dto.voc.VocAnswerResponse;
 import com.toyseven.ymk.common.model.entity.VocAnswerEntity;
@@ -20,7 +21,6 @@ import lombok.RequiredArgsConstructor;
 public class VocAnswerServiceImpl implements VocAnswerService {
 	private final VocAnswerRepository vocAnswerRepository;
 	private final VocQuestionRepository vocQuestionRepository;
-	private final CustomConvertValue customConvertValue;
 //	private final JavaMailSender mailSender;
 	
 	String VOC_ANSWER_RESPONSE = "VocAnswerResponse";
@@ -42,12 +42,12 @@ public class VocAnswerServiceImpl implements VocAnswerService {
 	public List<VocAnswerResponse> findVocAnswerByQuestionId(Long id) {
 		VocQuestionEntity question = vocQuestionRepository.findById(id).get();
 		List<VocAnswerEntity> answers = vocAnswerRepository.findVocAnswerByQuestionId(question);
-		return customConvertValue.vocAnswerEntityToDto(answers);
+		return answers.stream().map(VocAnswerEntity::toVocAnswerResponse).collect(toList());
 	}
 	
 	@Override
 	public List<VocAnswerResponse> getLatestVocQAnswers() {
 		List<VocAnswerEntity> answers = vocAnswerRepository.findTop10ByOrderByCreatedAtDesc();
-		return customConvertValue.vocAnswerEntityToDto(answers);
+		return answers.stream().map(VocAnswerEntity::toVocAnswerResponse).collect(toList());
 	}
 }
