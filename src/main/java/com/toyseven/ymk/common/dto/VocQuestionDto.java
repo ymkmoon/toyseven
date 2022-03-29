@@ -1,4 +1,4 @@
-package com.toyseven.ymk.common.dto.voc;
+package com.toyseven.ymk.common.dto;
 
 import java.time.LocalDateTime;
 
@@ -7,8 +7,6 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.toyseven.ymk.common.dto.CustomLocalDateTimeDeserializer;
-import com.toyseven.ymk.common.dto.CustomLocalDateTimeSerializer;
 import com.toyseven.ymk.common.model.entity.StationInformationEntity;
 import com.toyseven.ymk.common.model.entity.VocCategoryEntity;
 import com.toyseven.ymk.common.model.entity.VocQuestionEntity;

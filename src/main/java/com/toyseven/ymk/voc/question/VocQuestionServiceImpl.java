@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.toyseven.ymk.common.dto.voc.VocQuestionDto;
+import com.toyseven.ymk.common.dto.VocQuestionDto;
 import com.toyseven.ymk.common.model.entity.VocQuestionEntity;
 
 import lombok.RequiredArgsConstructor;

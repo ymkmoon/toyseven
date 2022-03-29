@@ -1,4 +1,4 @@
-package com.toyseven.ymk.common.dto.station;
+package com.toyseven.ymk.common.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

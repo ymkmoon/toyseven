@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.toyseven.ymk.common.dto.voc.VocAnswerDto;
-import com.toyseven.ymk.common.dto.voc.VocQuestionDto;
+import com.toyseven.ymk.common.dto.VocAnswerDto;
+import com.toyseven.ymk.common.dto.VocQuestionDto;
 import com.toyseven.ymk.common.model.entity.VocAnswerEntity;
 import com.toyseven.ymk.voc.answer.VocAnswerService;
 import com.toyseven.ymk.voc.question.VocQuestionService;

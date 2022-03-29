@@ -8,7 +8,7 @@ import java.util.Optional;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
-import com.toyseven.ymk.common.dto.voc.VocAnswerDto;
+import com.toyseven.ymk.common.dto.VocAnswerDto;
 import com.toyseven.ymk.common.model.entity.VocAnswerEntity;
 import com.toyseven.ymk.common.model.entity.VocQuestionEntity;
 import com.toyseven.ymk.voc.question.VocQuestionRepository;

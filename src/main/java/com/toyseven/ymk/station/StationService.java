@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.toyseven.ymk.common.dto.station.StationInformationDto;
+import com.toyseven.ymk.common.dto.StationInformationDto;
 import com.toyseven.ymk.common.model.entity.StationInformationEntity;
 
 @Transactional

@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.toyseven.ymk.common.dto.voc.VocAnswerDto;
+import com.toyseven.ymk.common.dto.VocAnswerDto;
 
 @Transactional
 public interface VocAnswerService {

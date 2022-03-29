@@ -4,7 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import com.toyseven.ymk.common.dto.station.StationInformationDto;
+import com.toyseven.ymk.common.dto.StationInformationDto;
 
 import lombok.Builder;
 import lombok.Getter;

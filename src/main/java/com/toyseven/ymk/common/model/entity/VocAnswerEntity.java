@@ -11,7 +11,7 @@ import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.Proxy;
 
-import com.toyseven.ymk.common.dto.voc.VocAnswerDto;
+import com.toyseven.ymk.common.dto.VocAnswerDto;
 import com.toyseven.ymk.common.model.BaseTimeEntity;
 
 import lombok.AllArgsConstructor;

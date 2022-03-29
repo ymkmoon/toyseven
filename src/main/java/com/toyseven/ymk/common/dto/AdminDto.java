@@ -1,4 +1,4 @@
-package com.toyseven.ymk.common.dto.admin;
+package com.toyseven.ymk.common.dto;
 
 import com.sun.istack.NotNull;
 

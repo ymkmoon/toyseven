@@ -1,4 +1,4 @@
-package com.toyseven.ymk.weather;
+package com.toyseven.ymk.common.dto;
 
 import javax.validation.constraints.NotEmpty;
 

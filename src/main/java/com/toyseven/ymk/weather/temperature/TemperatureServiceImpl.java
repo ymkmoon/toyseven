@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
-import com.toyseven.ymk.weather.WeatherDto;
+import com.toyseven.ymk.common.dto.WeatherDto;
 
 import lombok.RequiredArgsConstructor;
 
