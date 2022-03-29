@@ -4,13 +4,12 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.toyseven.ymk.common.dto.voc.VocQuestionRequest;
-import com.toyseven.ymk.common.dto.voc.VocQuestionResponse;
+import com.toyseven.ymk.common.dto.voc.VocQuestionDto;
 
 @Transactional
 public interface VocQuestionService {
-	List<VocQuestionResponse> findAll();
-	void save(VocQuestionRequest vocQuestionRequest);
-	VocQuestionResponse findVocQuestionById(Long id);
-	List<VocQuestionResponse> getLatestVocQuestions();
+	List<VocQuestionDto.Response> findAll();
+	void save(VocQuestionDto.Request vocQuestionRequest);
+	VocQuestionDto.Response findVocQuestionById(Long id);
+	List<VocQuestionDto.Response> getLatestVocQuestions();
 }

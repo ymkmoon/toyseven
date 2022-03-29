@@ -6,8 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.toyseven.ymk.common.dto.voc.VocQuestionRequest;
-import com.toyseven.ymk.common.dto.voc.VocQuestionResponse;
+import com.toyseven.ymk.common.dto.voc.VocQuestionDto;
 import com.toyseven.ymk.common.model.entity.VocQuestionEntity;
 
 import lombok.RequiredArgsConstructor;
@@ -18,20 +17,20 @@ public class VocQuestionServiceImpl implements VocQuestionService {
 	private final VocQuestionRepository vocQuestionRepository;
 	
 	@Override
-	public List<VocQuestionResponse> findAll() {
+	public List<VocQuestionDto.Response> findAll() {
 		List<VocQuestionEntity> questions = vocQuestionRepository.findAll();
 		return questions.stream().map(VocQuestionEntity::toVocQuestionResponse).collect(toList());
 	}
 	
 	@Override
-	public void save(VocQuestionRequest vocQuestionRequest) {
+	public void save(VocQuestionDto.Request vocQuestionRequest) {
 		vocQuestionRepository.save(vocQuestionRequest.toEntity());
 	}
 	
 	@Override
-	public VocQuestionResponse findVocQuestionById(Long id) {
+	public VocQuestionDto.Response findVocQuestionById(Long id) {
 		VocQuestionEntity question = vocQuestionRepository.findById(id).get();
-		return VocQuestionResponse.builder()
+		return VocQuestionDto.Response.builder()
 				.id(question.getId())
 				.category(question.getCategory().getDisplayName())
 				.title(question.getTitle())
@@ -46,7 +45,7 @@ public class VocQuestionServiceImpl implements VocQuestionService {
 	}
 	
 	@Override
-	public List<VocQuestionResponse> getLatestVocQuestions() {
+	public List<VocQuestionDto.Response> getLatestVocQuestions() {
 		List<VocQuestionEntity> questions = vocQuestionRepository.findTop10ByOrderByCreatedAtDesc();
 		return questions.stream().map(VocQuestionEntity::toVocQuestionResponse).collect(toList());
 	}
