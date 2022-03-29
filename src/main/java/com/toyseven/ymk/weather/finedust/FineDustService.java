@@ -2,9 +2,9 @@ package com.toyseven.ymk.weather.finedust;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.toyseven.ymk.weather.WeatherRequest;
+import com.toyseven.ymk.common.dto.WeatherDto;
 
 @Transactional
 public interface FineDustService {
-	int getFineDustInfo(WeatherRequest weatherRequest);
+	int getFineDustInfo(WeatherDto.Request weatherRequest);
 }

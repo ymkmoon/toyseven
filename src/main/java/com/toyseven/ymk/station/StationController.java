@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.toyseven.ymk.common.dto.station.StationInformationResponse;
+import com.toyseven.ymk.common.dto.StationInformationDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,14 +23,14 @@ public class StationController {
     private final StationService stationService;
 
     @GetMapping()
-    public ResponseEntity<List<StationInformationResponse>> getStations() {
-        List<StationInformationResponse> stations = stationService.findAll();
+    public ResponseEntity<List<StationInformationDto.Response>> getStations() {
+        List<StationInformationDto.Response> stations = stationService.findAll();
         return new ResponseEntity<>(stations, HttpStatus.OK);
     }
 
     @GetMapping(value = "/search")
-    public ResponseEntity<List<StationInformationResponse>> searchStations(@RequestParam(value = "name") String name) {
-        List<StationInformationResponse> stations = stationService.findByStationName(name);
+    public ResponseEntity<List<StationInformationDto.Response>> searchStations(@RequestParam(value = "name") String name) {
+        List<StationInformationDto.Response> stations = stationService.findByStationName(name);
         return new ResponseEntity<>(stations, HttpStatus.OK);
     }
 

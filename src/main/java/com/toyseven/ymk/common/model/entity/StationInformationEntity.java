@@ -4,7 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import com.toyseven.ymk.common.dto.station.StationInformationResponse;
+import com.toyseven.ymk.common.dto.StationInformationDto;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -51,8 +51,8 @@ public class StationInformationEntity {
         this.shared = shared;
     }
     
-    public StationInformationResponse toStationInformationResponse() {
-    	return StationInformationResponse.builder()
+    public StationInformationDto.Response toStationInformationResponse() {
+    	return StationInformationDto.Response.builder()
     			.stationId(stationId)
     			.stationName(stationName)
     			.stationLatitude(stationLatitude)
