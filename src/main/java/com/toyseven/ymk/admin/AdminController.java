@@ -6,8 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,7 +32,7 @@ public class AdminController {
     private final CookieUtil cookieUtil;
 
     @PostMapping(value = "/login")
-    public ResponseEntity<Object> login(@RequestBody AdminRequest adminRequest, HttpServletResponse response) throws IllegalArgumentException {
+    public ResponseEntity<Object> login(@RequestBody AdminRequest adminRequest, HttpServletResponse response) {
         UserDetails userDetails = adminService.loadUserByUsername(adminRequest.getUsername());
         String token = jwtUtil.generateToken(userDetails);
 
@@ -50,13 +48,7 @@ public class AdminController {
         return new ResponseEntity<>(adminResponse, HttpStatus.OK);
     }
 
-    private void authenticate(String username, String password) throws IllegalArgumentException {
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-        } catch (DisabledException exception) {
-            throw new DisabledException("Disabled user", exception);
-        } catch (BadCredentialsException exception) {
-            throw new BadCredentialsException("Invalid credentials", exception);
-        }
+    private void authenticate(String username, String password) {
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
     }
 }
