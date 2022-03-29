@@ -52,7 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     	http.headers()
     		.frameOptions().sameOrigin(); 
     	http.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
-			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // 토큰 기반 인증이므로 세션 사용 x
     	http.httpBasic().disable()
 			.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
     	http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
