@@ -9,22 +9,19 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.toyseven.ymk.common.dto.CustomLocalDateTimeDeserializer;
 import com.toyseven.ymk.common.dto.CustomLocalDateTimeSerializer;
-import com.toyseven.ymk.common.model.entity.StationInformationEntity;
-import com.toyseven.ymk.common.model.entity.VocCategoryEntity;
 
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
 public class VocQuestionResponse {
 	private long id;
-	@NotBlank private VocCategoryEntity category;
+	@NotBlank private String category;
 	@NotBlank private String title;
 	@NotBlank private String content;
 	@NotBlank private String email;
 	@NotBlank private String username;
-	@NotBlank private StationInformationEntity stationId;
+	@NotBlank private String stationId;
 	@NotNull private int needReply;
 	
 	@JsonDeserialize(using = CustomLocalDateTimeDeserializer.class) 
@@ -34,4 +31,20 @@ public class VocQuestionResponse {
 	@JsonDeserialize(using = CustomLocalDateTimeDeserializer.class) 
 	@JsonSerialize(using = CustomLocalDateTimeSerializer.class) 
 	private LocalDateTime updatedAt;
+	
+	@Builder
+	public VocQuestionResponse(long id, String category, String title, String content,
+			String email, String username, String stationId, int needReply,
+			LocalDateTime createdAt, LocalDateTime updatedAt) {
+		this.id = id;
+		this.category = category;
+		this.title = title;
+		this.content = content;
+		this.email = email;
+		this.username = username;
+		this.stationId = stationId;
+		this.needReply = needReply;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+	}
 }
