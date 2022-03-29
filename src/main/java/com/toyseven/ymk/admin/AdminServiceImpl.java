@@ -17,7 +17,7 @@ public class AdminServiceImpl implements UserDetailsService, AdminService {
 	private final AdminRepository adminRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) {
         AdminEntity adminItem = adminRepository.findAccountByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
 

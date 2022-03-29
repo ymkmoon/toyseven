@@ -90,6 +90,10 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.valueOf(errorCode.getStatus()));
     }
     
+    /**
+     * UserDetails 객체의 isEnabled() 메소드의 리턴값이 false
+     * 	비활성화 된 계정 일 경우
+     */
     @ExceptionHandler(DisabledException.class)
     protected ResponseEntity<ErrorResponse> handleDisabledException(DisabledException e) {
         log.error("DisabledException", e);
