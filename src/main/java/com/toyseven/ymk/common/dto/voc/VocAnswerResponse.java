@@ -17,7 +17,7 @@ public class VocAnswerResponse {
 	private long id;
 	@NotBlank private long questionId;
 	@NotBlank private String content;
-	@NotBlank private String admin;
+	@NotBlank private String adminName;
 
 	@JsonDeserialize(using = CustomLocalDateTimeDeserializer.class) 
 	@JsonSerialize(using = CustomLocalDateTimeSerializer.class)
@@ -28,12 +28,12 @@ public class VocAnswerResponse {
 	private LocalDateTime updatedAt;
 	
 	@Builder
-	public VocAnswerResponse(long id, long questionId, String content, String admin, 
+	public VocAnswerResponse(long id, long questionId, String content, String adminName, 
 			LocalDateTime createdAt, LocalDateTime updatedAt) {
 		this.id = id;
 		this.questionId = questionId;
 		this.content = content;
-		this.admin = admin;
+		this.adminName = adminName;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 	}

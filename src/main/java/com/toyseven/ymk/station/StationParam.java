@@ -1,4 +1,4 @@
-package com.toyseven.ymk.common.dto.station;
+package com.toyseven.ymk.station;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
