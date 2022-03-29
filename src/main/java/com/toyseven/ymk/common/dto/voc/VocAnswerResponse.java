@@ -8,19 +8,16 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.toyseven.ymk.common.dto.CustomLocalDateTimeDeserializer;
 import com.toyseven.ymk.common.dto.CustomLocalDateTimeSerializer;
-import com.toyseven.ymk.common.model.entity.AdminEntity;
-import com.toyseven.ymk.common.model.entity.VocQuestionEntity;
 
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
 public class VocAnswerResponse {
 	private long id;
-	@NotBlank private VocQuestionEntity questionId;
+	@NotBlank private long questionId;
 	@NotBlank private String content;
-	@NotBlank private AdminEntity adminId;
+	@NotBlank private String admin;
 
 	@JsonDeserialize(using = CustomLocalDateTimeDeserializer.class) 
 	@JsonSerialize(using = CustomLocalDateTimeSerializer.class)
@@ -29,4 +26,15 @@ public class VocAnswerResponse {
 	@JsonDeserialize(using = CustomLocalDateTimeDeserializer.class) 
 	@JsonSerialize(using = CustomLocalDateTimeSerializer.class)
 	private LocalDateTime updatedAt;
+	
+	@Builder
+	public VocAnswerResponse(long id, long questionId, String content, String admin, 
+			LocalDateTime createdAt, LocalDateTime updatedAt) {
+		this.id = id;
+		this.questionId = questionId;
+		this.content = content;
+		this.admin = admin;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+	}
 }
