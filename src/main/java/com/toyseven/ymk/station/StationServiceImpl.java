@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -26,8 +27,12 @@ import lombok.RequiredArgsConstructor;
 public class StationServiceImpl implements StationService {
 
     private final StationRepository stationRepository;
-    private final StationInformationDto.Request stationParam;
     private final ObjectMapper objectMapper;
+    
+    @Value("${api.key.station}") private String SERVICE_KEY;
+    private static final String DATA_TYPE = "JSON";
+    private static final String SERVICE = "bikeList";
+    
     private static final String BASE_URL = "http://openapi.seoul.go.kr:8088";
 
     @Override
@@ -60,16 +65,15 @@ public class StationServiceImpl implements StationService {
         WebClient wc = WebClient.builder().uriBuilderFactory(factory).baseUrl(BASE_URL).build();
         List<StationInformationEntity> row = new ArrayList<>();
         
-        stationParam.setStartIndex(index);
-        stationParam.setEndIndex(index+999);
+        StationInformationDto.Request stationRequest = setStationRequest(index);
 
         ResponseEntity<JSONObject> response = wc.get()
                 .uri(uriBuilder -> uriBuilder
-                        .path("/"+stationParam.getServiceKey())
-                        .path("/"+stationParam.getDataType())
-                        .path("/"+stationParam.getService())
-                        .path("/"+stationParam.getStartIndex())
-                        .path("/"+stationParam.getEndIndex())
+                        .path("/"+stationRequest.getServiceKey())
+                        .path("/"+stationRequest.getDataType())
+                        .path("/"+stationRequest.getService())
+                        .path("/"+stationRequest.getStartIndex())
+                        .path("/"+stationRequest.getEndIndex())
                         .build()
                 ).accept(MediaType.APPLICATION_JSON)
                 .retrieve()
@@ -92,5 +96,16 @@ public class StationServiceImpl implements StationService {
         if(index < 2001)
         	row.addAll(reuqestToStation(index+1000));
         return row;
+    }
+    
+    private StationInformationDto.Request setStationRequest(int index) {
+    	StationInformationDto.Request request = new StationInformationDto.Request();
+    	request.setServiceKey(SERVICE_KEY);
+    	request.setDataType(DATA_TYPE);
+    	request.setService(SERVICE);
+    	request.setStartIndex(index);
+    	request.setEndIndex(index+999);
+    	return request;
+    	
     }
 }
