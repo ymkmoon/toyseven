@@ -20,43 +20,6 @@ import lombok.NoArgsConstructor;
 
 public class VocQuestionDto {
 	
-	@Builder
-	@Getter
-	@AllArgsConstructor
-	public static class Response {
-		private long id;
-		@NotBlank private String category;
-		@NotBlank private String title;
-		@NotBlank private String content;
-		@NotBlank private String email;
-		@NotBlank private String username;
-		@NotBlank private String stationId;
-		@NotNull private int needReply;
-		
-		@JsonDeserialize(using = CustomLocalDateTimeDeserializer.class) 
-		@JsonSerialize(using = CustomLocalDateTimeSerializer.class) 
-		private LocalDateTime createdAt;
-		
-		@JsonDeserialize(using = CustomLocalDateTimeDeserializer.class) 
-		@JsonSerialize(using = CustomLocalDateTimeSerializer.class) 
-		private LocalDateTime updatedAt;
-		
-//		public Response(long id, String category, String title, String content,
-//				String email, String username, String stationId, int needReply,
-//				LocalDateTime createdAt, LocalDateTime updatedAt) {
-//			this.id = id;
-//			this.category = category;
-//			this.title = title;
-//			this.content = content;
-//			this.email = email;
-//			this.username = username;
-//			this.stationId = stationId;
-//			this.needReply = needReply;
-//			this.createdAt = createdAt;
-//			this.updatedAt = updatedAt;
-//		}
-	}
-	
 	@Getter
 	@NoArgsConstructor
 	public static class Request {
@@ -80,6 +43,28 @@ public class VocQuestionDto {
 	                .needReply(needReply)
 	                .build();
 	    }
+	}
+	
+	@Builder
+	@Getter
+	@AllArgsConstructor
+	public static class Response {
+		private long id;
+		@NotBlank private String category;
+		@NotBlank private String title;
+		@NotBlank private String content;
+		@NotBlank private String email;
+		@NotBlank private String username;
+		@NotBlank private String stationId;
+		@NotNull private int needReply;
+		
+		@JsonDeserialize(using = CustomLocalDateTimeDeserializer.class) 
+		@JsonSerialize(using = CustomLocalDateTimeSerializer.class) 
+		private LocalDateTime createdAt;
+		
+		@JsonDeserialize(using = CustomLocalDateTimeDeserializer.class) 
+		@JsonSerialize(using = CustomLocalDateTimeSerializer.class) 
+		private LocalDateTime updatedAt;
 	}
 
 }
