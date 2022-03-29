@@ -36,15 +36,12 @@ public class AdminController {
         UserDetails userDetails = adminService.loadUserByUsername(adminRequest.getUsername());
         String token = jwtUtil.generateToken(userDetails);
 
-        AdminResponse adminResponse = new AdminResponse();
-
         authenticate(adminRequest.getUsername(), adminRequest.getPassword());
 
         Cookie accessToken = cookieUtil.createCookie(Constants.ACCESS_TOKEN, token);
-
         response.addCookie(accessToken);
-        adminResponse.setAccessToken(token);
-
+        
+        AdminResponse adminResponse = AdminResponse.builder().accessToken(token).build();
         return new ResponseEntity<>(adminResponse, HttpStatus.OK);
     }
 
