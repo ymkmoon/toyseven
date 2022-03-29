@@ -1,7 +1,5 @@
 package com.toyseven.ymk.common.dto;
 
-import org.springframework.beans.factory.annotation.Value;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
