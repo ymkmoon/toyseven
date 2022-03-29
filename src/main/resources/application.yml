@@ -92,7 +92,3 @@ api:
     station: 784e68756e73696c36334f5a426b4a
     weather: W7l3H2uvjTcxohee32V7uY9ulhXXV%2FZL6qkE%2B%2FeGen8hKezg5Yg2u0h9yKx6Fs28sehdVvyY4T6dqOOu8nBVoQ%3D%3D
     fineDust: W7l3H2uvjTcxohee32V7uY9ulhXXV%2FZL6qkE%2B%2FeGen8hKezg5Yg2u0h9yKx6Fs28sehdVvyY4T6dqOOu8nBVoQ%3D%3D
-    
-test:
-  merge:
-    name: test
