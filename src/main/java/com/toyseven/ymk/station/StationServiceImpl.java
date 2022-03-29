@@ -1,5 +1,7 @@
 package com.toyseven.ymk.station;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +16,6 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toyseven.ymk.common.ToysevenCommonUtil;
-import com.toyseven.ymk.common.dto.CustomConvertValue;
 import com.toyseven.ymk.common.dto.station.StationInformationResponse;
 import com.toyseven.ymk.common.dto.station.StationParam;
 import com.toyseven.ymk.common.model.entity.StationInformationEntity;
@@ -27,27 +28,25 @@ public class StationServiceImpl implements StationService {
 
     private final StationRepository stationRepository;
     private final StationParam stationParam;
-    private final CustomConvertValue customConvertValue;
     private final ObjectMapper objectMapper;
     private static final String BASE_URL = "http://openapi.seoul.go.kr:8088";
 
     @Override
     public List<StationInformationResponse> findAll() {
     	List<StationInformationEntity> stations = stationRepository.findAll();
-//    	return objectMapper.convertValue(stations, new TypeReference<List<StationInformationResponse>>() {});
-    	return customConvertValue.stationEntityToDto(stations);
+    	return stations.stream().map(StationInformationEntity::toStationInformationResponse).collect(toList());
     }
 
     @Override
     public List<StationInformationResponse> findByStationName(String stationName) {
     	List<StationInformationEntity> stations = stationRepository.findByStationNameContaining(stationName).get();
-    	return customConvertValue.stationEntityToDto(stations);
+    	return stations.stream().map(StationInformationEntity::toStationInformationResponse).collect(toList());
     }
     
     @Override
-	public List<StationInformationResponse> getStations() {
+	public List<StationInformationEntity> getStations() {
     	List<StationInformationEntity> row = reuqestToStation(1);
-        return objectMapper.convertValue(row, new TypeReference<List<StationInformationResponse>>() {});
+        return objectMapper.convertValue(row, new TypeReference<List<StationInformationEntity>>() {});
 	}
     
     @Override

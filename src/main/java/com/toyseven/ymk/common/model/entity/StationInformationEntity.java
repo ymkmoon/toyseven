@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import com.toyseven.ymk.common.dto.station.StationInformationResponse;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -47,5 +49,17 @@ public class StationInformationEntity {
         this.rackTotCnt = rackTotCnt;
         this.parkingBikeTotCnt = parkingBikeTotCnt;
         this.shared = shared;
+    }
+    
+    public StationInformationResponse toStationInformationResponse() {
+    	return StationInformationResponse.builder()
+    			.stationId(stationId)
+    			.stationName(stationName)
+    			.stationLatitude(stationLatitude)
+    			.stationLongitude(stationLongitude)
+    			.rackTotCnt(rackTotCnt)
+    			.parkingBikeTotCnt(parkingBikeTotCnt)
+    			.shared(shared)
+    			.build();
     }
 }

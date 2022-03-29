@@ -1,12 +1,9 @@
 package com.toyseven.ymk.common.dto.station;
 
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
-@Setter
-@NoArgsConstructor
 public class StationInformationResponse {
 
 	private String stationId;
@@ -22,4 +19,17 @@ public class StationInformationResponse {
     private Integer parkingBikeTotCnt;
 
     private Integer shared;
+    
+    @Builder
+    public StationInformationResponse(String stationId, String stationName, 
+    		Double stationLatitude, Double stationLongitude,
+    		Integer rackTotCnt, Integer parkingBikeTotCnt, Integer shared) {
+    	this.stationId = stationId;
+    	this.stationName = stationName;
+    	this.stationLatitude = stationLatitude;
+    	this.stationLongitude = stationLongitude;
+    	this.rackTotCnt = rackTotCnt;
+    	this.parkingBikeTotCnt = parkingBikeTotCnt;
+    	this.shared = shared;
+    }
 }

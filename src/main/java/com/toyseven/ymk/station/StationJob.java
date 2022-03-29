@@ -5,8 +5,7 @@ import java.util.List;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.toyseven.ymk.common.dto.CustomConvertValue;
-import com.toyseven.ymk.common.dto.station.StationInformationResponse;
+import com.toyseven.ymk.common.model.entity.StationInformationEntity;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,14 +14,14 @@ import lombok.RequiredArgsConstructor;
 public class StationJob {
 	
 	private final StationService stationService;
-	private final CustomConvertValue customConvertValue;
+//	private final CustomConvertValue customConvertValue;
 	
-	@Scheduled(fixedDelay = 100000)
+	@Scheduled(fixedDelay = 1000000)
     public void saveStations() {
-        List<StationInformationResponse> stations = stationService.getStations();
+        List<StationInformationEntity> stations = stationService.getStations();
         
         if(stations != null) {
-            stationService.save(customConvertValue.stationDtoToEntity(stations));
+            stationService.save(stations);
         }
     }
 }
