@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.toyseven.ymk.common.Constants;
-import com.toyseven.ymk.common.dto.admin.AdminRequest;
-import com.toyseven.ymk.common.dto.admin.AdminResponse;
+import com.toyseven.ymk.common.dto.admin.AdminDto;
 import com.toyseven.ymk.common.util.CookieUtil;
 import com.toyseven.ymk.common.util.JwtUtil;
 
@@ -32,7 +31,7 @@ public class AdminController {
     private final CookieUtil cookieUtil;
 
     @PostMapping(value = "/login")
-    public ResponseEntity<Object> login(@RequestBody AdminRequest adminRequest, HttpServletResponse response) {
+    public ResponseEntity<Object> login(@RequestBody AdminDto.Request adminRequest, HttpServletResponse response) {
         UserDetails userDetails = adminService.loadUserByUsername(adminRequest.getUsername());
         String token = jwtUtil.generateToken(userDetails);
 
@@ -41,7 +40,7 @@ public class AdminController {
         Cookie accessToken = cookieUtil.createCookie(Constants.ACCESS_TOKEN, token);
         response.addCookie(accessToken);
         
-        AdminResponse adminResponse = AdminResponse.builder().accessToken(token).build();
+        AdminDto.Response adminResponse = AdminDto.Response.builder().accessToken(token).build();
         return new ResponseEntity<>(adminResponse, HttpStatus.OK);
     }
 
