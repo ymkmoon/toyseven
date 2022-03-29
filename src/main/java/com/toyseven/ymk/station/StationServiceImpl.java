@@ -26,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 public class StationServiceImpl implements StationService {
 
     private final StationRepository stationRepository;
-    private final StationParam stationParam;
+    private final StationInformationDto.Request stationParam;
     private final ObjectMapper objectMapper;
     private static final String BASE_URL = "http://openapi.seoul.go.kr:8088";
 
