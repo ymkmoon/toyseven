@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.toyseven.ymk.common.error.ErrorCode;
 import com.toyseven.ymk.common.error.ErrorResponse;
 
@@ -84,7 +85,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(BusinessException.class)
     protected ResponseEntity<ErrorResponse> handleBusinessException(final BusinessException e) {
-        log.error("BusinessException", e);
+        log.error("handleBusinessException", e);
         final ErrorCode errorCode = e.getErrorCode();
         final ErrorResponse response = ErrorResponse.of(errorCode);
         return new ResponseEntity<>(response, HttpStatus.valueOf(errorCode.getStatus()));
@@ -96,7 +97,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(DisabledException.class)
     protected ResponseEntity<ErrorResponse> handleDisabledException(DisabledException e) {
-        log.error("DisabledException", e);
+        log.error("handleDisabledException", e);
         final ErrorResponse response = ErrorResponse.of(ErrorCode.UNAUTHORIZED);
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
@@ -106,7 +107,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(BadCredentialsException.class)
     protected ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException e) {
-        log.error("BadCredentialsException", e);
+        log.error("handleBadCredentialsException", e);
         final ErrorResponse response = ErrorResponse.of(ErrorCode.UNAUTHORIZED);
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
@@ -116,7 +117,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(UsernameNotFoundException.class)
     protected ResponseEntity<ErrorResponse> handleUsernameNotFoundException(UsernameNotFoundException e) {
-        log.error("UsernameNotFoundException", e);
+        log.error("handleUsernameNotFoundException", e);
         final ErrorResponse response = ErrorResponse.of(ErrorCode.UNAUTHORIZED);
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
@@ -127,7 +128,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(NoSuchElementException.class)
     protected ResponseEntity<ErrorResponse> handleNoSuchElementException(NoSuchElementException e) {
-    	log.error("NoSuchElementException", e);
+    	log.error("handleNoSuchElementException", e);
     	final ErrorResponse response = ErrorResponse.of(ErrorCode.NOT_FOUND);
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
@@ -138,7 +139,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(DataIntegrityViolationException.class)
     protected ResponseEntity<ErrorResponse> constraintViolationException(DataIntegrityViolationException e) {
-    	log.error("NoSuchElementException", e);
+    	log.error("handleDataIntegrityViolationException", e);
     	final ErrorResponse response = ErrorResponse.of(ErrorCode.BAD_REQUEST);
     	return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
@@ -149,15 +150,22 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MissingServletRequestParameterException.class)
     protected ResponseEntity<ErrorResponse> constraintRequestParameterException(MissingServletRequestParameterException e) {
-    	log.error("MissingServletRequestParameterException", e);
+    	log.error("handleMissingServletRequestParameterException", e);
     	final ErrorResponse response = ErrorResponse.of(ErrorCode.BAD_REQUEST);
     	return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
     
-    @ExceptionHandler(Exception.class)
-    protected ResponseEntity<ErrorResponse> handleException(Exception e) {
-        log.error("handleEntityNotFoundException", e);
+    @ExceptionHandler(UnrecognizedPropertyException.class)
+    protected ResponseEntity<ErrorResponse> handleUnrecognizedPropertyException(UnrecognizedPropertyException e) {
+        log.error("handleUnrecognizedPropertyException", e);
         final ErrorResponse response = ErrorResponse.of(ErrorCode.INTERNAL_SERVER_ERROR);
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    
+    @ExceptionHandler(Exception.class)
+    protected ResponseEntity<ErrorResponse> handleException(Exception e) {
+    	log.error("handleException", e);
+    	final ErrorResponse response = ErrorResponse.of(ErrorCode.INTERNAL_SERVER_ERROR);
+    	return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
