@@ -16,7 +16,7 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toyseven.ymk.common.ToysevenCommonUtil;
-import com.toyseven.ymk.common.dto.station.StationInformationResponse;
+import com.toyseven.ymk.common.dto.station.StationInformationDto;
 import com.toyseven.ymk.common.model.entity.StationInformationEntity;
 
 import lombok.RequiredArgsConstructor;
@@ -31,13 +31,13 @@ public class StationServiceImpl implements StationService {
     private static final String BASE_URL = "http://openapi.seoul.go.kr:8088";
 
     @Override
-    public List<StationInformationResponse> findAll() {
+    public List<StationInformationDto.Response> findAll() {
     	List<StationInformationEntity> stations = stationRepository.findAll();
     	return stations.stream().map(StationInformationEntity::toStationInformationResponse).collect(toList());
     }
 
     @Override
-    public List<StationInformationResponse> findByStationName(String stationName) {
+    public List<StationInformationDto.Response> findByStationName(String stationName) {
     	List<StationInformationEntity> stations = stationRepository.findByStationNameContaining(stationName).get();
     	return stations.stream().map(StationInformationEntity::toStationInformationResponse).collect(toList());
     }
