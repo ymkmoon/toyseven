@@ -14,13 +14,11 @@ import lombok.RequiredArgsConstructor;
 public class StationJob {
 	
 	private final StationService stationService;
-//	private final CustomConvertValue customConvertValue;
 	
 	@Scheduled(fixedDelay = 1000000)
     public void saveStations() {
         List<StationInformationEntity> stations = stationService.getStations();
-        
-        if(stations != null) {
+        if(!stations.isEmpty()) {
             stationService.save(stations);
         }
     }
