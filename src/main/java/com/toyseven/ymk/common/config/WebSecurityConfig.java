@@ -16,8 +16,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 
 import com.toyseven.ymk.admin.AdminServiceImpl;
-import com.toyseven.ymk.admin.JwtAuthenticationEntryPoint;
 import com.toyseven.ymk.admin.JwtRequestFilter;
+import com.toyseven.ymk.common.error.Exception.JwtAccessDeniedHandler;
+import com.toyseven.ymk.common.error.Exception.JwtAuthenticationEntryPoint;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,6 +30,7 @@ import lombok.RequiredArgsConstructor;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+	private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 	private final JwtRequestFilter jwtRequestFilter;
 	private final AdminServiceImpl adminService;
     
@@ -51,7 +53,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable(); 
     	http.headers()
     		.frameOptions().sameOrigin(); 
-    	http.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
+    	http.exceptionHandling()
+    		.authenticationEntryPoint(jwtAuthenticationEntryPoint)
+    		.accessDeniedHandler(jwtAccessDeniedHandler)
+    		.and()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // 토큰 기반 인증이므로 세션 사용 x
     	http.httpBasic().disable()
 			.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());

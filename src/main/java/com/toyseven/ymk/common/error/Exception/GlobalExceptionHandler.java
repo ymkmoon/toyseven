@@ -1,6 +1,5 @@
 package com.toyseven.ymk.common.error.Exception;
 
-import java.nio.file.AccessDeniedException;
 import java.util.NoSuchElementException;
 
 import org.springframework.dao.DataIntegrityViolationException;
@@ -65,15 +64,6 @@ public class GlobalExceptionHandler {
     protected ResponseEntity<ErrorResponse> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
         log.error("handleHttpRequestMethodNotSupportedException", e);
         return ErrorResponse.toResponseEntity(ErrorCode.METHOD_NOT_ALLOWED);
-    }
-
-    /**
-     * Authentication 객체가 필요한 권한을 보유하지 않은 경우 발생합
-     */
-    @ExceptionHandler(AccessDeniedException.class)
-    protected ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException e) {
-        log.error("handleAccessDeniedException", e);
-        return ErrorResponse.toResponseEntity(ErrorCode.ACCESS_DENIED);
     }
 
     /**
