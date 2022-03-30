@@ -27,7 +27,8 @@ import lombok.RequiredArgsConstructor;
 public class FineDustServiceImpl implements FineDustService {
     private static final String BASE_URL = "http://apis.data.go.kr/B552584/ArpltnInforInqireSvc";
     
-    @Value("${api.key.fineDust}") private String SERVICE_KEY;
+    @Value("${api.key.fineDust}") 
+    private String SERVICE_KEY;
     private static final String RETURN_TYPE = "json";
     private static final String DATA_TERM = "DAILY";
     private static final String VER = "1.3";
