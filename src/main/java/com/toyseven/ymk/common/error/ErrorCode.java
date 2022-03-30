@@ -1,43 +1,44 @@
 package com.toyseven.ymk.common.error;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.http.HttpStatus;
 
-@JsonFormat(shape = JsonFormat.Shape.OBJECT)
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum ErrorCode {
 
-    // Common
-    INVALID_INPUT_VALUE(400, "C001", " Invalid Input Value"),
-    METHOD_NOT_ALLOWED(405, "C002", " Invalid Input Value"),
-    ENTITY_NOT_FOUND(400, "C003", " Entity Not Found"),
-    INTERNAL_SERVER_ERROR(500, "C004", "Server Error"),
-    INVALID_TYPE_VALUE(400, "C005", " Invalid Type Value"),
-    HANDLE_ACCESS_DENIED(403, "C006", "Access is Denied"),
-    UNAUTHORIZED(401, "C007", "Unable to get JWT Token"),
-    ENCODING_ERROR(500, "C008", "Unsupported Encoding Exception"),
-    NOT_FOUND(404, "C009", "Not Found"),
-    BAD_REQUEST(400, "C010", "Bad Request");
+	// 400
+	BAD_REQUEST(HttpStatus.BAD_REQUEST, "비정상적인 접근 입니다."),
+    ENTITY_NOT_FOUND(HttpStatus.BAD_REQUEST, "Entity Not Found"),
+    DATA_INTEGRITY_VIOLATION(HttpStatus.BAD_REQUEST, "요청 데이터가 정상적이지 않습니다."),
+    MISSING_SERVLET_REQUEST_PARAMETER(HttpStatus.BAD_REQUEST, "필수 파라미터가 존재하지 않습니다."),
+    MODEL_BINDING_ERROR(HttpStatus.BAD_REQUEST, "요청 데이터가 정상적이지 않습니다."),
+    REQUEST_BINDING_ERROR(HttpStatus.BAD_REQUEST, "요청 데이터가 정상적이지 않습니다."),
+    TYPE_BINDING_ERROR(HttpStatus.BAD_REQUEST, "Parameter 값이 정상적이지 않습니다."),
+
+    // 401
+    UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "토큰 값을 다시 한번 확인해주세요."),
+    FAIL_AUTHORIZED(HttpStatus.UNAUTHORIZED, "인증 실패"),
+    TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "만료 된 토큰 입니다."),
+    DISABLED_USER(HttpStatus.UNAUTHORIZED, "비활성화 된 계정 입니다."),
+    USER_NAME_NOT_FOUND(HttpStatus.UNAUTHORIZED, "사용자를 찾을 수 없습니다."),
+    BAD_CREDENTIAL(HttpStatus.UNAUTHORIZED, "암호가 일치하지 않습니다."),
+    
+    // 403
+    ACCESS_DENIED(HttpStatus.FORBIDDEN, "접근 하기 위해서는 권한을 확인해주세요."),
+    
+    // 404
+    NO_SUCH_ELEMENT(HttpStatus.NOT_FOUND, "데이터가 존재하지 않습니다."),
+    
+    // 405
+    METHOD_NOT_ALLOWED(HttpStatus.METHOD_NOT_ALLOWED, "지원하지 않은 HTTP method 입니다."),
+    
+    // 500
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Server Error"),
+    STATION_NAME_ENCODING_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Station Name 의 값이 잘못되었습니다.");
 	
-    private final String code;
-    private final String message;
-    private int status;
-
-    ErrorCode(final int status, final String code, final String message) {
-        this.status = status;
-        this.message = message;
-        this.code = code;
-    }
-
-    public String getMessage() {
-        return this.message;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-
+	private final HttpStatus httpStatus;
+    private final String detail;
 }
