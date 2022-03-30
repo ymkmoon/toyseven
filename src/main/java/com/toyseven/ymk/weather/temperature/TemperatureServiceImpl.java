@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -22,40 +23,20 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class TemperatureServiceImpl implements TemperatureService {
+	
     private static final String BASE_URL = "http://apis.data.go.kr/1360000/VilageFcstInfoService";
-    private final TemperatureParam temperatureParam;
+    
+    @Value("${api.key.weather}") 
+    private String SERVICE_KEY;
+    private static final String DATA_TYPE = "JSON";
+    private static final String CURRENT_DATE = "currentDate";
+    private static final String CURRENT_TIME = "currentTime";
 
     @SuppressWarnings("unchecked")
     @Override
 	public JSONObject getTemperature(WeatherDto.Request weatherRequest) {
-        String currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-        String currentTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HHmm"));
-        int tmpTime = Integer.parseInt(currentTime);
-        
-        if(tmpTime >= 0 && tmpTime < 230) {
-            currentDate = LocalDate.now().minusDays(1).format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-            currentTime = "2300";
-        } else if (tmpTime >= 230 && tmpTime < 530) {
-            currentTime = "0200";
-        } else if (tmpTime >= 530 && tmpTime < 830) {
-            currentTime = "0500";
-        } else if (tmpTime >= 830 && tmpTime < 1130) {
-            currentTime = "0800";
-        } else if (tmpTime >= 1130 && tmpTime < 1430) {
-            currentTime = "1100";
-        } else if (tmpTime >= 1430 && tmpTime < 1730) {
-            currentTime = "1400";
-        } else if (tmpTime >= 1730 && tmpTime < 2030) {
-            currentTime = "1700";
-        } else if (tmpTime >= 2030 && tmpTime < 2330) {
-            currentTime = "2000";
-        }
-
-        temperatureParam.setBaseDate(currentDate);
-        temperatureParam.setBaseTime(currentTime);
-        temperatureParam.setPageNo(1);
-        temperatureParam.setNumOfRows(10);
-        temperatureParam.setServiceKey(temperatureParam.getServiceKey());
+    	
+    	WeatherDto.TemperatureRequest fineDustRequest = setTemperatureRequest(weatherRequest);
 
         DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory(BASE_URL);
         factory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.VALUES_ONLY);
@@ -65,14 +46,14 @@ public class TemperatureServiceImpl implements TemperatureService {
         ResponseEntity<JSONObject> response = wc.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/getVilageFcst")
-                        .queryParam("serviceKey", temperatureParam.getServiceKey())
-                        .queryParam("dataType", temperatureParam.getDataType())
+                        .queryParam("serviceKey", fineDustRequest.getServiceKey())
+                        .queryParam("dataType", fineDustRequest.getDataType())
                         .queryParam("nx", weatherRequest.getNx())
                         .queryParam("ny", weatherRequest.getNy())
-                        .queryParam("pageNo", temperatureParam.getPageNo())
-                        .queryParam("numOfRows", temperatureParam.getNumOfRows())
-                        .queryParam("base_date", temperatureParam.getBaseDate())
-                        .queryParam("base_time", temperatureParam.getBaseTime()).build()
+                        .queryParam("pageNo", fineDustRequest.getPageNo())
+                        .queryParam("numOfRows", fineDustRequest.getNumOfRows())
+                        .queryParam("base_date", fineDustRequest.getBaseDate())
+                        .queryParam("base_time", fineDustRequest.getBaseTime()).build()
                 ).accept(MediaType.APPLICATION_JSON)
                 .acceptCharset(StandardCharsets.UTF_8)
                 .retrieve()
@@ -98,4 +79,50 @@ public class TemperatureServiceImpl implements TemperatureService {
 
         return temperature;
     }
+    
+    private WeatherDto.TemperatureRequest setTemperatureRequest(WeatherDto.Request weatherRequest) {
+    	WeatherDto.TemperatureRequest request = new WeatherDto.TemperatureRequest();
+    	Map<String, String> currentDateTime = getCurrentDateTime();
+
+        request.setBaseDate(currentDateTime.get(CURRENT_DATE));
+        request.setBaseTime(currentDateTime.get(CURRENT_TIME));
+        request.setPageNo(1);
+        request.setNumOfRows(10);
+        request.setServiceKey(SERVICE_KEY);
+        request.setDataType(DATA_TYPE);
+        
+        return request;
+    }
+    
+    private Map<String, String> getCurrentDateTime() {
+    	Map<String, String> currentDateTime = new HashMap<>();
+    	
+    	String currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        String currentTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HHmm"));
+        int tmpTime = Integer.parseInt(currentTime);
+        currentDateTime.put(CURRENT_DATE, currentDate);
+        
+        if(tmpTime >= 0 && tmpTime < 230) {
+        	currentDateTime.remove(CURRENT_DATE);
+            currentDateTime.put(CURRENT_DATE, LocalDate.now().minusDays(1).format(DateTimeFormatter.ofPattern("yyyyMMdd")));
+            currentDateTime.put(CURRENT_TIME, "2300");
+        } else if (tmpTime >= 230 && tmpTime < 530) {
+            currentDateTime.put(CURRENT_TIME, "0200");
+        } else if (tmpTime >= 530 && tmpTime < 830) {
+            currentDateTime.put(CURRENT_TIME, "0500");
+        } else if (tmpTime >= 830 && tmpTime < 1130) {
+            currentDateTime.put(CURRENT_TIME, "0800");
+        } else if (tmpTime >= 1130 && tmpTime < 1430) {
+            currentDateTime.put(CURRENT_TIME, "1100");
+        } else if (tmpTime >= 1430 && tmpTime < 1730) {
+            currentDateTime.put(CURRENT_TIME, "1400");
+        } else if (tmpTime >= 1730 && tmpTime < 2030) {
+            currentDateTime.put(CURRENT_TIME, "1700");
+        } else if (tmpTime >= 2030 && tmpTime < 2330) {
+            currentDateTime.put(CURRENT_TIME, "2000");
+        }
+        
+        return currentDateTime;
+    }
+    
 }

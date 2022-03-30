@@ -49,5 +49,19 @@ public class WeatherDto {
 	    private int pageNo;
 	    private int numOfRows;
 	}
+	
+	@Getter
+	@Setter
+	@NoArgsConstructor
+	public static class TemperatureRequest {
+	    private String serviceKey;
+	    private int pageNo;
+	    private int numOfRows;
+	    private String dataType;
+	    private String baseDate;
+	    private String baseTime;
+	    @NotBlank private int nx;
+	    @NotBlank private int ny;
+	}
 
 }
