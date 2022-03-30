@@ -4,18 +4,14 @@ import java.nio.file.AccessDeniedException;
 import java.util.NoSuchElementException;
 
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.toyseven.ymk.common.error.ErrorCode;
@@ -23,7 +19,7 @@ import com.toyseven.ymk.common.error.ErrorResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
-@ControllerAdvice
+@RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
 	/**
@@ -60,14 +56,14 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
+	
     /**
      * 지원하지 않은 HTTP method 호출 할 경우 발생
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     protected ResponseEntity<ErrorResponse> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
         log.error("handleHttpRequestMethodNotSupportedException", e);
-        final ErrorResponse response = ErrorResponse.of(ErrorCode.METHOD_NOT_ALLOWED);
-        return new ResponseEntity<>(response, HttpStatus.METHOD_NOT_ALLOWED);
+        return ErrorResponse.toResponseEntity(ErrorCode.METHOD_NOT_ALLOWED);
     }
 
     /**
@@ -76,8 +72,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AccessDeniedException.class)
     protected ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException e) {
         log.error("handleAccessDeniedException", e);
-        final ErrorResponse response = ErrorResponse.of(ErrorCode.HANDLE_ACCESS_DENIED);
-        return new ResponseEntity<>(response, HttpStatus.valueOf(ErrorCode.HANDLE_ACCESS_DENIED.getStatus()));
+        return ErrorResponse.toResponseEntity(ErrorCode.ACCESS_DENIED);
     }
 
     /**
@@ -86,9 +81,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     protected ResponseEntity<ErrorResponse> handleBusinessException(final BusinessException e) {
         log.error("handleBusinessException", e);
-        final ErrorCode errorCode = e.getErrorCode();
-        final ErrorResponse response = ErrorResponse.of(errorCode);
-        return new ResponseEntity<>(response, HttpStatus.valueOf(errorCode.getStatus()));
+        return ErrorResponse.toResponseEntity(e.getErrorCode());
     }
     
     /**
@@ -98,8 +91,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DisabledException.class)
     protected ResponseEntity<ErrorResponse> handleDisabledException(DisabledException e) {
         log.error("handleDisabledException", e);
-        final ErrorResponse response = ErrorResponse.of(ErrorCode.UNAUTHORIZED);
-        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+        return ErrorResponse.toResponseEntity(ErrorCode.DISABLED_USER);
     }
     
     /**
@@ -108,8 +100,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BadCredentialsException.class)
     protected ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException e) {
         log.error("handleBadCredentialsException", e);
-        final ErrorResponse response = ErrorResponse.of(ErrorCode.UNAUTHORIZED);
-        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+        return ErrorResponse.toResponseEntity(ErrorCode.BAD_CREDENTIAL);
     }
 
     /**
@@ -118,8 +109,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UsernameNotFoundException.class)
     protected ResponseEntity<ErrorResponse> handleUsernameNotFoundException(UsernameNotFoundException e) {
         log.error("handleUsernameNotFoundException", e);
-        final ErrorResponse response = ErrorResponse.of(ErrorCode.UNAUTHORIZED);
-        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+        return ErrorResponse.toResponseEntity(ErrorCode.USER_NAME_NOT_FOUND);
     }
 
     
@@ -129,8 +119,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NoSuchElementException.class)
     protected ResponseEntity<ErrorResponse> handleNoSuchElementException(NoSuchElementException e) {
     	log.error("handleNoSuchElementException", e);
-    	final ErrorResponse response = ErrorResponse.of(ErrorCode.NOT_FOUND);
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        return ErrorResponse.toResponseEntity(ErrorCode.NO_SUCH_ELEMENT);
     }
     
     /**
@@ -140,8 +129,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     protected ResponseEntity<ErrorResponse> constraintViolationException(DataIntegrityViolationException e) {
     	log.error("handleDataIntegrityViolationException", e);
-    	final ErrorResponse response = ErrorResponse.of(ErrorCode.BAD_REQUEST);
-    	return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    	return ErrorResponse.toResponseEntity(ErrorCode.DATA_INTEGRITY_VIOLATION);
     }
     
     /**
@@ -151,21 +139,24 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MissingServletRequestParameterException.class)
     protected ResponseEntity<ErrorResponse> constraintRequestParameterException(MissingServletRequestParameterException e) {
     	log.error("handleMissingServletRequestParameterException", e);
-    	final ErrorResponse response = ErrorResponse.of(ErrorCode.BAD_REQUEST);
-    	return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    	return ErrorResponse.toResponseEntity(ErrorCode.MISSING_SERVLET_REQUEST_PARAMETER);
     }
     
+    
+    
+    /**
+     * Entity 와 Dto 간 변환이 실패한 경우
+     * 	ex) entity 와 dto 사이 필드간 차이가 있는 경우
+     */
     @ExceptionHandler(UnrecognizedPropertyException.class)
     protected ResponseEntity<ErrorResponse> handleUnrecognizedPropertyException(UnrecognizedPropertyException e) {
         log.error("handleUnrecognizedPropertyException", e);
-        final ErrorResponse response = ErrorResponse.of(ErrorCode.INTERNAL_SERVER_ERROR);
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        return ErrorResponse.toResponseEntity(ErrorCode.INTERNAL_SERVER_ERROR);
     }
     
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<ErrorResponse> handleException(Exception e) {
     	log.error("handleException", e);
-    	final ErrorResponse response = ErrorResponse.of(ErrorCode.INTERNAL_SERVER_ERROR);
-    	return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    	return ErrorResponse.toResponseEntity(ErrorCode.INTERNAL_SERVER_ERROR);
     }
 }
