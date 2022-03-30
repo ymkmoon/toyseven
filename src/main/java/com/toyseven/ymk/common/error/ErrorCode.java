@@ -11,11 +11,12 @@ public enum ErrorCode {
 
 	// 400
 	BAD_REQUEST(HttpStatus.BAD_REQUEST, "비정상적인 접근 입니다."),
-	INVALID_INPUT_VALUE(HttpStatus.BAD_REQUEST, "Invalid Input Value"),
-	INVALID_TYPE_VALUE(HttpStatus.BAD_REQUEST, "Invalid Type Value"),
     ENTITY_NOT_FOUND(HttpStatus.BAD_REQUEST, "Entity Not Found"),
-    DATA_INTEGRITY_VIOLATION(HttpStatus.BAD_REQUEST, "데이터를 다시 한번 확인해주세요."),
+    DATA_INTEGRITY_VIOLATION(HttpStatus.BAD_REQUEST, "요청 데이터가 정상적이지 않습니다."),
     MISSING_SERVLET_REQUEST_PARAMETER(HttpStatus.BAD_REQUEST, "필수 파라미터가 존재하지 않습니다."),
+    MODEL_BINDING_ERROR(HttpStatus.BAD_REQUEST, "요청 데이터가 정상적이지 않습니다."),
+    REQUEST_BINDING_ERROR(HttpStatus.BAD_REQUEST, "요청 데이터가 정상적이지 않습니다."),
+    TYPE_BINDING_ERROR(HttpStatus.BAD_REQUEST, "Parameter 값이 정상적이지 않습니다."),
 
     // 401
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "Unable to get JWT Token"),
@@ -27,7 +28,7 @@ public enum ErrorCode {
     ACCESS_DENIED(HttpStatus.FORBIDDEN, "접근 하기 위해서는 권한을 확인해주세요."),
     
     // 404
-    NO_SUCH_ELEMENT(HttpStatus.NOT_FOUND, "No value present"),
+    NO_SUCH_ELEMENT(HttpStatus.NOT_FOUND, "데이터가 존재하지 않습니다."),
     
     // 405
     METHOD_NOT_ALLOWED(HttpStatus.METHOD_NOT_ALLOWED, "지원하지 않은 HTTP method 입니다."),

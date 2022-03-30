@@ -8,10 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.toyseven.ymk.common.error.ErrorCode;
@@ -22,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
+	
 	/**
      * javax.validation.Valid or @Validated 으로 binding error 발생시 발생한다.
      * HttpMessageConverter 에서 등록한 HttpMessageConverter binding 못할경우 발생
@@ -30,8 +34,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         log.error("handleMethodArgumentNotValidException", e);
-        final ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_INPUT_VALUE, e.getBindingResult());
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return ErrorResponse.toResponseEntity(ErrorCode.REQUEST_BINDING_ERROR);
     }
 
     /**
@@ -41,8 +44,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BindException.class)
     protected ResponseEntity<ErrorResponse> handleBindException(BindException e) {
         log.error("handleBindException", e);
-        final ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_INPUT_VALUE, e.getBindingResult());
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return ErrorResponse.toResponseEntity(ErrorCode.MODEL_BINDING_ERROR);
     }
 
     /**
@@ -52,8 +54,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     protected ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
         log.error("handleMethodArgumentTypeMismatchException", e);
-        final ErrorResponse response = ErrorResponse.of(e);
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return ErrorResponse.toResponseEntity(ErrorCode.TYPE_BINDING_ERROR);
     }
 
 	
