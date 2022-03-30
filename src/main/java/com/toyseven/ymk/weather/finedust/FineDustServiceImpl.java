@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.stream.StreamSupport;
 
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -25,21 +26,17 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class FineDustServiceImpl implements FineDustService {
     private static final String BASE_URL = "http://apis.data.go.kr/B552584/ArpltnInforInqireSvc";
-    private final FineDustParam fineDustParam;
+    
+    @Value("${api.key.fineDust}") 
+    private String SERVICE_KEY;
+    private static final String RETURN_TYPE = "json";
+    private static final String DATA_TERM = "DAILY";
+    private static final String VER = "1.3";
 
     @SuppressWarnings("unchecked")
     @Override
 	public int getFineDustInfo(WeatherDto.Request weatherRequest) {
-        fineDustParam.setPageNo(1);
-        fineDustParam.setNumOfRows(1);
-        fineDustParam.setServiceKey(fineDustParam.getServiceKey());
-        StringBuffer stationName = new StringBuffer();
-		try {
-			stationName.append(URLEncoder.encode(weatherRequest.getStationName(), "UTF-8"));
-		} catch (final UnsupportedEncodingException e) {
-			throw new BusinessException(e.getMessage(), ErrorCode.ENCODING_ERROR);
-		}
-        fineDustParam.setStationName(stationName.toString());
+		WeatherDto.FineDustRequest fineDustRequest = setFineDustRequest(weatherRequest.getStationName());
 
         DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory(BASE_URL);
         factory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
@@ -48,13 +45,13 @@ public class FineDustServiceImpl implements FineDustService {
         ResponseEntity<JSONObject> response = wc.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/getMsrstnAcctoRltmMesureDnsty")
-                        .queryParam("serviceKey", fineDustParam.getServiceKey())
-                        .queryParam("stationName", fineDustParam.getStationName())
-                        .queryParam("returnType", fineDustParam.getReturnType())
-                        .queryParam("pageNo", fineDustParam.getPageNo())
-                        .queryParam("numOfRows", fineDustParam.getNumOfRows())
-                        .queryParam("dataTerm", fineDustParam.getDataTerm())
-                        .queryParam("ver", fineDustParam.getVer()).build()
+                        .queryParam("serviceKey", fineDustRequest.getServiceKey())
+                        .queryParam("stationName", fineDustRequest.getStationName())
+                        .queryParam("returnType", fineDustRequest.getReturnType())
+                        .queryParam("pageNo", fineDustRequest.getPageNo())
+                        .queryParam("numOfRows", fineDustRequest.getNumOfRows())
+                        .queryParam("dataTerm", fineDustRequest.getDataTerm())
+                        .queryParam("ver", fineDustRequest.getVer()).build()
                 ).headers(httpHeaders -> httpHeaders.add("Content-Type", "application/json;charset=UTF-8"))
                 .accept(MediaType.APPLICATION_JSON)
                 .acceptCharset(StandardCharsets.UTF_8)
@@ -78,5 +75,22 @@ public class FineDustServiceImpl implements FineDustService {
         		.orElse(0);
 
         return Integer.parseInt(fineDust);
+    }
+    
+    private WeatherDto.FineDustRequest setFineDustRequest(String stationName) {
+    	WeatherDto.FineDustRequest request = new WeatherDto.FineDustRequest();
+    	try {
+			request.setStationName(URLEncoder.encode(stationName, "UTF-8"));
+		} catch (final UnsupportedEncodingException e) {
+			throw new BusinessException(e.getMessage(), ErrorCode.ENCODING_ERROR);
+		}
+    	request.setPageNo(1);
+        request.setNumOfRows(1);
+        request.setServiceKey(SERVICE_KEY);
+        request.setReturnType(RETURN_TYPE);
+        request.setDataTerm(DATA_TERM);
+        request.setVer(VER);
+        
+        return request;
     }
 }

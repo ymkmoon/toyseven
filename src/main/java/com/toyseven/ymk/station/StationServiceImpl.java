@@ -29,7 +29,8 @@ public class StationServiceImpl implements StationService {
     private final StationRepository stationRepository;
     private final ObjectMapper objectMapper;
     
-    @Value("${api.key.station}") private String SERVICE_KEY;
+    @Value("${api.key.station}") 
+    private String SERVICE_KEY;
     private static final String DATA_TYPE = "JSON";
     private static final String SERVICE = "bikeList";
     

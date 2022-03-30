@@ -1,5 +1,6 @@
 package com.toyseven.ymk.common.dto;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
 import org.json.simple.JSONObject;
@@ -9,6 +10,7 @@ import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 public class WeatherDto {
@@ -33,6 +35,33 @@ public class WeatherDto {
 	    private int fineDust;
 	    @NotNull
 	    private JSONObject weather;
+	}
+	
+	@Getter
+	@Setter
+	@NoArgsConstructor
+	public static class FineDustRequest {
+	    private String serviceKey;
+	    private String returnType;
+	    private String dataTerm;
+	    private String ver;
+	    @NotBlank private String stationName;
+	    private int pageNo;
+	    private int numOfRows;
+	}
+	
+	@Getter
+	@Setter
+	@NoArgsConstructor
+	public static class TemperatureRequest {
+	    private String serviceKey;
+	    private int pageNo;
+	    private int numOfRows;
+	    private String dataType;
+	    private String baseDate;
+	    private String baseTime;
+	    @NotBlank private int nx;
+	    @NotBlank private int ny;
 	}
 
 }
