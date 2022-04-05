@@ -1,6 +1,7 @@
 package com.toyseven.ymk.common.dto;
 
-import com.sun.istack.NotNull;
+
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +22,9 @@ public class AdminDto {
 	public static class Response {
 	    @NotNull
 	    private String accessToken;
+
+	    @NotNull
+	    private String refreshToken;
 	}
 
 }

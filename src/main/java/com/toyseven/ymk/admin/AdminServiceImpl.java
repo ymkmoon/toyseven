@@ -6,7 +6,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.toyseven.ymk.common.dto.TokenDto;
+import com.toyseven.ymk.common.dto.TokenDto.RefreshRequest;
 import com.toyseven.ymk.common.model.entity.AdminEntity;
+import com.toyseven.ymk.common.util.JwtUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class AdminServiceImpl implements UserDetailsService, AdminService {
 
 	private final AdminRepository adminRepository;
+	private final RefreshTokenRepository refreshTokenRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) {
@@ -27,5 +31,19 @@ public class AdminServiceImpl implements UserDetailsService, AdminService {
                 .roles(adminItem.getRole().getName())
                 .build();
     }
+
+	@Override
+	public void saveRefreshToken(TokenDto.Response token) {
+		String username = JwtUtil.getUsernameFromToken(token.getRefreshToken());
+		AdminEntity admin = adminRepository.findAccountByUsername(username).get();
+		
+		boolean exists = refreshTokenRepository.existsByAdminId(admin);
+		if(exists) {
+			refreshTokenRepository.deleteByAdminId(admin);
+		} 
+		refreshTokenRepository.save(RefreshRequest.builder().adminId(admin)
+				.refreshToken(token.getRefreshToken()).build().toEntity());
+		
+	}
 }
 

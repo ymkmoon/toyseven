@@ -6,15 +6,15 @@ import java.util.Map;
 import java.util.function.Function;
 
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 
-import com.toyseven.ymk.common.Constants;
+import com.toyseven.ymk.common.dto.TokenDto;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.experimental.UtilityClass;
 
-@Component
+@UtilityClass
 public class JwtUtil {
 
     public String getUsernameFromToken(String token) {
@@ -36,33 +36,55 @@ public class JwtUtil {
     }
 
     private Claims getAllClaimsFromToken(String token) {
-        return Jwts.parser().setSigningKey(Constants.ACCESS_TOKEN_SECRET).parseClaimsJws(token).getBody();
+        return Jwts.parser().setSigningKey(Constants.TOKEN_SECRET).parseClaimsJws(token).getBody();
     }
 
-    private Boolean isAccessTokenExpired(String token) {
+    private Boolean isTokenExpired(String token) {
         final Date expiration = getExpirationDateFromToken(token);
         return expiration.before(new Date());
     }
 
-    public String generateToken(UserDetails userDetails) {
+    public TokenDto.Response generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
 
         claims.put("username", userDetails.getUsername());
 
-        return doGenerateToken(claims);
+        String accessToken = doGenerateAccessToken(claims);
+        String refreshToken = doGenerateRefreshToken(claims);
+        
+        return TokenDto.Response.builder()
+		        .accessToken(accessToken)
+		        .refreshToken(refreshToken)
+		        .build();
+        
     }
 
-    private String doGenerateToken(Map<String, Object> claims) {
+    private String doGenerateAccessToken(Map<String, Object> claims) {
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis()+Constants.ACCESS_TOKEN_VALIDITY))
-                .signWith(SignatureAlgorithm.HS512, Constants.ACCESS_TOKEN_SECRET)
+                .signWith(SignatureAlgorithm.HS512, Constants.TOKEN_SECRET)
                 .compact();
     }
-
-    public Boolean validateAccessToken(String token, UserDetails userDetails) {
-        final String username = getUsernameFromToken(token);
-        return (username.equals(userDetails.getUsername())) && !isAccessTokenExpired(token);
+    
+    private String doGenerateRefreshToken(Map<String, Object> claims) {
+    	return Jwts.builder()
+    			.setClaims(claims)
+    			.setIssuedAt(new Date(System.currentTimeMillis()))
+    			.setExpiration(new Date(System.currentTimeMillis()+Constants.REFRESH_TOKEN_VALIDITY))
+    			.signWith(SignatureAlgorithm.HS512, Constants.TOKEN_SECRET)
+    			.compact();
     }
+
+    public Boolean validateAccessToken(String accessToken, UserDetails userDetails) {
+        final String username = getUsernameFromToken(accessToken);
+        return (username.equals(userDetails.getUsername())) && !isTokenExpired(accessToken);
+    }
+    
+    public String validateRefreshToken(String refreshToken){
+    	final Claims claims = getAllClaimsFromToken(refreshToken);
+        return isTokenExpired(refreshToken) ? null : doGenerateAccessToken(claims); 
+    }
+    
 }
