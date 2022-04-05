@@ -1,6 +1,5 @@
 package com.toyseven.ymk.admin;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
@@ -13,9 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.toyseven.ymk.common.Constants;
 import com.toyseven.ymk.common.dto.AdminDto;
-import com.toyseven.ymk.common.util.CookieUtil;
+import com.toyseven.ymk.common.dto.TokenDto;
 import com.toyseven.ymk.common.util.JwtUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -27,21 +25,39 @@ public class AdminController {
 
     private final AdminService adminService;
     private final AuthenticationManager authenticationManager;
-    private final JwtUtil jwtUtil;
-    private final CookieUtil cookieUtil;
+//    private final JwtUtil jwtUtil;
+//    private final CookieUtil cookieUtil;
 
     @PostMapping(value = "/login")
-    public ResponseEntity<Object> login(@RequestBody AdminDto.Request adminRequest, HttpServletResponse response) {
+    public ResponseEntity<AdminDto.Response> login(@RequestBody AdminDto.Request adminRequest, HttpServletResponse response) {
         UserDetails userDetails = adminService.loadUserByUsername(adminRequest.getUsername());
-        String token = jwtUtil.generateToken(userDetails);
+        TokenDto.Response token = JwtUtil.generateToken(userDetails);
+        
+        adminService.saveRefreshToken(token);
 
         authenticate(adminRequest.getUsername(), adminRequest.getPassword());
 
-        Cookie accessToken = cookieUtil.createCookie(Constants.ACCESS_TOKEN, token);
-        response.addCookie(accessToken);
+//        Cookie accessToken = cookieUtil.createCookie(Constants.ACCESS_TOKEN, token);
+//        response.addCookie(accessToken);
         
-        AdminDto.Response adminResponse = AdminDto.Response.builder().accessToken(token).build();
+        AdminDto.Response adminResponse = AdminDto.Response.builder()
+        									.accessToken(token.getAccessToken())
+        									.refreshToken(token.getRefreshToken())
+        									.build();
         return new ResponseEntity<>(adminResponse, HttpStatus.OK);
+    }
+    
+    @PostMapping(value = "/refresh")
+    public ResponseEntity<Object> refresh(@RequestBody TokenDto.RefreshRequest refreshRequest) {
+    	// accessToken 검증은 security 부분에서 admin 만 접근 가능하게 했음.
+    	String accessToken = JwtUtil.validateRefreshToken(refreshRequest.getRefreshToken());
+    	
+    	AdminDto.Response adminResponse = AdminDto.Response.builder()
+				.accessToken(accessToken)
+				.refreshToken(refreshRequest.getRefreshToken())
+				.build();
+    	return new ResponseEntity<>(adminResponse, HttpStatus.OK);
+    	
     }
 
     private void authenticate(String username, String password) {

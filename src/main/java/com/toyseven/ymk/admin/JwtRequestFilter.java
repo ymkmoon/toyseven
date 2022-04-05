@@ -33,7 +33,6 @@ import lombok.RequiredArgsConstructor;
 public class JwtRequestFilter extends OncePerRequestFilter {
 	
 	private final AdminService adminService;
-    private final JwtUtil jwtUtil;
     private final ObjectMapper objectMapper;
 
     @Override
@@ -45,7 +44,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         
         if(accessToken != null) {
         	try {
-        		username = jwtUtil.getUsernameFromToken(accessToken);
+        		username = JwtUtil.getUsernameFromToken(accessToken);
         	} catch (IllegalArgumentException | AccessDeniedException | MalformedJwtException | SignatureException e) {
         		logger.error("Unable to get JWT Token", e);
         		failResponse(response, ErrorCode.FAIL_AUTHORIZED);
@@ -64,7 +63,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         		
         		UserDetails userDetails = this.adminService.loadUserByUsername(username);
         		
-        		if (Boolean.TRUE.equals(jwtUtil.validateAccessToken(accessToken, userDetails))) {
+        		if (Boolean.TRUE.equals(JwtUtil.validateAccessToken(accessToken, userDetails))) {
         			UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
         					userDetails, null, userDetails.getAuthorities());
         			usernamePasswordAuthenticationToken

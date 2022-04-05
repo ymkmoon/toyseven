@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.toyseven.ymk.common.error.ErrorCode;
 import com.toyseven.ymk.common.error.ErrorResponse;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 
 @RestControllerAdvice
@@ -143,6 +144,16 @@ public class GlobalExceptionHandler {
     protected ResponseEntity<ErrorResponse> handleUnrecognizedPropertyException(UnrecognizedPropertyException e) {
         log.error("handleUnrecognizedPropertyException", e);
         return ErrorResponse.toResponseEntity(ErrorCode.INTERNAL_SERVER_ERROR);
+    }
+    
+    /**
+     * Entity 와 Dto 간 변환이 실패한 경우
+     * 	ex) entity 와 dto 사이 필드간 차이가 있는 경우
+     */
+    @ExceptionHandler(ExpiredJwtException.class)
+    protected ResponseEntity<ErrorResponse> handleUnrecognizedPropertyException(ExpiredJwtException e) {
+    	log.error("handleExpiredJwtException", e);
+    	return ErrorResponse.toResponseEntity(ErrorCode.TOKEN_EXPIRED);
     }
     
     @ExceptionHandler(Exception.class)
