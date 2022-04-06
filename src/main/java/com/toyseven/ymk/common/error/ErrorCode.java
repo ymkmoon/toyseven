@@ -25,6 +25,7 @@ public enum ErrorCode {
     DISABLED_USER(HttpStatus.UNAUTHORIZED, "비활성화 된 계정 입니다."),
     USER_NAME_NOT_FOUND(HttpStatus.UNAUTHORIZED, "사용자를 찾을 수 없습니다."),
     BAD_CREDENTIAL(HttpStatus.UNAUTHORIZED, "암호가 일치하지 않습니다."),
+    TOKEN_IS_NOT_AUTHORIZED(HttpStatus.UNAUTHORIZED, "인증되지 않은 토큰 입니다."),
     
     // 403
     ACCESS_DENIED(HttpStatus.FORBIDDEN, "접근 하기 위해서는 권한을 확인해주세요."),

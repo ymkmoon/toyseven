@@ -8,7 +8,10 @@ import org.springframework.stereotype.Service;
 
 import com.toyseven.ymk.common.dto.TokenDto;
 import com.toyseven.ymk.common.dto.TokenDto.RefreshRequest;
+import com.toyseven.ymk.common.error.ErrorCode;
+import com.toyseven.ymk.common.error.Exception.BusinessException;
 import com.toyseven.ymk.common.model.entity.AdminEntity;
+import com.toyseven.ymk.common.model.entity.RefreshTokenEntity;
 import com.toyseven.ymk.common.util.JwtUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -43,7 +46,20 @@ public class AdminServiceImpl implements UserDetailsService, AdminService {
 		} 
 		refreshTokenRepository.save(RefreshRequest.builder().adminId(admin)
 				.refreshToken(token.getRefreshToken()).build().toEntity());
-		
 	}
+
+	@Override
+	public boolean validateRegistRefreshToken(RefreshRequest refreshRequest) {
+		String refreshToken = refreshRequest.getRefreshToken();
+		String usernameInToken = JwtUtil.getUsernameFromToken(refreshToken);
+		AdminEntity admin = adminRepository.findAccountByUsername(usernameInToken).orElseThrow(
+				() -> new BusinessException(ErrorCode.TOKEN_IS_NOT_AUTHORIZED));
+		RefreshTokenEntity entity = refreshTokenRepository.findRefreshTokenByAdminId(admin).orElseThrow(
+				() -> new BusinessException(ErrorCode.TOKEN_IS_NOT_AUTHORIZED));
+		
+		return refreshToken.equals(entity.getRefreshToken());
+	}
+	
+	
 }
 

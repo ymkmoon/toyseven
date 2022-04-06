@@ -20,6 +20,9 @@ import com.toyseven.ymk.common.error.ErrorCode;
 import com.toyseven.ymk.common.error.ErrorResponse;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.extern.slf4j.Slf4j;
 
 @RestControllerAdvice
@@ -119,7 +122,7 @@ public class GlobalExceptionHandler {
      * 	ex) 게시글 답변 입력 시 foreign key 인 question id 에 해당하는 데이터가 존재하지 않는 경우 
      */
     @ExceptionHandler(DataIntegrityViolationException.class)
-    protected ResponseEntity<ErrorResponse> constraintViolationException(DataIntegrityViolationException e) {
+    protected ResponseEntity<ErrorResponse> handleConstraintViolationException(DataIntegrityViolationException e) {
     	log.error("handleDataIntegrityViolationException", e);
     	return ErrorResponse.toResponseEntity(ErrorCode.DATA_INTEGRITY_VIOLATION);
     }
@@ -129,7 +132,7 @@ public class GlobalExceptionHandler {
      * 	ex) 특정 station 조회 시 필수 파마리터인 name 의 value 가 존재하지 않는 경우 
      */
     @ExceptionHandler(MissingServletRequestParameterException.class)
-    protected ResponseEntity<ErrorResponse> constraintRequestParameterException(MissingServletRequestParameterException e) {
+    protected ResponseEntity<ErrorResponse> handleConstraintRequestParameterException(MissingServletRequestParameterException e) {
     	log.error("handleMissingServletRequestParameterException", e);
     	return ErrorResponse.toResponseEntity(ErrorCode.MISSING_SERVLET_REQUEST_PARAMETER);
     }
@@ -147,14 +150,43 @@ public class GlobalExceptionHandler {
     }
     
     /**
-     * Entity 와 Dto 간 변환이 실패한 경우
-     * 	ex) entity 와 dto 사이 필드간 차이가 있는 경우
+     * JWT 토큰이 만료 된 경우
      */
     @ExceptionHandler(ExpiredJwtException.class)
-    protected ResponseEntity<ErrorResponse> handleUnrecognizedPropertyException(ExpiredJwtException e) {
+    protected ResponseEntity<ErrorResponse> handleExpiredJwtException(ExpiredJwtException e) {
     	log.error("handleExpiredJwtException", e);
     	return ErrorResponse.toResponseEntity(ErrorCode.TOKEN_EXPIRED);
     }
+    
+    
+    /**
+     * JWT 토큰의 구성이 올바르지 않을 경우
+     */
+    @ExceptionHandler(MalformedJwtException.class)
+    protected ResponseEntity<ErrorResponse> handleMalformedJwtException(MalformedJwtException e) {
+    	log.error("handleMalformedJwtException", e);
+    	return ErrorResponse.toResponseEntity(ErrorCode.UNAUTHORIZED);
+    }
+    
+    /**
+     * 예상하는 형식과 일치하지 않는 특정 형식이나 구성의 JWT 일 경우
+     */
+    @ExceptionHandler(UnsupportedJwtException.class)
+    protected ResponseEntity<ErrorResponse> handleUnsupportedJwtException(UnsupportedJwtException e) {
+    	log.error("handleUnsupportedJwtException", e);
+    	return ErrorResponse.toResponseEntity(ErrorCode.UNAUTHORIZED);
+    }
+    
+    /**
+     * JWT의 기존 서명을 확인하지 못했을 경우
+     */
+    @ExceptionHandler(SignatureException.class)
+    protected ResponseEntity<ErrorResponse> handleSignatureException(SignatureException e) {
+    	log.error("handleSignatureException", e);
+    	return ErrorResponse.toResponseEntity(ErrorCode.UNAUTHORIZED);
+    }
+    
+    
     
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<ErrorResponse> handleException(Exception e) {

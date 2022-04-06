@@ -45,8 +45,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .authorizeRequests()
             .antMatchers(
-            		"/voc/answer",
-            		"/auth/refresh"
+            		"/voc/answer"
+//            		,
+//            		"/auth/refresh"
             		).hasRole("ADMIN")
 	            .antMatchers("/**/**").permitAll()
                 .anyRequest().authenticated()
