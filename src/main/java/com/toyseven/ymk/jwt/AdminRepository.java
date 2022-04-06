@@ -1,4 +1,4 @@
-package com.toyseven.ymk.admin;
+package com.toyseven.ymk.jwt;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

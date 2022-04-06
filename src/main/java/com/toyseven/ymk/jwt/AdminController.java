@@ -1,6 +1,4 @@
-package com.toyseven.ymk.admin;
-
-import javax.servlet.http.HttpServletResponse;
+package com.toyseven.ymk.jwt;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,26 +25,21 @@ public class AdminController {
 
     private final AdminService adminService;
     private final AuthenticationManager authenticationManager;
-//    private final JwtUtil jwtUtil;
-//    private final CookieUtil cookieUtil;
 
     @PostMapping(value = "/login")
-    public ResponseEntity<AdminDto.Response> login(@RequestBody AdminDto.Request adminRequest, HttpServletResponse response) {
+    public ResponseEntity<TokenDto.Response> login(@RequestBody AdminDto.Request adminRequest) {
         UserDetails userDetails = adminService.loadUserByUsername(adminRequest.getUsername());
         TokenDto.Response token = JwtUtil.generateToken(userDetails);
         
         adminService.saveRefreshToken(token);
 
         authenticate(adminRequest.getUsername(), adminRequest.getPassword());
-
-//        Cookie accessToken = cookieUtil.createCookie(Constants.ACCESS_TOKEN, token);
-//        response.addCookie(accessToken);
         
-        AdminDto.Response adminResponse = AdminDto.Response.builder()
+        TokenDto.Response response = TokenDto.Response.builder()
         									.accessToken(token.getAccessToken())
         									.refreshToken(token.getRefreshToken())
         									.build();
-        return new ResponseEntity<>(adminResponse, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
     
     @PostMapping(value = "/refresh")
@@ -57,7 +50,7 @@ public class AdminController {
     	}
     	
     	String accessToken = JwtUtil.validateRefreshToken(refreshRequest.getRefreshToken());
-    	AdminDto.Response adminResponse = AdminDto.Response.builder()
+    	TokenDto.Response adminResponse = TokenDto.Response.builder()
 				.accessToken(accessToken)
 				.refreshToken(refreshRequest.getRefreshToken())
 				.build();

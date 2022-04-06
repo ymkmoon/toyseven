@@ -15,10 +15,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
-import com.toyseven.ymk.admin.AdminServiceImpl;
-import com.toyseven.ymk.admin.JwtRequestFilter;
 import com.toyseven.ymk.common.error.Exception.JwtAccessDeniedHandler;
 import com.toyseven.ymk.common.error.Exception.JwtAuthenticationEntryPoint;
+import com.toyseven.ymk.jwt.AdminServiceImpl;
+import com.toyseven.ymk.jwt.JwtRequestFilter;
 
 import lombok.RequiredArgsConstructor;
 
