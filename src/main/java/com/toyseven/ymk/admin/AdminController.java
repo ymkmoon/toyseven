@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.toyseven.ymk.common.dto.AdminDto;
 import com.toyseven.ymk.common.dto.TokenDto;
+import com.toyseven.ymk.common.error.ErrorCode;
+import com.toyseven.ymk.common.error.ErrorResponse;
 import com.toyseven.ymk.common.util.JwtUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -48,10 +50,13 @@ public class AdminController {
     }
     
     @PostMapping(value = "/refresh")
-    public ResponseEntity<Object> refresh(@RequestBody TokenDto.RefreshRequest refreshRequest) {
-    	// accessToken 검증은 security 부분에서 admin 만 접근 가능하게 했음.
-    	String accessToken = JwtUtil.validateRefreshToken(refreshRequest.getRefreshToken());
+    public ResponseEntity<?> refresh(@RequestBody TokenDto.RefreshRequest refreshRequest) {
+    	boolean registRefreshToken = adminService.validateRegistRefreshToken(refreshRequest);;
+    	if(!registRefreshToken) {
+    		return ErrorResponse.toResponseEntity(ErrorCode.UNAUTHORIZED);
+    	}
     	
+    	String accessToken = JwtUtil.validateRefreshToken(refreshRequest.getRefreshToken());
     	AdminDto.Response adminResponse = AdminDto.Response.builder()
 				.accessToken(accessToken)
 				.refreshToken(refreshRequest.getRefreshToken())

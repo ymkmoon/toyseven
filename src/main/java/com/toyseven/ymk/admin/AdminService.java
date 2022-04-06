@@ -11,4 +11,5 @@ public interface AdminService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 //	public void saveRefreshToken(RefreshTokenDto.Request refreshTokenRequest);
 	public void saveRefreshToken(TokenDto.Response token);
+	public boolean validateRegistRefreshToken(TokenDto.RefreshRequest refreshRequest);
 }
