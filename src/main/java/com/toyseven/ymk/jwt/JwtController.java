@@ -1,6 +1,4 @@
-package com.toyseven.ymk.admin;
-
-import javax.servlet.http.HttpServletResponse;
+package com.toyseven.ymk.jwt;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,41 +21,36 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("auth")
-public class AdminController {
+public class JwtController {
 
-    private final AdminService adminService;
+    private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-//    private final JwtUtil jwtUtil;
-//    private final CookieUtil cookieUtil;
 
     @PostMapping(value = "/login")
-    public ResponseEntity<AdminDto.Response> login(@RequestBody AdminDto.Request adminRequest, HttpServletResponse response) {
-        UserDetails userDetails = adminService.loadUserByUsername(adminRequest.getUsername());
+    public ResponseEntity<TokenDto.Response> login(@RequestBody AdminDto.Request adminRequest) {
+        UserDetails userDetails = jwtService.loadUserByUsername(adminRequest.getUsername());
         TokenDto.Response token = JwtUtil.generateToken(userDetails);
         
-        adminService.saveRefreshToken(token);
+        jwtService.saveRefreshToken(token);
 
         authenticate(adminRequest.getUsername(), adminRequest.getPassword());
-
-//        Cookie accessToken = cookieUtil.createCookie(Constants.ACCESS_TOKEN, token);
-//        response.addCookie(accessToken);
         
-        AdminDto.Response adminResponse = AdminDto.Response.builder()
+        TokenDto.Response response = TokenDto.Response.builder()
         									.accessToken(token.getAccessToken())
         									.refreshToken(token.getRefreshToken())
         									.build();
-        return new ResponseEntity<>(adminResponse, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
     
     @PostMapping(value = "/refresh")
     public ResponseEntity<?> refresh(@RequestBody TokenDto.RefreshRequest refreshRequest) {
-    	boolean registRefreshToken = adminService.validateRegistRefreshToken(refreshRequest);;
+    	boolean registRefreshToken = jwtService.validateRegistRefreshToken(refreshRequest);;
     	if(!registRefreshToken) {
     		return ErrorResponse.toResponseEntity(ErrorCode.UNAUTHORIZED);
     	}
     	
     	String accessToken = JwtUtil.validateRefreshToken(refreshRequest.getRefreshToken());
-    	AdminDto.Response adminResponse = AdminDto.Response.builder()
+    	TokenDto.Response adminResponse = TokenDto.Response.builder()
 				.accessToken(accessToken)
 				.refreshToken(refreshRequest.getRefreshToken())
 				.build();

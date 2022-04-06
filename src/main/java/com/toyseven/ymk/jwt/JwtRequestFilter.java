@@ -1,4 +1,4 @@
-package com.toyseven.ymk.admin;
+package com.toyseven.ymk.jwt;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -32,7 +32,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class JwtRequestFilter extends OncePerRequestFilter {
 	
-	private final AdminService adminService;
+	private final JwtService jwtService;
     private final ObjectMapper objectMapper;
 
     @Override
@@ -61,7 +61,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         	
         	if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
         		
-        		UserDetails userDetails = this.adminService.loadUserByUsername(username);
+        		UserDetails userDetails = this.jwtService.loadUserByUsername(username);
         		
         		if (Boolean.TRUE.equals(JwtUtil.validateAccessToken(accessToken, userDetails))) {
         			UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(

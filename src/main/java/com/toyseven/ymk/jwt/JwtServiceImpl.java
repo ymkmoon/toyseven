@@ -1,4 +1,4 @@
-package com.toyseven.ymk.admin;
+package com.toyseven.ymk.jwt;
 
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class AdminServiceImpl implements UserDetailsService, AdminService {
+public class JwtServiceImpl implements UserDetailsService, JwtService {
 
 	private final AdminRepository adminRepository;
 	private final RefreshTokenRepository refreshTokenRepository;
