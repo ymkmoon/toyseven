@@ -21,6 +21,8 @@ h2 console
 
 
 API 활용 (Use Postman)
+
+share link : https://www.getpostman.com/collections/21f459dc75f7db465b19
 	
 	Get Token
 		Post http://YOUR_IP_ADDRESS:PORT/toyseven/auth/login
