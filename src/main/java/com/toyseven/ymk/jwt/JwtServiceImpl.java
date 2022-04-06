@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class AdminServiceImpl implements UserDetailsService, AdminService {
+public class JwtServiceImpl implements UserDetailsService, JwtService {
 
 	private final AdminRepository adminRepository;
 	private final RefreshTokenRepository refreshTokenRepository;

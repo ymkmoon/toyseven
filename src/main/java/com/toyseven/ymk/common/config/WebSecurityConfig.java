@@ -17,7 +17,7 @@ import org.springframework.web.cors.CorsConfiguration;
 
 import com.toyseven.ymk.common.error.Exception.JwtAccessDeniedHandler;
 import com.toyseven.ymk.common.error.Exception.JwtAuthenticationEntryPoint;
-import com.toyseven.ymk.jwt.AdminServiceImpl;
+import com.toyseven.ymk.jwt.JwtServiceImpl;
 import com.toyseven.ymk.jwt.JwtRequestFilter;
 
 import lombok.RequiredArgsConstructor;
@@ -32,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 	private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 	private final JwtRequestFilter jwtRequestFilter;
-	private final AdminServiceImpl adminService;
+	private final JwtServiceImpl jwtService;
     
     @Bean
     @Override
@@ -73,6 +73,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(adminService).passwordEncoder(passwordEncoder());
+		auth.userDetailsService(jwtService).passwordEncoder(passwordEncoder());
 	}
 }

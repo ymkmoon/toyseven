@@ -21,17 +21,17 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("auth")
-public class AdminController {
+public class JwtController {
 
-    private final AdminService adminService;
+    private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
     @PostMapping(value = "/login")
     public ResponseEntity<TokenDto.Response> login(@RequestBody AdminDto.Request adminRequest) {
-        UserDetails userDetails = adminService.loadUserByUsername(adminRequest.getUsername());
+        UserDetails userDetails = jwtService.loadUserByUsername(adminRequest.getUsername());
         TokenDto.Response token = JwtUtil.generateToken(userDetails);
         
-        adminService.saveRefreshToken(token);
+        jwtService.saveRefreshToken(token);
 
         authenticate(adminRequest.getUsername(), adminRequest.getPassword());
         
@@ -44,7 +44,7 @@ public class AdminController {
     
     @PostMapping(value = "/refresh")
     public ResponseEntity<?> refresh(@RequestBody TokenDto.RefreshRequest refreshRequest) {
-    	boolean registRefreshToken = adminService.validateRegistRefreshToken(refreshRequest);;
+    	boolean registRefreshToken = jwtService.validateRegistRefreshToken(refreshRequest);;
     	if(!registRefreshToken) {
     		return ErrorResponse.toResponseEntity(ErrorCode.UNAUTHORIZED);
     	}
