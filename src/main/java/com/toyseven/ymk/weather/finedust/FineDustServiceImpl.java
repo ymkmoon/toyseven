@@ -18,7 +18,7 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 
 import com.toyseven.ymk.common.dto.WeatherDto;
 import com.toyseven.ymk.common.error.ErrorCode;
-import com.toyseven.ymk.common.error.Exception.BusinessException;
+import com.toyseven.ymk.common.error.exception.BusinessException;
 
 import lombok.RequiredArgsConstructor;
 

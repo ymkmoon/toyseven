@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.toyseven.ymk.common.dto.TokenDto;
 import com.toyseven.ymk.common.dto.TokenDto.RefreshRequest;
 import com.toyseven.ymk.common.error.ErrorCode;
-import com.toyseven.ymk.common.error.Exception.BusinessException;
+import com.toyseven.ymk.common.error.exception.BusinessException;
 import com.toyseven.ymk.common.model.entity.AdminEntity;
 import com.toyseven.ymk.common.model.entity.RefreshTokenEntity;
 import com.toyseven.ymk.common.util.JwtUtil;
