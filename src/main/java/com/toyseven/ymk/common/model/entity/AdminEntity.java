@@ -33,8 +33,10 @@ public class AdminEntity extends BaseTimeEntity {
 	
 	@Column(name = "username", nullable = false)
 	private String username;
-	@Column(name = "name", nullable = false)
-	private String name;
+	
+	@Column(name = "nickname", nullable = false)
+	private String nickname;
+	
 	@Column(name = "password", nullable = false)
 	private String password;
 	
@@ -52,10 +54,10 @@ public class AdminEntity extends BaseTimeEntity {
 	}
 	
 	@Builder
-	public AdminEntity(String userName, String name, String password, AdminRoleEntity role, LocalDateTime createAt,
+	public AdminEntity(String userName, String nickname, String password, AdminRoleEntity role, LocalDateTime createAt,
 			int status) {
 		this.username = userName;
-		this.name = name;
+		this.nickname = nickname;
 		this.password = password;
 		this.role = role;
 		this.status = status;
