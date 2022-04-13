@@ -18,10 +18,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @EqualsAndHashCode(callSuper=false)
 @AllArgsConstructor
+@NoArgsConstructor
 @Proxy(lazy = false)
 @Entity(name="admin") 
 public class AdminEntity extends BaseTimeEntity {
@@ -46,8 +48,6 @@ public class AdminEntity extends BaseTimeEntity {
 	
 	@Column(name = "status", nullable = false, insertable = false, columnDefinition = "INTEGER DEFAULT 1")
 	private int status;
-	
-	public AdminEntity() {}
 	
 	public AdminEntity(long id) {
 		this.id = id;
