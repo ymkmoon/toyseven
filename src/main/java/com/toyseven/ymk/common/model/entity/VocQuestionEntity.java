@@ -18,10 +18,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @EqualsAndHashCode(callSuper=false)
 @AllArgsConstructor
+@NoArgsConstructor
 @Proxy(lazy = false)
 @Entity(name="voc_question")
 public class VocQuestionEntity extends BaseTimeEntity {
@@ -53,8 +55,6 @@ public class VocQuestionEntity extends BaseTimeEntity {
 	
 	@Column(name = "need_reply", nullable = false)
 	private int needReply;
-	
-	public VocQuestionEntity() {}
 	
 	public VocQuestionEntity(long id) {
 		this.id = id;

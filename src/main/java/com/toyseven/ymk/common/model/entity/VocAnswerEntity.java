@@ -18,10 +18,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @EqualsAndHashCode(callSuper=false)
 @AllArgsConstructor
+@NoArgsConstructor
 @Proxy(lazy = false)
 @Entity(name="voc_answer")
 public class VocAnswerEntity extends BaseTimeEntity {
@@ -42,8 +44,6 @@ public class VocAnswerEntity extends BaseTimeEntity {
 	@JoinColumn(name="admin_id", referencedColumnName = "id", nullable = false)
 	private AdminEntity adminId;
 	
-	public VocAnswerEntity() {}
-
 	@Builder
 	public VocAnswerEntity(VocQuestionEntity questionId, String content, AdminEntity adminId) {
 		this.questionId = questionId;
