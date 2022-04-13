@@ -69,7 +69,7 @@ public class FineDustServiceImpl implements FineDustService {
         String fineDust = (String)StreamSupport.stream(items.spliterator(), false)
         		.map(item -> item)
         		.filter(item -> !item.isEmpty())
-        		.filter(item -> !item.get("khaiValue").toString().isBlank())
+        		.filter(item -> !item.get("khaiValue").toString().isEmpty())
         		.findFirst()
         		.map(item -> item.get("khaiValue"))
         		.orElse(0);
@@ -82,7 +82,7 @@ public class FineDustServiceImpl implements FineDustService {
     	try {
 			request.setStationName(URLEncoder.encode(stationName, "UTF-8"));
 		} catch (final UnsupportedEncodingException e) {
-			throw new BusinessException(ErrorCode.STATION_NAME_ENCODING_ERROR);
+			throw new BusinessException("stationName 의 값이 정상적이지 않습니다.", ErrorCode.STATION_NAME_ENCODING_ERROR);
 		}
     	request.setPageNo(1);
         request.setNumOfRows(1);
