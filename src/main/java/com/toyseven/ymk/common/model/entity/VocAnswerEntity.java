@@ -56,7 +56,7 @@ public class VocAnswerEntity extends BaseTimeEntity {
 				.id(id)
 				.content(content)
 				.questionId(questionId.getId())
-				.adminName(adminId.getName())
+				.adminName(adminId.getNickname())
 				.createdAt(getCreatedAt())
 				.updatedAt(getUpdatedAt())
 				.build();
