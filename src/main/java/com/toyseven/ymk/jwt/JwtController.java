@@ -44,7 +44,7 @@ public class JwtController {
     
     @PostMapping(value = "/refresh")
     public ResponseEntity<?> refresh(@RequestBody TokenDto.RefreshRequest refreshRequest) {
-    	boolean registRefreshToken = jwtService.validateRegistRefreshToken(refreshRequest);;
+    	boolean registRefreshToken = jwtService.validateRegistRefreshToken(refreshRequest);
     	if(!registRefreshToken) {
     		return ErrorResponse.toResponseEntity(ErrorCode.UNAUTHORIZED);
     	}

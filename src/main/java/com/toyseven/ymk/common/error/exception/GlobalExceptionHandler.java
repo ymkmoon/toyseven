@@ -1,4 +1,4 @@
-package com.toyseven.ymk.common.error.Exception;
+package com.toyseven.ymk.common.error.exception;
 
 import java.util.NoSuchElementException;
 
