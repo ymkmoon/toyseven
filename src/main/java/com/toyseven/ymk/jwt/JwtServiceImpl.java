@@ -26,7 +26,7 @@ public class JwtServiceImpl implements UserDetailsService, JwtService {
     @Override
     public UserDetails loadUserByUsername(String username) {
         AdminEntity adminItem = adminRepository.findAccountByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("@@@@@@@@temp 사용자를 찾을 수 없습니다."));
+                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
 
         return User.builder()
                 .username(adminItem.getUsername())
@@ -38,7 +38,8 @@ public class JwtServiceImpl implements UserDetailsService, JwtService {
 	@Override
 	public void saveRefreshToken(TokenDto.Response token) {
 		String username = JwtUtil.getUsernameFromToken(token.getRefreshToken());
-		AdminEntity admin = adminRepository.findAccountByUsername(username).get();
+		AdminEntity admin = adminRepository.findAccountByUsername(username).orElseThrow(
+				() -> new BusinessException("사용자를 찾을 수 없습니다.", ErrorCode.USER_NAME_NOT_FOUND));
 		
 		boolean exists = refreshTokenRepository.existsByAdminId(admin);
 		if(exists) {
