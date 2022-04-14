@@ -50,7 +50,7 @@ public class JwtServiceImpl implements UserDetailsService, JwtService {
 	}
 
 	@Override
-	public boolean validateRegistRefreshToken(RefreshRequest refreshRequest) {
+	public boolean validateRegistRefreshToken(TokenDto.RefreshRequest refreshRequest) {
 		String refreshToken = refreshRequest.getRefreshToken();
 		String usernameInToken = JwtUtil.getUsernameFromToken(refreshToken);
 		AdminEntity admin = adminRepository.findAccountByUsername(usernameInToken).orElseThrow(
