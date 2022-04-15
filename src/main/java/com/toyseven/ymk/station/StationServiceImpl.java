@@ -50,7 +50,7 @@ public class StationServiceImpl implements StationService {
     
     @Override
 	public List<StationInformationEntity> getStations() {
-    	List<StationInformationEntity> row = reuqestToStation(1);
+    	List<StationInformationEntity> row = requestToStation(1);
         return objectMapper.convertValue(row, new TypeReference<List<StationInformationEntity>>() {});
 	}
     
@@ -60,7 +60,7 @@ public class StationServiceImpl implements StationService {
     }
     
     @SuppressWarnings("unchecked")
-	private List<StationInformationEntity> reuqestToStation(int index) {
+	private List<StationInformationEntity> requestToStation(int index) {
     	DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory(BASE_URL);
         factory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.VALUES_ONLY);
         WebClient wc = WebClient.builder().uriBuilderFactory(factory).baseUrl(BASE_URL).build();
@@ -95,7 +95,7 @@ public class StationServiceImpl implements StationService {
         	row.addAll((List<StationInformationEntity>)responseData.get("row"));
         
         if(index < 2001)
-        	row.addAll(reuqestToStation(index+1000));
+        	row.addAll(requestToStation(index+1000));
         return row;
     }
     
