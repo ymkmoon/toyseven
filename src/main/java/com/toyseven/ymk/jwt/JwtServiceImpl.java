@@ -7,7 +7,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.toyseven.ymk.common.dto.TokenDto;
-import com.toyseven.ymk.common.dto.TokenDto.RefreshRequest;
 import com.toyseven.ymk.common.error.ErrorCode;
 import com.toyseven.ymk.common.error.exception.BusinessException;
 import com.toyseven.ymk.common.model.entity.AdminEntity;
@@ -36,7 +35,7 @@ public class JwtServiceImpl implements UserDetailsService, JwtService {
     }
 
 	@Override
-	public void saveRefreshToken(TokenDto.Response token) {
+	public String saveRefreshToken(TokenDto.Request token) {
 		String username = JwtUtil.getUsernameFromToken(token.getRefreshToken());
 		AdminEntity admin = adminRepository.findAccountByUsername(username).orElseThrow(
 				() -> new BusinessException("사용자를 찾을 수 없습니다.", ErrorCode.USER_NAME_NOT_FOUND));
@@ -45,8 +44,8 @@ public class JwtServiceImpl implements UserDetailsService, JwtService {
 		if(exists) {
 			refreshTokenRepository.deleteByAdminId(admin);
 		} 
-		refreshTokenRepository.save(RefreshRequest.builder().adminId(admin)
-				.refreshToken(token.getRefreshToken()).build().toEntity());
+		return refreshTokenRepository.save(TokenDto.RefreshRequest.builder().adminId(admin).refreshToken(token.getRefreshToken()).build().toEntity())
+				.getAdminId().getUsername();
 	}
 
 	@Override
