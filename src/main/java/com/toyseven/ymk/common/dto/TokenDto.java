@@ -33,7 +33,7 @@ public class TokenDto {
 	@Builder
 	@AllArgsConstructor
 	public static class RefreshRequest {
-		private long id;
+		private Long id;
 		private AdminEntity adminId;
 		@NotBlank private String refreshToken;
 		
