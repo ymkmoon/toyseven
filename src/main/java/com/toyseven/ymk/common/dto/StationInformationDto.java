@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 public class StationInformationDto {
 
@@ -22,8 +21,9 @@ public class StationInformationDto {
 	}
 	
 	@Getter
-	@Setter
 	@NoArgsConstructor
+	@Builder
+	@AllArgsConstructor
 	public static class Request {
 		private String serviceKey;
 	    private String dataType;

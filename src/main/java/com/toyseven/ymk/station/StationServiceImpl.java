@@ -100,13 +100,14 @@ public class StationServiceImpl implements StationService {
     }
     
     private StationInformationDto.Request setStationRequest(int index) {
-    	StationInformationDto.Request request = new StationInformationDto.Request();
-    	request.setServiceKey(SERVICE_KEY);
-    	request.setDataType(DATA_TYPE);
-    	request.setService(SERVICE);
-    	request.setStartIndex(index);
-    	request.setEndIndex(index+999);
-    	return request;
+    	return StationInformationDto.Request
+    			.builder()
+    			.serviceKey(SERVICE_KEY)
+    			.dataType(DATA_TYPE)
+    			.service(SERVICE)
+    			.startIndex(index)
+    			.endIndex(index+999)
+    			.build();
     	
     }
 }
