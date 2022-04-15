@@ -43,9 +43,13 @@ public class JwtServiceImpl implements UserDetailsService, JwtService {
 		boolean exists = refreshTokenRepository.existsByAdminId(admin);
 		if(exists) {
 			refreshTokenRepository.deleteByAdminId(admin);
-		} 
-		return refreshTokenRepository.save(TokenDto.RefreshRequest.builder().adminId(admin).refreshToken(token.getRefreshToken()).build().toEntity())
-				.getAdminId().getUsername();
+		}
+		
+		RefreshTokenEntity refreshTokenEntity = TokenDto.RefreshRequest.builder()
+				.adminId(admin)
+				.refreshToken(token.getRefreshToken())
+				.build().toEntity();
+		return refreshTokenRepository.save(refreshTokenEntity).getRefreshToken();
 	}
 
 	@Override
