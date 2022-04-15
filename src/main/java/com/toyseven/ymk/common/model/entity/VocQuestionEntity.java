@@ -31,7 +31,7 @@ public class VocQuestionEntity extends BaseTimeEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false, updatable = false)
-	private long id;
+	private Long id;
 	
 //	@Column(name = "category", nullable = false, updatable = true, insertable = true)
 //	@OneToOne(fetch = FetchType.LAZY)
@@ -56,7 +56,7 @@ public class VocQuestionEntity extends BaseTimeEntity {
 	@Column(name = "need_reply", nullable = false)
 	private int needReply;
 	
-	public VocQuestionEntity(long id) {
+	public VocQuestionEntity(Long id) {
 		this.id = id;
 	}
 	

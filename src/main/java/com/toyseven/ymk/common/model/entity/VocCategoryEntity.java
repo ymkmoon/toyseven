@@ -27,7 +27,7 @@ public class VocCategoryEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false, updatable = false, insertable = false)
-	private long id;
+	private Long id;
 	
 	
 	@Column(name="name", nullable = false, updatable = false)
@@ -37,7 +37,7 @@ public class VocCategoryEntity implements Serializable {
 	
 //	public VocCategory() {}
 	
-	public VocCategoryEntity(long id) {
+	public VocCategoryEntity(Long id) {
 		this.id = id;
 	}
 

@@ -25,7 +25,7 @@ public class RefreshTokenEntity extends BaseTimeEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false, updatable = false, insertable = false)
-	private long id;
+	private Long id;
 	
 	@OneToOne(fetch = FetchType.LAZY, targetEntity = AdminEntity.class)
 	@JoinColumn(name = "admin_id", referencedColumnName = "id", nullable = false)
