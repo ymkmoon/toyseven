@@ -27,7 +27,7 @@ public class AdminRoleEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false, updatable = false, insertable = false)
-	private long id;
+	private Long id;
 	
 	@Column(name = "name", nullable = false, updatable = false)
 	private String name;

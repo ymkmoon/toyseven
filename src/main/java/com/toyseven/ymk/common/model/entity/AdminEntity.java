@@ -31,7 +31,7 @@ public class AdminEntity extends BaseTimeEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false, updatable = false, insertable = false)
-	private long id;
+	private Long id;
 	
 	@Column(name = "username", nullable = false)
 	private String username;
@@ -49,7 +49,7 @@ public class AdminEntity extends BaseTimeEntity {
 	@Column(name = "status", nullable = false, insertable = false, columnDefinition = "INTEGER DEFAULT 1")
 	private int status;
 	
-	public AdminEntity(long id) {
+	public AdminEntity(Long id) {
 		this.id = id;
 	}
 	
