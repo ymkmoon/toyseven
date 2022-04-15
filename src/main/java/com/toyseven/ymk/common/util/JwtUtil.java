@@ -17,31 +17,61 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class JwtUtil {
 
-    public String getUsernameFromToken(String token) {
-        return getCustomClaimFromToken(token, "username");
+	public String getUsernameFromAccessToken(String token) {
+		return getCustomClaimFromAccessToken(token, "username");
+	}
+	
+    public String getUsernameFromRefreshToken(String token) {
+        return getCustomClaimFromRefreshToken(token, "username");
     }
 
-    public Date getExpirationDateFromToken(String token) {
-        return getClaimFromToken(token, Claims::getExpiration);
+    public Date getExpirationDateFromAccessToken(String token) {
+        return getClaimFromAccessToken(token, Claims::getExpiration);
+    }
+    
+    public Date getExpirationDateFromRefreshToken(String token) {
+    	return getClaimFromRefreshToken(token, Claims::getExpiration);
     }
 
-    public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = getAllClaimsFromToken(token);
+    
+    public <T> T getClaimFromAccessToken(String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = getAllClaimsFromAccessToken(token);
         return claimsResolver.apply(claims);
     }
+    
+    public <T> T getClaimFromRefreshToken(String token, Function<Claims, T> claimsResolver) {
+    	final Claims claims = getAllClaimsFromRefreshToken(token);
+    	return claimsResolver.apply(claims);
+    }
+    
 
-    public String getCustomClaimFromToken(String token, String claimName) {
-        final Claims claims = getAllClaimsFromToken(token);
+    public String getCustomClaimFromAccessToken(String token, String claimName) {
+        final Claims claims = getAllClaimsFromAccessToken(token);
         return (String) claims.get(claimName);
     }
+    
+    public String getCustomClaimFromRefreshToken(String token, String claimName) {
+    	final Claims claims = getAllClaimsFromRefreshToken(token);
+    	return (String) claims.get(claimName);
+    }
+    
 
-    private Claims getAllClaimsFromToken(String token) {
-        return Jwts.parser().setSigningKey(Constants.TOKEN_SECRET).parseClaimsJws(token).getBody();
+    private Claims getAllClaimsFromAccessToken(String token) {
+        return Jwts.parser().setSigningKey(Constants.ACCESS_TOKEN_SECRET).parseClaimsJws(token).getBody();
+    }
+    
+    private Claims getAllClaimsFromRefreshToken(String token) {
+    	return Jwts.parser().setSigningKey(Constants.REFRESH_TOKEN_SECRET).parseClaimsJws(token).getBody();
     }
 
-    private Boolean isTokenExpired(String token) {
-        final Date expiration = getExpirationDateFromToken(token);
+    private Boolean isAccessTokenExpired(String token) {
+        final Date expiration = getExpirationDateFromAccessToken(token);
         return expiration.before(new Date());
+    }
+    
+    private Boolean isRefreshTokenExpired(String token) {
+    	final Date expiration = getExpirationDateFromRefreshToken(token);
+    	return expiration.before(new Date());
     }
 
     public TokenDto.Request generateToken(UserDetails userDetails) {
@@ -64,7 +94,7 @@ public class JwtUtil {
                 .setClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis()+Constants.ACCESS_TOKEN_VALIDITY))
-                .signWith(SignatureAlgorithm.HS512, Constants.TOKEN_SECRET)
+                .signWith(SignatureAlgorithm.HS512, Constants.ACCESS_TOKEN_SECRET)
                 .compact();
     }
     
@@ -73,18 +103,18 @@ public class JwtUtil {
     			.setClaims(claims)
     			.setIssuedAt(new Date(System.currentTimeMillis()))
     			.setExpiration(new Date(System.currentTimeMillis()+Constants.REFRESH_TOKEN_VALIDITY))
-    			.signWith(SignatureAlgorithm.HS512, Constants.TOKEN_SECRET)
+    			.signWith(SignatureAlgorithm.HS512, Constants.REFRESH_TOKEN_SECRET)
     			.compact();
     }
 
     public Boolean validateAccessToken(String accessToken, UserDetails userDetails) {
-        final String username = getUsernameFromToken(accessToken);
-        return (username.equals(userDetails.getUsername())) && !isTokenExpired(accessToken);
+        final String username = getUsernameFromAccessToken(accessToken);
+        return (username.equals(userDetails.getUsername())) && !isAccessTokenExpired(accessToken);
     }
     
     public String validateRefreshToken(String refreshToken){
-    	final Claims claims = getAllClaimsFromToken(refreshToken);
-        return isTokenExpired(refreshToken) ? null : doGenerateAccessToken(claims); 
+    	final Claims claims = getAllClaimsFromRefreshToken(refreshToken);
+        return isRefreshTokenExpired(refreshToken) ? null : doGenerateAccessToken(claims); 
     }
     
 }

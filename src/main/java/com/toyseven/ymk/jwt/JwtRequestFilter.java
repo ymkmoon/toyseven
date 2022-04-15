@@ -44,7 +44,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         
         if(accessToken != null) {
         	try {
-        		username = JwtUtil.getUsernameFromToken(accessToken);
+        		username = JwtUtil.getUsernameFromAccessToken(accessToken);
         	} catch (IllegalArgumentException | AccessDeniedException | MalformedJwtException | SignatureException e) {
         		logger.error("Unable to get JWT Token", e);
         		failResponse(response, ErrorCode.FAIL_AUTHORIZED);

@@ -42,7 +42,7 @@ class JwtServiceTest {
 	TokenDto.Request tokenRequest;
 	TokenDto.RefreshRequest refreshRequest;
 	
-	static String REFRESH_TOKEN = "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2NTAwOTY3OTcsImlhdCI6MTY0OTgzNzU5NywidXNlcm5hbWUiOiJndWtlIn0.cawbrQRjhyfxb1_kc4_Z6yo7nTkYn1VOxc6rBIjKs867YyYFpyRLoCuFVKZR_aOA4AXUvArOrlvXMiGlJaY8Jg";
+	static String REFRESH_TOKEN = "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2NTAyNTgwNzQsImlhdCI6MTY0OTk5ODg3NCwidXNlcm5hbWUiOiJndWtlIn0.nM0qvK5DNyV0FNKbvKlz5QNYAbPoHKoWb6ahRJsOknjL4rjj56n1nPSDaminNLiC0f7QZQNN4iQvOaBoqROgvA";
 	
 	@BeforeEach
 	void setup() {
