@@ -19,7 +19,7 @@ public class VocAnswerDto {
 	@Getter
 	@NoArgsConstructor
 	public static class Request {
-		private long id;
+		private Long id;
 		private VocQuestionEntity questionId;
 		private String content;
 		private AdminEntity adminId;
@@ -37,7 +37,7 @@ public class VocAnswerDto {
 	@Getter
 	@AllArgsConstructor
 	public static class Response {
-		private long id;
+		private Long id;
 		@NotBlank private long questionId;
 		@NotBlank private String content;
 		@NotBlank private String adminName;

@@ -21,7 +21,7 @@ public class VocQuestionDto {
 	@Getter
 	@NoArgsConstructor
 	public static class Request {
-		private long id;
+		private Long id;
 		@NotBlank private VocCategoryEntity category;
 		@NotBlank private String title;
 		@NotBlank private String content;
@@ -47,7 +47,7 @@ public class VocQuestionDto {
 	@Getter
 	@AllArgsConstructor
 	public static class Response {
-		private long id;
+		private Long id;
 		@NotBlank private String category;
 		@NotBlank private String title;
 		@NotBlank private String content;
