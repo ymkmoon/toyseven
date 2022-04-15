@@ -29,7 +29,7 @@ public class JwtController {
     @PostMapping(value = "/login")
     public ResponseEntity<TokenDto.Response> login(@RequestBody AdminDto.Request adminRequest) {
         UserDetails userDetails = jwtService.loadUserByUsername(adminRequest.getUsername());
-        TokenDto.Response token = JwtUtil.generateToken(userDetails);
+        TokenDto.Request token = JwtUtil.generateToken(userDetails);
         
         jwtService.saveRefreshToken(token);
 

@@ -44,7 +44,7 @@ public class JwtUtil {
         return expiration.before(new Date());
     }
 
-    public TokenDto.Response generateToken(UserDetails userDetails) {
+    public TokenDto.Request generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
 
         claims.put("username", userDetails.getUsername());
@@ -52,7 +52,7 @@ public class JwtUtil {
         String accessToken = doGenerateAccessToken(claims);
         String refreshToken = doGenerateRefreshToken(claims);
         
-        return TokenDto.Response.builder()
+        return TokenDto.Request.builder()
 		        .accessToken(accessToken)
 		        .refreshToken(refreshToken)
 		        .build();
