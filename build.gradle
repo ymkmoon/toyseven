@@ -14,13 +14,6 @@ configurations {
     }
 }
 
-apply plugin: 'war'
-
-war {
-    baseName = 'toyseven'
-    version = '0.0.1-SNAPSHOT'
-}
-
 repositories {
 	mavenCentral()
 }
@@ -57,4 +50,13 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+}
+
+bootJar {
+	mainClassName = 'com.toyseven.ymk.ToysevenApplication'
+}
+
+bootRun {
+	String activeProfile = System.properties['spring.profiles.active']
+	systemProperty "spring.profiles.active", activeProfile
 }
