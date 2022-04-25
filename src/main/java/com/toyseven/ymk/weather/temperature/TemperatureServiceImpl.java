@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
+import com.toyseven.ymk.common.ResponseEntityUtil;
+import com.toyseven.ymk.common.WebClientUtil;
 import com.toyseven.ymk.common.dto.WeatherDto;
 
 import lombok.RequiredArgsConstructor;
@@ -36,29 +38,10 @@ public class TemperatureServiceImpl implements TemperatureService {
     @Override
 	public JSONObject getTemperature(WeatherDto.Request weatherRequest) {
     	
-    	WeatherDto.TemperatureRequest fineDustRequest = setTemperatureRequest(weatherRequest);
+    	WeatherDto.TemperatureRequest temperatureRequest = setTemperatureRequest(weatherRequest);
 
-        DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory(BASE_URL);
-        factory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.VALUES_ONLY);
-
-        WebClient wc = WebClient.builder().uriBuilderFactory(factory).baseUrl(BASE_URL).build();
-
-        ResponseEntity<JSONObject> response = wc.get()
-                .uri(uriBuilder -> uriBuilder
-                        .path("/getVilageFcst")
-                        .queryParam("serviceKey", fineDustRequest.getServiceKey())
-                        .queryParam("dataType", fineDustRequest.getDataType())
-                        .queryParam("nx", weatherRequest.getNx())
-                        .queryParam("ny", weatherRequest.getNy())
-                        .queryParam("pageNo", fineDustRequest.getPageNo())
-                        .queryParam("numOfRows", fineDustRequest.getNumOfRows())
-                        .queryParam("base_date", fineDustRequest.getBaseDate())
-                        .queryParam("base_time", fineDustRequest.getBaseTime()).build()
-                ).accept(MediaType.APPLICATION_JSON)
-                .acceptCharset(StandardCharsets.UTF_8)
-                .retrieve()
-                .toEntity(JSONObject.class)
-                .block();
+        WebClient wc = WebClientUtil.buildWebClient(BASE_URL, DefaultUriBuilderFactory.EncodingMode.VALUES_ONLY);
+        ResponseEntity<JSONObject> response = ResponseEntityUtil.temperatureApi(wc, temperatureRequest);
         
         Map<String, Object> responseData = ((Map<String, Object>)response.getBody().get("response"))
         		.entrySet().stream()
@@ -90,6 +73,8 @@ public class TemperatureServiceImpl implements TemperatureService {
         request.setNumOfRows(10);
         request.setServiceKey(SERVICE_KEY);
         request.setDataType(DATA_TYPE);
+        request.setNx(weatherRequest.getNx());
+        request.setNy(weatherRequest.getNy());
         
         return request;
     }

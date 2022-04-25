@@ -2,7 +2,6 @@ package com.toyseven.ymk.weather.finedust;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,12 +9,13 @@ import java.util.stream.StreamSupport;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
+import com.toyseven.ymk.common.ResponseEntityUtil;
+import com.toyseven.ymk.common.WebClientUtil;
 import com.toyseven.ymk.common.dto.WeatherDto;
 import com.toyseven.ymk.common.error.ErrorCode;
 import com.toyseven.ymk.common.error.exception.BusinessException;
@@ -37,27 +37,8 @@ public class FineDustServiceImpl implements FineDustService {
     @Override
 	public int getFineDustInfo(WeatherDto.Request weatherRequest) {
 		WeatherDto.FineDustRequest fineDustRequest = setFineDustRequest(weatherRequest.getStationName());
-
-        DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory(BASE_URL);
-        factory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
-
-        WebClient wc = WebClient.builder().uriBuilderFactory(factory).baseUrl(BASE_URL).build();
-        ResponseEntity<JSONObject> response = wc.get()
-                .uri(uriBuilder -> uriBuilder
-                        .path("/getMsrstnAcctoRltmMesureDnsty")
-                        .queryParam("serviceKey", fineDustRequest.getServiceKey())
-                        .queryParam("stationName", fineDustRequest.getStationName())
-                        .queryParam("returnType", fineDustRequest.getReturnType())
-                        .queryParam("pageNo", fineDustRequest.getPageNo())
-                        .queryParam("numOfRows", fineDustRequest.getNumOfRows())
-                        .queryParam("dataTerm", fineDustRequest.getDataTerm())
-                        .queryParam("ver", fineDustRequest.getVer()).build()
-                ).headers(httpHeaders -> httpHeaders.add("Content-Type", "application/json;charset=UTF-8"))
-                .accept(MediaType.APPLICATION_JSON)
-                .acceptCharset(StandardCharsets.UTF_8)
-                .retrieve()
-                .toEntity(JSONObject.class)
-                .block();
+        WebClient wc = WebClientUtil.buildWebClient(BASE_URL, DefaultUriBuilderFactory.EncodingMode.NONE);
+        ResponseEntity<JSONObject> response = ResponseEntityUtil.fineDustApi(wc, fineDustRequest);
         
         Map<String, Object> responseData = ((Map<String, Object>)response.getBody().get("response"))
         		.entrySet().stream()

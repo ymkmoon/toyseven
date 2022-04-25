@@ -8,7 +8,6 @@ import java.util.Map;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -16,7 +15,9 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.toyseven.ymk.common.ResponseEntityUtil;
 import com.toyseven.ymk.common.ToysevenCommonUtil;
+import com.toyseven.ymk.common.WebClientUtil;
 import com.toyseven.ymk.common.dto.StationInformationDto;
 import com.toyseven.ymk.common.model.entity.StationInformationEntity;
 
@@ -61,26 +62,12 @@ public class StationServiceImpl implements StationService {
     
     @SuppressWarnings("unchecked")
 	private List<StationInformationEntity> requestToStation(int index) {
-    	DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory(BASE_URL);
-        factory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.VALUES_ONLY);
-        WebClient wc = WebClient.builder().uriBuilderFactory(factory).baseUrl(BASE_URL).build();
+    	
+    	WebClient wc = WebClientUtil.buildWebClient(BASE_URL, DefaultUriBuilderFactory.EncodingMode.VALUES_ONLY);
         List<StationInformationEntity> row = new ArrayList<>();
         
         StationInformationDto.Request stationRequest = setStationRequest(index);
-
-        ResponseEntity<JSONObject> response = wc.get()
-                .uri(uriBuilder -> uriBuilder
-                        .path("/"+stationRequest.getServiceKey())
-                        .path("/"+stationRequest.getDataType())
-                        .path("/"+stationRequest.getService())
-                        .path("/"+stationRequest.getStartIndex())
-                        .path("/"+stationRequest.getEndIndex())
-                        .build()
-                ).accept(MediaType.APPLICATION_JSON)
-                .retrieve()
-                .toEntity(JSONObject.class)
-                .block();
-        
+        ResponseEntity<JSONObject> response = ResponseEntityUtil.stationApi(wc, stationRequest);
         if(!ToysevenCommonUtil.isSuccessResponse(response))
         	return row;
 
