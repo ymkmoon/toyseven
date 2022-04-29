@@ -22,6 +22,6 @@ public class BaseTimeEntity {
    private LocalDateTime createdAt;
 
    @LastModifiedDate
-   @Column(name = "updated_at", nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+   @Column(name = "updated_at", nullable = false, updatable = true, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
    private LocalDateTime updatedAt;
 }
