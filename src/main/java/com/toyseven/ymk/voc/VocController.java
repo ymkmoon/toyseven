@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.toyseven.ymk.common.dto.VocAnswerDto;
+import com.toyseven.ymk.common.dto.VocCategoryDto;
 import com.toyseven.ymk.common.dto.VocQuestionDto;
 import com.toyseven.ymk.common.model.entity.VocAnswerEntity;
 import com.toyseven.ymk.voc.answer.VocAnswerService;
+import com.toyseven.ymk.voc.category.VocCategoryService;
 import com.toyseven.ymk.voc.question.VocQuestionService;
 
 import lombok.RequiredArgsConstructor;
@@ -28,6 +30,7 @@ public class VocController {
 	
 	private final VocQuestionService vocQuestionService;
 	private final VocAnswerService vocAnswerService;
+	private final VocCategoryService vocCategoryService;
 	 
 	@GetMapping()
 	public ResponseEntity<List<VocQuestionDto.Response>> getVocQuestions() {
@@ -73,5 +76,12 @@ public class VocController {
 	public ResponseEntity<List<VocAnswerDto.Response>> getLatestVocQAnswers() {
 		return new ResponseEntity<>(vocAnswerService.getLatestVocQAnswers(), HttpStatus.OK);
 	}
+	
+	@GetMapping(value = "/category")
+	public ResponseEntity<List<VocCategoryDto.Response>> getCategories() {
+		return new ResponseEntity<>(vocCategoryService.getVocCategory(), HttpStatus.OK);
+	}
+	
+	
 	
 }

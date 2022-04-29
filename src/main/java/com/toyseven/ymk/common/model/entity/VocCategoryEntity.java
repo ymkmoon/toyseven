@@ -10,6 +10,8 @@ import javax.persistence.Id;
 
 import org.hibernate.annotations.Proxy;
 
+import com.toyseven.ymk.common.dto.VocCategoryDto;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -48,7 +50,13 @@ public class VocCategoryEntity implements Serializable {
 		this.displayName = displayName;
 	}
 	
-	
+	public VocCategoryDto.Response toVocCategoryResponse() {
+		return VocCategoryDto.Response.builder()
+				.id(id)
+				.name(name)
+				.displayName(displayName)
+				.build();
+	}
 	
 	
 }
