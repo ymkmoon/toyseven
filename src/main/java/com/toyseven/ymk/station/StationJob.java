@@ -1,6 +1,5 @@
 package com.toyseven.ymk.station;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.scheduling.annotation.Scheduled;
@@ -20,7 +19,6 @@ public class StationJob {
 	@Scheduled(fixedDelay = 1000000)
     public void saveStations() {
         List<StationInformationEntity> stations = stationService.getStations();
-        stations = new ArrayList<>();
         if(!stations.isEmpty()) {
             stationService.save(stations);
         } else {
