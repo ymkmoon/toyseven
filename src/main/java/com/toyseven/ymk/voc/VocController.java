@@ -40,8 +40,7 @@ public class VocController {
 	@PostMapping()
 	public ResponseEntity<VocQuestionDto.Response> saveVocQuestion(
 			@RequestBody VocQuestionDto.Request vocQuestionRequest) {
-		vocQuestionService.save(vocQuestionRequest);
-		return new ResponseEntity<>(HttpStatus.CREATED);
+		return new ResponseEntity<>(vocQuestionService.save(vocQuestionRequest), HttpStatus.CREATED);
 	}
 	
 	@GetMapping(value = "/search/{id}")
