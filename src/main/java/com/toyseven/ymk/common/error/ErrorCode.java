@@ -17,6 +17,8 @@ public enum ErrorCode {
     MODEL_BINDING_ERROR(HttpStatus.BAD_REQUEST, "요청 데이터가 정상적이지 않습니다."),
     REQUEST_BINDING_ERROR(HttpStatus.BAD_REQUEST, "요청 데이터가 정상적이지 않습니다."),
     TYPE_BINDING_ERROR(HttpStatus.BAD_REQUEST, "Parameter 값이 정상적이지 않습니다."),
+    HTTP_MESSAGE_NOT_READABLE(HttpStatus.BAD_REQUEST, "요청 데이터가 정상적이지 않습니다."),
+    INVALID_DATA_ACCESS_API_USAGE(HttpStatus.BAD_REQUEST, "요청 데이터가 정상적이지 않습니다."),
 
     // 401
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "토큰 값을 다시 한번 확인해주세요."),

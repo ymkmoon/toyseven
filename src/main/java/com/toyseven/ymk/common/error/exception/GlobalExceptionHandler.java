@@ -2,9 +2,10 @@ package com.toyseven.ymk.common.error.exception;
 
 import java.util.NoSuchElementException;
 
-import org.hibernate.TransientPropertyValueException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -188,18 +189,28 @@ public class GlobalExceptionHandler {
     }
     
     /**
-     * 영속성때문에 발생하는 오류
-     * FK로 쓰는 객체가 존재하지 않을때 발생
-     * @OneToMany, @ManyToOne 등 사용시 발생
-     * (JPA Save 등)
+     * Message 내용이 org.hibernate.TransientPropertyValueException 일 경우
+     * 		영속성때문에 발생하는 오류
+     * 		FK로 쓰는 객체가 존재하지 않을때 발생
+     * 		@OneToMany, @ManyToOne 등 사용시 발생
+     * 		(JPA Save 등)
      */
-    @ExceptionHandler(TransientPropertyValueException.class)
-    protected ResponseEntity<ErrorResponse> handleTransientPropertyValueException(TransientPropertyValueException e) {
-    	log.error("handleTransientPropertyValueException", e);
-    	return ErrorResponse.toResponseEntity(ErrorCode.UNAUTHORIZED);
+    @ExceptionHandler(InvalidDataAccessApiUsageException.class)
+    protected ResponseEntity<ErrorResponse> handleTransientPropertyValueException(InvalidDataAccessApiUsageException e) {
+    	log.error("handleInvalidDataAccessApiUsageException", e);
+    	return ErrorResponse.toResponseEntity(ErrorCode.INVALID_DATA_ACCESS_API_USAGE);
     }
     
     
+    /**
+     * Request 요청 시 데이터가 잘못 된 경우
+     * 	ex) Request body 값의 타입이 Integer 로 넘어와야 하지만 String 으로 넘어 올 때
+     */
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    protected ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+    	log.error("handleHttpMessageNotReadableException", e);
+    	return ErrorResponse.toResponseEntity(ErrorCode.HTTP_MESSAGE_NOT_READABLE);
+    }
     
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<ErrorResponse> handleException(Exception e) {
