@@ -2,6 +2,7 @@ package com.toyseven.ymk.common.error.exception;
 
 import java.util.NoSuchElementException;
 
+import org.hibernate.TransientPropertyValueException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -183,6 +184,18 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(SignatureException.class)
     protected ResponseEntity<ErrorResponse> handleSignatureException(SignatureException e) {
     	log.error("handleSignatureException", e);
+    	return ErrorResponse.toResponseEntity(ErrorCode.UNAUTHORIZED);
+    }
+    
+    /**
+     * 영속성때문에 발생하는 오류
+     * FK로 쓰는 객체가 존재하지 않을때 발생
+     * @OneToMany, @ManyToOne 등 사용시 발생
+     * (JPA Save 등)
+     */
+    @ExceptionHandler(TransientPropertyValueException.class)
+    protected ResponseEntity<ErrorResponse> handleTransientPropertyValueException(TransientPropertyValueException e) {
+    	log.error("handleTransientPropertyValueException", e);
     	return ErrorResponse.toResponseEntity(ErrorCode.UNAUTHORIZED);
     }
     
