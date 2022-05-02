@@ -35,7 +35,7 @@ public class JwtServiceImpl implements UserDetailsService, JwtService {
     }
 
 	@Override
-	public String saveRefreshToken(TokenDto.Request token) {
+	public TokenDto.RefreshResponse saveRefreshToken(TokenDto.Request token) {
 		String username = JwtUtil.getUsernameFromRefreshToken(token.getRefreshToken());
 		AdminEntity admin = adminRepository.findAccountByUsername(username).orElseThrow(
 				() -> new BusinessException("사용자를 찾을 수 없습니다.", ErrorCode.USER_NAME_NOT_FOUND));
@@ -45,11 +45,12 @@ public class JwtServiceImpl implements UserDetailsService, JwtService {
 			refreshTokenRepository.deleteByAdminId(admin);
 		}
 		
-		RefreshTokenEntity refreshTokenEntity = TokenDto.RefreshRequest.builder()
-				.adminId(admin)
+		TokenDto.RefreshRequest refreshRequest = TokenDto.RefreshRequest.builder()
 				.refreshToken(token.getRefreshToken())
-				.build().toEntity();
-		return refreshTokenRepository.save(refreshTokenEntity).getRefreshToken();
+				.build();
+		
+		RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.save(refreshRequest.toEntity(admin));
+		return refreshTokenEntity.toRefreshResponse();
 	}
 
 	@Override
