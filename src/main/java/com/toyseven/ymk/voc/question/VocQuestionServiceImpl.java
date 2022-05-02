@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 import com.toyseven.ymk.common.dto.VocQuestionDto;
 import com.toyseven.ymk.common.error.ErrorCode;
 import com.toyseven.ymk.common.error.exception.BusinessException;
+import com.toyseven.ymk.common.model.entity.StationInformationEntity;
 import com.toyseven.ymk.common.model.entity.VocCategoryEntity;
 import com.toyseven.ymk.common.model.entity.VocQuestionEntity;
+import com.toyseven.ymk.station.StationRepository;
 import com.toyseven.ymk.voc.category.VocCategoryRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class VocQuestionServiceImpl implements VocQuestionService {
 	private final VocQuestionRepository vocQuestionRepository;
 	private final VocCategoryRepository vocCategoryRepository;
+	private final StationRepository stationRepository;
 	
 	@Override
 	public List<VocQuestionDto.Response> findAll() {
@@ -29,22 +32,13 @@ public class VocQuestionServiceImpl implements VocQuestionService {
 	
 	@Override
 	public VocQuestionDto.Response save(VocQuestionDto.Request vocQuestionRequest) {
-		VocQuestionEntity question = vocQuestionRepository.save(vocQuestionRequest.toEntity());
-		VocCategoryEntity category = vocCategoryRepository.findById(question.getCategory().getId())
-				.orElseThrow(() -> new BusinessException("해당 Category 조회가 불가능 합니다.", ErrorCode.BAD_REQUEST));
-		
-		return VocQuestionDto.Response.builder()
-			.id(question.getId())
-			.category(category.getDisplayName())
-			.title(question.getTitle())
-			.content(question.getContent())
-			.email(question.getEmail())
-			.username(question.getUsername())
-			.stationId(question.getStationId().getStationId())
-			.needReply(question.getNeedReply())
-			.createdAt(question.getCreatedAt())
-			.updatedAt(question.getUpdatedAt())
-			.build();
+		VocCategoryEntity category = vocCategoryRepository.findById(vocQuestionRequest.getCategoryId())
+				.orElseThrow(() -> new BusinessException("해당 Category 조회가 불가능 합니다.", ErrorCode.CATEGORY_IS_NOT_EXIST));
+		StationInformationEntity station = stationRepository.findByStationId(vocQuestionRequest.getStationId())
+				.orElseThrow(() -> new BusinessException("해당 Station 조회가 불가능 합니다.", ErrorCode.STATION_IS_NOT_EXIST));
+		VocQuestionEntity question = vocQuestionRepository.save(vocQuestionRequest.toEntity(category, station));
+				
+		return question.toVocQuestionResponse();
 	}
 	
 	@Override

@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,7 +41,7 @@ public class VocController {
 	
 	@PostMapping()
 	public ResponseEntity<VocQuestionDto.Response> saveVocQuestion(
-			@RequestBody VocQuestionDto.Request vocQuestionRequest) {
+			@RequestBody @Valid VocQuestionDto.Request vocQuestionRequest) {
 		return new ResponseEntity<>(vocQuestionService.save(vocQuestionRequest), HttpStatus.CREATED);
 	}
 	
