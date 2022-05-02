@@ -27,19 +27,21 @@ public class VocAnswerServiceImpl implements VocAnswerService {
 //	private final JavaMailSender mailSender;
 	
 	@Override
-	public void save(VocAnswerDto.Request vocAnswerRequest) {
+	public VocAnswerDto.Response save(VocAnswerDto.Request vocAnswerRequest) {
 		VocQuestionEntity question = vocQuestionRepository.findById(vocAnswerRequest.getQuestionId())
 				.orElseThrow(() -> new BusinessException("해당 Question 조회가 불가능 합니다.", ErrorCode.QUESTION_IS_NOT_EXIST));
 		AdminEntity admin = adminRepository.findById(vocAnswerRequest.getAdminId())
 				.orElseThrow(() -> new BusinessException("해당 Admin 조회가 불가능 합니다.", ErrorCode.BAD_REQUEST));
 		
-		vocAnswerRepository.save(vocAnswerRequest.toEntity(question, admin));
+		VocAnswerEntity answer = vocAnswerRepository.save(vocAnswerRequest.toEntity(question, admin));
 		
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setTo(question.getEmail());
 		message.setSubject("title");
 		message.setText("content");
 		// mailSender.send(message);
+		
+		return answer.toVocAnswerResponse();
 	}
 	
 	@Override
