@@ -19,6 +19,12 @@ public enum ErrorCode {
     TYPE_BINDING_ERROR(HttpStatus.BAD_REQUEST, "Parameter 값이 정상적이지 않습니다."),
     HTTP_MESSAGE_NOT_READABLE(HttpStatus.BAD_REQUEST, "요청 데이터가 정상적이지 않습니다."),
     INVALID_DATA_ACCESS_API_USAGE(HttpStatus.BAD_REQUEST, "요청 데이터가 정상적이지 않습니다."),
+    
+    STATION_IS_NOT_EXIST(HttpStatus.BAD_REQUEST, "해당 Station 조회가 불가능 합니다."),
+    CATEGORY_IS_NOT_EXIST(HttpStatus.BAD_REQUEST, "해당 Category 조회가 불가능 합니다."),
+    QUESTION_IS_NOT_EXIST(HttpStatus.BAD_REQUEST, "해당 Question 조회가 불가능 합니다."),
+    ADMIN_IS_NOT_EXIST(HttpStatus.BAD_REQUEST, "해당 Admin 조회가 불가능 합니다."),
+    
 
     // 401
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "토큰 값을 다시 한번 확인해주세요."),
@@ -41,6 +47,7 @@ public enum ErrorCode {
     // 500
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Server Error"),
     STATION_NAME_ENCODING_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Station Name 의 값이 잘못되었습니다.");
+	
 	
 	private final HttpStatus httpStatus;
     private final String detail;

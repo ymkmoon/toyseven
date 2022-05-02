@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.toyseven.ymk.common.dto.VocAnswerDto;
 import com.toyseven.ymk.common.dto.VocCategoryDto;
 import com.toyseven.ymk.common.dto.VocQuestionDto;
-import com.toyseven.ymk.common.model.entity.VocAnswerEntity;
 import com.toyseven.ymk.voc.answer.VocAnswerService;
 import com.toyseven.ymk.voc.category.VocCategoryService;
 import com.toyseven.ymk.voc.question.VocQuestionService;
@@ -39,7 +40,7 @@ public class VocController {
 	
 	@PostMapping()
 	public ResponseEntity<VocQuestionDto.Response> saveVocQuestion(
-			@RequestBody VocQuestionDto.Request vocQuestionRequest) {
+			@RequestBody @Valid VocQuestionDto.Request vocQuestionRequest) {
 		return new ResponseEntity<>(vocQuestionService.save(vocQuestionRequest), HttpStatus.CREATED);
 	}
 	
@@ -60,10 +61,9 @@ public class VocController {
 	}
 	
 	@PostMapping(value = "/answer")
-	public ResponseEntity<VocAnswerEntity> saveVocAnswer(
-			@RequestBody VocAnswerDto.Request vocAnswerRequest) {
-		vocAnswerService.save(vocAnswerRequest);
-		return new ResponseEntity<>(HttpStatus.CREATED);
+	public ResponseEntity<VocAnswerDto.Response> saveVocAnswer(
+			@RequestBody @Valid VocAnswerDto.Request vocAnswerRequest) {
+		return new ResponseEntity<>(vocAnswerService.save(vocAnswerRequest), HttpStatus.CREATED);
 	}
 	
 	@GetMapping(value = "/questions")

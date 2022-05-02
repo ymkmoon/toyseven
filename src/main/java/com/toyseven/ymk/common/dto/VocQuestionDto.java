@@ -22,22 +22,22 @@ public class VocQuestionDto {
 	@NoArgsConstructor
 	public static class Request {
 		private Long id;
-		@NotBlank private VocCategoryEntity category;
+		@NotNull private Long categoryId;
 		@NotBlank private String title;
 		@NotBlank private String content;
 		@NotBlank private String email;
 		@NotBlank private String username;
-		@NotBlank private StationInformationEntity stationId;
+		@NotNull private String stationId;
 		@NotNull private int needReply;
 		
-		public VocQuestionEntity toEntity() {
+		public VocQuestionEntity toEntity(VocCategoryEntity category, StationInformationEntity station) {
 	        return VocQuestionEntity.builder()
 	        		.category(category)
 	        		.title(title)
 	        		.content(content)
 	                .email(email)
 	                .username(username)
-	                .stationId(stationId)
+	                .stationId(station)
 	                .needReply(needReply)
 	                .build();
 	    }
