@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import com.toyseven.ymk.common.dto.TokenDto;
 import com.toyseven.ymk.common.model.BaseTimeEntity;
 
 import lombok.AllArgsConstructor;
@@ -38,6 +39,12 @@ public class RefreshTokenEntity extends BaseTimeEntity {
 	public RefreshTokenEntity(AdminEntity adminId, String refreshToken) {
 		this.adminId = adminId;
 		this.refreshToken = refreshToken;
+	}
+	
+	public TokenDto.RefreshResponse toRefreshResponse() {
+		return TokenDto.RefreshResponse.builder()
+				.refreshToken(refreshToken)
+				.build();
 	}
 	
 }

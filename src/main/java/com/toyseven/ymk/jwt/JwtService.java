@@ -9,6 +9,6 @@ import com.toyseven.ymk.common.dto.TokenDto;
 @Transactional
 public interface JwtService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
-	public String saveRefreshToken(TokenDto.Request token);
+	public TokenDto.RefreshResponse saveRefreshToken(TokenDto.Request token);
 	public boolean validateRegistRefreshToken(TokenDto.RefreshRequest refreshRequest);
 }

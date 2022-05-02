@@ -42,7 +42,7 @@ class JwtServiceTest {
 	TokenDto.Request tokenRequest;
 	TokenDto.RefreshRequest refreshRequest;
 	
-	static String REFRESH_TOKEN = "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2NTAyNTgwNzQsImlhdCI6MTY0OTk5ODg3NCwidXNlcm5hbWUiOiJndWtlIn0.nM0qvK5DNyV0FNKbvKlz5QNYAbPoHKoWb6ahRJsOknjL4rjj56n1nPSDaminNLiC0f7QZQNN4iQvOaBoqROgvA";
+	static String REFRESH_TOKEN = "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2NTE3Mjk2NTcsImlhdCI6MTY1MTQ3MDQ1NywidXNlcm5hbWUiOiJndWtlIn0.J5FBz41-Sbej_vWsfcmmNgF3cu5pYIcFSBNu63Ys7oc_wMHSERPmrMfRFZDwGHkxOBRb3dGb9jWLox1DN-Q8xQ";
 	
 	@BeforeEach
 	void setup() {
@@ -84,8 +84,8 @@ class JwtServiceTest {
 		Mockito.when(adminRepository.findAccountByUsername("guke")).thenReturn(Optional.of(adminEntity));
 		Mockito.when(refreshTokenRepository.existsByAdminId(adminEntity)).thenReturn(false);
 		Mockito.when(refreshTokenRepository.save(any())).thenReturn(refreshTokenEntity);
-		String refreshToken = jwtServiceImpl.saveRefreshToken(tokenRequest);
-		assertThat(refreshToken, is(tokenRequest.getRefreshToken()));
+		TokenDto.RefreshResponse refreshToken = jwtServiceImpl.saveRefreshToken(tokenRequest);
+		assertThat(refreshToken.getRefreshToken(), is(tokenRequest.getRefreshToken()));
 	}
 	
 	/**
@@ -97,8 +97,8 @@ class JwtServiceTest {
 		Mockito.when(adminRepository.findAccountByUsername("guke")).thenReturn(Optional.of(adminEntity));
 		Mockito.when(refreshTokenRepository.existsByAdminId(adminEntity)).thenReturn(true);
 		Mockito.when(refreshTokenRepository.save(any())).thenReturn(refreshTokenEntity);
-		String refreshToken = jwtServiceImpl.saveRefreshToken(tokenRequest);
-		assertThat(refreshToken, is(tokenRequest.getRefreshToken()));
+		TokenDto.RefreshResponse refreshToken = jwtServiceImpl.saveRefreshToken(tokenRequest);
+		assertThat(refreshToken.getRefreshToken(), is(tokenRequest.getRefreshToken()));
 	}
 	
 	/**

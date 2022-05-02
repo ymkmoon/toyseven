@@ -33,16 +33,20 @@ public class TokenDto {
 	@Builder
 	@AllArgsConstructor
 	public static class RefreshRequest {
-		private Long id;
-		private AdminEntity adminId;
 		@NotBlank private String refreshToken;
 		
-		public RefreshTokenEntity toEntity() {
+		public RefreshTokenEntity toEntity(AdminEntity admin) {
 			return RefreshTokenEntity.builder()
-					.adminId(adminId)
+					.adminId(admin)
 					.refreshToken(refreshToken)
 					.build();
 		}
 	}
 	
+	@Builder
+	@Getter
+	@AllArgsConstructor
+	public static class RefreshResponse {
+		private String refreshToken;
+	}
 }

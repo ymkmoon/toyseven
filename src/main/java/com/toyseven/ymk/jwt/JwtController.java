@@ -1,5 +1,7 @@
 package com.toyseven.ymk.jwt;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,7 +29,7 @@ public class JwtController {
     private final AuthenticationManager authenticationManager;
 
     @PostMapping(value = "/login")
-    public ResponseEntity<TokenDto.Response> login(@RequestBody AdminDto.Request adminRequest) {
+    public ResponseEntity<TokenDto.Response> login(@RequestBody @Valid AdminDto.Request adminRequest) {
         UserDetails userDetails = jwtService.loadUserByUsername(adminRequest.getUsername());
         TokenDto.Request token = JwtUtil.generateToken(userDetails);
         
@@ -43,18 +45,18 @@ public class JwtController {
     }
     
     @PostMapping(value = "/refresh")
-    public ResponseEntity<?> refresh(@RequestBody TokenDto.RefreshRequest refreshRequest) {
+    public ResponseEntity<?> refresh(@RequestBody @Valid TokenDto.RefreshRequest refreshRequest) {
     	boolean registRefreshToken = jwtService.validateRegistRefreshToken(refreshRequest);
     	if(!registRefreshToken) {
     		return ErrorResponse.toResponseEntity(ErrorCode.UNAUTHORIZED);
     	}
     	
     	String accessToken = JwtUtil.validateRefreshToken(refreshRequest.getRefreshToken());
-    	TokenDto.Response adminResponse = TokenDto.Response.builder()
+    	TokenDto.Response response = TokenDto.Response.builder()
 				.accessToken(accessToken)
 				.refreshToken(refreshRequest.getRefreshToken())
 				.build();
-    	return new ResponseEntity<>(adminResponse, HttpStatus.OK);
+    	return new ResponseEntity<>(response, HttpStatus.OK);
     	
     }
 

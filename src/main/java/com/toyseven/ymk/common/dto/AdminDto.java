@@ -1,7 +1,7 @@
 package com.toyseven.ymk.common.dto;
 
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,10 +14,8 @@ public class AdminDto {
 	@AllArgsConstructor
 	@NoArgsConstructor
 	public static class Request {
-	    @NotNull
-	    private String username;
-	    @NotNull
-	    private String password;
+	    @NotBlank private String username;
+	    @NotBlank private String password;
 	}
 
 }
