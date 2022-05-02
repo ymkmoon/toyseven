@@ -30,14 +30,14 @@ public class VocQuestionDto {
 		@NotNull private String stationId;
 		@NotNull private int needReply;
 		
-		public VocQuestionEntity toEntity(VocCategoryEntity categoryEntity, StationInformationEntity stationEntity) {
+		public VocQuestionEntity toEntity(VocCategoryEntity category, StationInformationEntity station) {
 	        return VocQuestionEntity.builder()
-	        		.category(categoryEntity)
+	        		.category(category)
 	        		.title(title)
 	        		.content(content)
 	                .email(email)
 	                .username(username)
-	                .stationId(stationEntity)
+	                .stationId(station)
 	                .needReply(needReply)
 	                .build();
 	    }
