@@ -3,6 +3,7 @@ package com.toyseven.ymk.common.dto;
 import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -20,15 +21,15 @@ public class VocAnswerDto {
 	@NoArgsConstructor
 	public static class Request {
 		private Long id;
-		private VocQuestionEntity questionId;
-		private String content;
-		private AdminEntity adminId;
+		@NotNull private Long questionId;
+		@NotBlank private String content;
+		@NotNull Long adminId;
 		
-		public VocAnswerEntity toEntity() {
+		public VocAnswerEntity toEntity(VocQuestionEntity question, AdminEntity admin) {
 			return VocAnswerEntity.builder()
-					.questionId(questionId)
+					.questionId(question)
 					.content(content)
-					.adminId(adminId)
+					.adminId(admin)
 					.build();
 		}
 	}

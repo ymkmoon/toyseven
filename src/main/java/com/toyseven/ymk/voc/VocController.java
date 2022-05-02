@@ -63,7 +63,7 @@ public class VocController {
 	
 	@PostMapping(value = "/answer")
 	public ResponseEntity<VocAnswerEntity> saveVocAnswer(
-			@RequestBody VocAnswerDto.Request vocAnswerRequest) {
+			@RequestBody @Valid VocAnswerDto.Request vocAnswerRequest) {
 		vocAnswerService.save(vocAnswerRequest);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
