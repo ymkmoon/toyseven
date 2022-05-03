@@ -20,4 +20,4 @@
 
 ## Entity
 
-![ERD](/assets/image/erd/toyseven_erd.PNG)
+![ERD](/src/main/resources/assets/image/toyseven_erd.PNG)
