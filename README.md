@@ -17,6 +17,14 @@
 - ``Postman``
   - share link : https://www.getpostman.com/collections/21f459dc75f7db465b19
 
+## Used API
+
+  - 서울시 공공자전거 실시간 대여정보 
+    - https://data.seoul.go.kr/dataList/OA-15493/A/1/datasetView.do
+  - 기상청 동네예보 조회서비스 
+    - https://www.data.go.kr/iim/api/selectAPIAcountView.do
+  - 한국환경공단 에어코리아 대기오염정보 
+    - https://www.data.go.kr/iim/api/selectAPIAcountView.do
 
 ## Entity
 
@@ -25,3 +33,4 @@
   - pass : vtz0tb
 
 ![ERD](/src/main/resources/assets/image/toyseven_erd.PNG)
+
