@@ -39,9 +39,9 @@ public class VocAnswerDto {
 	@AllArgsConstructor
 	public static class Response {
 		private Long id;
-		@NotBlank private long questionId;
-		@NotBlank private String content;
-		@NotBlank private String adminName;
+		private long questionId;
+		private String content;
+		private String adminName;
 
 		@JsonDeserialize(using = CustomLocalDateTimeDeserializer.class) 
 		@JsonSerialize(using = CustomLocalDateTimeSerializer.class)

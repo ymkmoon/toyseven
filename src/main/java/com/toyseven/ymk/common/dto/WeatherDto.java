@@ -5,8 +5,6 @@ import javax.validation.constraints.NotEmpty;
 
 import org.json.simple.JSONObject;
 
-import com.sun.istack.NotNull;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,9 +29,7 @@ public class WeatherDto {
 	@AllArgsConstructor
 	public static class Response {
 
-	    @NotNull
 	    private int fineDust;
-	    @NotNull
 	    private JSONObject weather;
 	}
 	

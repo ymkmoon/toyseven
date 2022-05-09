@@ -1,7 +1,5 @@
 package com.toyseven.ymk.common.dto;
 
-import javax.validation.constraints.NotBlank;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,8 +11,8 @@ public class VocCategoryDto {
 	@AllArgsConstructor
 	public static class Response {
 		private Long id;
-		@NotBlank private String name;
-		@NotBlank private String displayName;
+		private String name;
+		private String displayName;
 	}
 	
 }

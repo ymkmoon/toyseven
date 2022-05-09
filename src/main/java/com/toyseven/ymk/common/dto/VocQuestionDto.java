@@ -48,13 +48,13 @@ public class VocQuestionDto {
 	@AllArgsConstructor
 	public static class Response {
 		private Long id;
-		@NotBlank private String category;
-		@NotBlank private String title;
-		@NotBlank private String content;
-		@NotBlank private String email;
-		@NotBlank private String username;
-		@NotBlank private String stationId;
-		@NotNull private int needReply;
+		private String category;
+		private String title;
+		private String content;
+		private String email;
+		private String username;
+		private String stationId;
+		private int needReply;
 		
 		@JsonDeserialize(using = CustomLocalDateTimeDeserializer.class) 
 		@JsonSerialize(using = CustomLocalDateTimeSerializer.class) 
