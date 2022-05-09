@@ -32,5 +32,7 @@
   - url : https://aquerytool.com/aquerymain/index/?rurl=89e9a03e-c93e-4dc6-9617-79ce1bc5fe64
   - pass : vtz0tb
 
-![ERD](/src/main/resources/assets/image/toyseven_erd.PNG)
+- ERD 엑셀
+  -  https://github.com/ymkmoon/toyseven/blob/develop/src/main/resources/assets/xls/toyseven_erd.xlsx
 
+![ERD](/src/main/resources/assets/image/toyseven_erd.PNG)
