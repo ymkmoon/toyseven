@@ -6,6 +6,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 public class StationInformationDto {
+	
+	@Getter
+	@NoArgsConstructor
+	@Builder
+	@AllArgsConstructor
+	public static class Request {
+		private String serviceKey;
+		private String dataType;
+		private String service;
+		private Integer startIndex;
+		private Integer endIndex;
+	}
 
 	@Builder
 	@Getter
@@ -18,17 +30,5 @@ public class StationInformationDto {
 	    private Integer rackTotCnt;
 	    private Integer parkingBikeTotCnt;
 	    private Integer shared;
-	}
-	
-	@Getter
-	@NoArgsConstructor
-	@Builder
-	@AllArgsConstructor
-	public static class Request {
-		private String serviceKey;
-	    private String dataType;
-	    private String service;
-		private Integer startIndex;
-		private Integer endIndex;
 	}
 }
