@@ -20,7 +20,6 @@ public class VocAnswerDto {
 	@Getter
 	@NoArgsConstructor
 	public static class Request {
-		private Long id;
 		@NotNull private Long questionId;
 		@NotBlank private String content;
 		
