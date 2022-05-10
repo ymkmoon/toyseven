@@ -1,8 +1,9 @@
 INSERT INTO admin_role (name, display_name) values ('ADMIN', '관리자');
 INSERT INTO admin_role (name, display_name) values ('ADMIN2', '관리자2');
+INSERT INTO admin_role (name, display_name) values ('ADMIN3', '관리자3');
 
-INSERT INTO admin (username, nickname, password, role) values ('rb', 'rb', '1234', 'ADMIN');
-INSERT INTO admin (username, nickname, password, role) values ('tori', 'manager tori', '$2a$10$oZPWMiSQF4lduNY/X8q9ZuuE14kJhcfIeER7SR/Ou0iE6W1VUY9WW', 'ADMIN');
+INSERT INTO admin (username, nickname, password, role) values ('rb', 'manager rb', '$2a$10$oZPWMiSQF4lduNY/X8q9ZuuE14kJhcfIeER7SR/Ou0iE6W1VUY9WW', 'ADMIN3');
+INSERT INTO admin (username, nickname, password, role) values ('tori', 'manager tori', '$2a$10$oZPWMiSQF4lduNY/X8q9ZuuE14kJhcfIeER7SR/Ou0iE6W1VUY9WW', 'ADMIN2');
 INSERT INTO admin (username, nickname, password, role) values ('guke', 'manager guke', '$2a$10$oZPWMiSQF4lduNY/X8q9ZuuE14kJhcfIeER7SR/Ou0iE6W1VUY9WW', 'ADMIN');
 
 INSERT INTO voc_category (name, display_name) values ('breakdown', '고장');

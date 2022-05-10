@@ -23,7 +23,6 @@ public class VocAnswerDto {
 		private Long id;
 		@NotNull private Long questionId;
 		@NotBlank private String content;
-		@NotNull Long adminId;
 		
 		public VocAnswerEntity toEntity(VocQuestionEntity question, AdminEntity admin) {
 			return VocAnswerEntity.builder()

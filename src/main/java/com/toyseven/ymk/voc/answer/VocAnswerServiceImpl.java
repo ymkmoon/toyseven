@@ -5,6 +5,7 @@ import static java.util.stream.Collectors.toList;
 import java.util.List;
 
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.toyseven.ymk.common.dto.VocAnswerDto;
@@ -30,7 +31,10 @@ public class VocAnswerServiceImpl implements VocAnswerService {
 	public VocAnswerDto.Response save(VocAnswerDto.Request vocAnswerRequest) {
 		VocQuestionEntity question = vocQuestionRepository.findById(vocAnswerRequest.getQuestionId())
 				.orElseThrow(() -> new BusinessException("해당 Question 조회가 불가능 합니다.", ErrorCode.QUESTION_IS_NOT_EXIST));
-		AdminEntity admin = adminRepository.findById(vocAnswerRequest.getAdminId())
+		
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		
+		AdminEntity admin = adminRepository.findAccountByUsername(username)
 				.orElseThrow(() -> new BusinessException("해당 Admin 조회가 불가능 합니다.", ErrorCode.BAD_REQUEST));
 		
 		VocAnswerEntity answer = vocAnswerRepository.save(vocAnswerRequest.toEntity(question, admin));
