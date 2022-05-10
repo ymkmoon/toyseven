@@ -21,7 +21,6 @@ public class VocQuestionDto {
 	@Getter
 	@NoArgsConstructor
 	public static class Request {
-		private Long id;
 		@NotNull private Long categoryId;
 		@NotBlank private String title;
 		@NotBlank private String content;
