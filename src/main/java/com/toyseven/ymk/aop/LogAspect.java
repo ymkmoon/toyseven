@@ -30,7 +30,7 @@ public class LogAspect {
     
     // 특정 메소드에서 로그 출력
     @Around("execution(* com.toyseven.ymk.voc.VocController.saveVocAnswer(..))")
-    public Object logCongitoId(ProceedingJoinPoint pjp) throws Throwable {
+    public Object loggingWhenSaveVocAnswer(ProceedingJoinPoint pjp) throws Throwable {
     	// HttpSession session = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest().getSession();
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     	logger.info("Answered by {}", auth.getName());
