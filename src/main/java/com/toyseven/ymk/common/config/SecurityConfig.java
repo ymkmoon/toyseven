@@ -51,9 +51,6 @@ public class SecurityConfig {
 		private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 		private final JwtRequestFilter jwtRequestFilter;
 		private final JwtServiceImpl jwtService;
-		
-		@Value("${spring.security.oauth2.resourceserver.jwt.jwk-set-uri}")
-	    private String jwkSetUri;
 	    
 	    @Override
 		protected void configure(HttpSecurity http) throws Exception {
@@ -93,12 +90,10 @@ public class SecurityConfig {
 	@Order(2)
 	@PropertySource(value = "classpath:application.yml")
 	@RequiredArgsConstructor
-	public class ApiSecurityConfig extends WebSecurityConfigurerAdapter {
-		
+	public class OAuthSecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
-			
 			http
             	.authorizeRequests()
 	            .antMatchers("/**/**")
@@ -117,7 +112,6 @@ public class SecurityConfig {
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // 토큰 기반 인증이므로 세션 사용 x
 			http.httpBasic().disable()
 				.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
-			
 		}
 		
 		@Bean
@@ -126,6 +120,4 @@ public class SecurityConfig {
 			return super.authenticationManagerBean();
 		}
 	}
-	
-
 }
