@@ -14,7 +14,7 @@ logging:
     root: info
     
 spring:
-#  main:#    allow-bean-definition-overriding: true
+  main:    allow-bean-definition-overriding: true # Bean Overriding 활성화 (SecurityConfig 의 AuthenticationManager Bean 생성을 위해 추가) 
 #  redis:
 #    host: localhost
 #    port: 8080
@@ -86,7 +86,11 @@ spring:
           auth: true
           starttls:
             enable: true
-        
+
+  security:    oauth2:      resourceserver:        jwt:
+          issuer-uri: https://toyseven-domain.auth.ap-northeast-2.amazoncognito.com/ap-northeast-2_xxxxxxxxx
+          jwk-set-uri: https://cognito-idp.ap-northeast-2.amazonaws.com/ap-northeast-2_xxxxxxxxx/.well-known/jwks.json        opaquetoken:          client-id: ap-northeast-2_xxxxxxxxx
+          
 api:
   key:
     station: 784e68756e73696c36334f5a426b4a

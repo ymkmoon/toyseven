@@ -2,6 +2,9 @@ package com.toyseven.ymk.jwt;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -34,11 +37,17 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 	
 	private final JwtService jwtService;
     private final ObjectMapper objectMapper;
+    
+    private static final List<String> EXCLUDE_URL =
+            Collections.unmodifiableList(
+                    Arrays.asList(
+                        "/cognito/1"
+                    ));
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
         throws ServletException, IOException {
-
+    	
         String accessToken = getAccessTokenFromRequestHeader(request);
         String username = null;
         
@@ -62,17 +71,21 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         	if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
         		
         		UserDetails userDetails = this.jwtService.loadUserByUsername(username);
-        		
         		if (Boolean.TRUE.equals(JwtUtil.validateAccessToken(accessToken, userDetails))) {
         			UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
         					userDetails, null, userDetails.getAuthorities());
-        			usernamePasswordAuthenticationToken
-        			.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        			usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         			SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+        			
         		}
         	}
         }
         chain.doFilter(request, response);
+    }
+    
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        return EXCLUDE_URL.stream().anyMatch(exclude -> exclude.equalsIgnoreCase(request.getServletPath()));
     }
 
     private String getAccessTokenFromRequestHeader(HttpServletRequest request) {
