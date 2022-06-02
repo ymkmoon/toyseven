@@ -38,11 +38,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 	private final JwtService jwtService;
     private final ObjectMapper objectMapper;
     
-    private static final List<String> EXCLUDE_URL =
+    private static final List<String> INCLUDE_URL =
             Collections.unmodifiableList(
                     Arrays.asList(
-                        "/cognito/payload/sub",
-                        "/cognito/refresh"
+                        "/voc/answer"
                     ));
 
     @Override
@@ -84,14 +83,19 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         chain.doFilter(request, response);
     }
     
+    /**
+     * return shouldNotFilter
+     * 	true : not execute doFilterInternal
+     * 	false : execute doFilterInternal
+     * 
+     */
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return EXCLUDE_URL.stream().anyMatch(exclude -> exclude.equalsIgnoreCase(request.getServletPath()));
+        return !INCLUDE_URL.stream().anyMatch(exclude -> exclude.equalsIgnoreCase(request.getServletPath()));
     }
 
     private String getAccessTokenFromRequestHeader(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
-
         if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer")) {
             return bearerToken.substring(7);
         }
