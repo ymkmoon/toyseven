@@ -9,7 +9,7 @@ import com.toyseven.ymk.common.dto.VocQuestionDto;
 @Transactional
 public interface VocQuestionService {
 	List<VocQuestionDto.Response> findAll();
-	VocQuestionDto.Response save(VocQuestionDto.Request vocQuestionRequest);
+	VocQuestionDto.Response save(VocQuestionDto.Request vocQuestionRequest, String username);
 	VocQuestionDto.Response findVocQuestionById(Long id);
 	List<VocQuestionDto.Response> getLatestVocQuestions();
 }

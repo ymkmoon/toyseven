@@ -31,12 +31,12 @@ public class VocQuestionServiceImpl implements VocQuestionService {
 	}
 	
 	@Override
-	public VocQuestionDto.Response save(VocQuestionDto.Request vocQuestionRequest) {
+	public VocQuestionDto.Response save(VocQuestionDto.Request vocQuestionRequest, String username) {
 		VocCategoryEntity category = vocCategoryRepository.findById(vocQuestionRequest.getCategoryId())
 				.orElseThrow(() -> new BusinessException("해당 Category 조회가 불가능 합니다.", ErrorCode.CATEGORY_IS_NOT_EXIST));
 		StationInformationEntity station = stationRepository.findByStationId(vocQuestionRequest.getStationId())
 				.orElseThrow(() -> new BusinessException("해당 Station 조회가 불가능 합니다.", ErrorCode.STATION_IS_NOT_EXIST));
-		VocQuestionEntity question = vocQuestionRepository.save(vocQuestionRequest.toEntity(category, station));
+		VocQuestionEntity question = vocQuestionRepository.save(vocQuestionRequest.toEntity(category, station, username));
 				
 		return question.toVocQuestionResponse();
 	}

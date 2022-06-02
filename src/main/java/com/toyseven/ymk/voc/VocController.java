@@ -1,8 +1,10 @@
 package com.toyseven.ymk.voc;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.toyseven.ymk.common.dto.VocAnswerDto;
 import com.toyseven.ymk.common.dto.VocCategoryDto;
 import com.toyseven.ymk.common.dto.VocQuestionDto;
+import com.toyseven.ymk.common.error.ErrorCode;
+import com.toyseven.ymk.common.error.exception.BusinessException;
 import com.toyseven.ymk.voc.answer.VocAnswerService;
 import com.toyseven.ymk.voc.category.VocCategoryService;
 import com.toyseven.ymk.voc.question.VocQuestionService;
@@ -38,10 +42,17 @@ public class VocController {
 		return new ResponseEntity<>(vocQuestionService.findAll(), HttpStatus.OK);
 	}
 	
-	@PostMapping()
+	@PostMapping(value = "/question")
 	public ResponseEntity<VocQuestionDto.Response> saveVocQuestion(
-			@RequestBody @Valid VocQuestionDto.Request vocQuestionRequest) {
-		return new ResponseEntity<>(vocQuestionService.save(vocQuestionRequest), HttpStatus.CREATED);
+			Principal principal,
+			@RequestBody @Valid VocQuestionDto.Request vocQuestionRequest
+			) {
+		
+		String username = Optional.ofNullable(principal)
+				.orElseThrow(() -> new BusinessException("비회원은 게시글 작성을 할 수 없습니다.", ErrorCode.UNAUTHORIZED))
+				.getName();
+		
+		return new ResponseEntity<>(vocQuestionService.save(vocQuestionRequest, username), HttpStatus.CREATED);
 	}
 	
 	@GetMapping(value = "/search/{id}")
