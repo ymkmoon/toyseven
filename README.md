@@ -5,6 +5,7 @@
 - ``Gradle 7.2``
 - ``h2 In-memory DB``
 - ``JPA``
+- ``AWS Cognito``
 
 - ``swagger``
   - http://localhost:8000/toyseven/swagger-ui.html
