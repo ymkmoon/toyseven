@@ -5,6 +5,7 @@ import java.nio.charset.StandardCharsets;
 import org.json.simple.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.toyseven.ymk.common.dto.StationInformationDto;
@@ -66,5 +67,25 @@ public class ResponseEntityUtil {
                 .retrieve()
                 .toEntity(JSONObject.class)
                 .block();
+	}
+	
+	
+	public static ResponseEntity<JSONObject> cognitoRefreshToken(WebClient webClient, MultiValueMap<String, String> params) {
+		return webClient.post()
+				.uri(uriBuilder -> uriBuilder
+						.path("/oauth2")
+						.path("/token")
+						.build())
+				.headers(httpHeaders -> 
+				httpHeaders.add("Content-Type", "application/x-www-form-urlencoded"))
+				.accept(MediaType.APPLICATION_JSON)
+				.acceptCharset(StandardCharsets.UTF_8)
+				.bodyValue(params)
+				.retrieve()
+				.onStatus(status -> !status.is2xxSuccessful() , clientResponse ->
+				clientResponse.bodyToMono(String.class)
+				.map(body -> new Exception("Token_Update_Error_"+body)))
+				.toEntity(JSONObject.class)
+				.block();
 	}
 }

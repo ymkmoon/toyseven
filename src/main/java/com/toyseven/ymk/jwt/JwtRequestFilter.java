@@ -41,7 +41,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     private static final List<String> EXCLUDE_URL =
             Collections.unmodifiableList(
                     Arrays.asList(
-                        "/cognito/1"
+                        "/cognito/payload/sub",
+                        "/cognito/refresh"
                     ));
 
     @Override
