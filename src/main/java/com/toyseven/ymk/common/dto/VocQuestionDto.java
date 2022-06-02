@@ -25,11 +25,10 @@ public class VocQuestionDto {
 		@NotBlank private String title;
 		@NotBlank private String content;
 		@NotBlank private String email;
-		@NotBlank private String username;
 		@NotNull private String stationId;
 		@NotNull private int needReply;
 		
-		public VocQuestionEntity toEntity(VocCategoryEntity category, StationInformationEntity station) {
+		public VocQuestionEntity toEntity(VocCategoryEntity category, StationInformationEntity station, String username) {
 	        return VocQuestionEntity.builder()
 	        		.category(category)
 	        		.title(title)
