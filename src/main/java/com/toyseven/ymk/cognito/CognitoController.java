@@ -29,7 +29,7 @@ public class CognitoController {
 	}
 	
 	@PostMapping("/refresh")
-	public ResponseEntity<?> refresh(@RequestBody @Valid CognitoDto.RefreshRequest request) {
+	public ResponseEntity<CognitoDto.RefreshResponse> refresh(@RequestBody @Valid CognitoDto.RefreshRequest request) {
 		CognitoDto.RefreshResponse response = cognitoService.refreshAccessToken(request);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
