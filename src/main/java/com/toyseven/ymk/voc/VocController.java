@@ -44,10 +44,7 @@ public class VocController {
 	
 	@PostMapping(value = "/question")
 	public ResponseEntity<VocQuestionDto.Response> saveVocQuestion(
-			Principal principal,
-			@RequestBody @Valid VocQuestionDto.Request vocQuestionRequest
-			) {
-		
+			Principal principal, @RequestBody @Valid VocQuestionDto.Request vocQuestionRequest) {
 		String username = Optional.ofNullable(principal)
 				.orElseThrow(() -> new BusinessException("비회원은 게시글 작성을 할 수 없습니다.", ErrorCode.UNAUTHORIZED))
 				.getName();
