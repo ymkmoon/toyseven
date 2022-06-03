@@ -92,6 +92,9 @@ public class SecurityConfig {
 	@RequiredArgsConstructor
 	public class OAuthSecurityConfig extends WebSecurityConfigurerAdapter {
 		
+		private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+		private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+		
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			http
@@ -102,7 +105,10 @@ public class SecurityConfig {
                 .and()
                 .cors() // cross-origin
                 .and()
-				.oauth2ResourceServer().jwt()
+				.oauth2ResourceServer()
+					.authenticationEntryPoint(jwtAuthenticationEntryPoint)
+					.accessDeniedHandler(jwtAccessDeniedHandler)
+					.jwt()
 					.jwkSetUri(jwkSetUri);
 			
 			http.csrf().disable(); 
