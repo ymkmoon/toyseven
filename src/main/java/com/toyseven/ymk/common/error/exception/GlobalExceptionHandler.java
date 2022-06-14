@@ -2,6 +2,8 @@ package com.toyseven.ymk.common.error.exception;
 
 import java.util.NoSuchElementException;
 
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.ResponseEntity;
@@ -124,18 +126,28 @@ public class GlobalExceptionHandler {
      * 	ex) 게시글 답변 입력 시 foreign key 인 question id 에 해당하는 데이터가 존재하지 않는 경우 
      */
     @ExceptionHandler(DataIntegrityViolationException.class)
-    protected ResponseEntity<ErrorResponse> handleConstraintViolationException(DataIntegrityViolationException e) {
+    protected ResponseEntity<ErrorResponse> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
     	log.error("handleDataIntegrityViolationException", e);
     	return ErrorResponse.toResponseEntity(ErrorCode.DATA_INTEGRITY_VIOLATION);
+    }
+    
+    /**
+     * 필수 Parameter 가 존재하지 않는 경우
+     * 	ex) 특정 station 조회 시 필수 파마리터인 name 이 존재하지 않는 경우 
+     */
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    protected ResponseEntity<ErrorResponse> handleConstraintRequestParameterException(MissingServletRequestParameterException e) {
+    	log.error("handleMissingServletRequestParameterException", e);
+    	return ErrorResponse.toResponseEntity(ErrorCode.MISSING_SERVLET_REQUEST_PARAMETER);
     }
     
     /**
      * 필수 Parameter 값이 없는 경우
      * 	ex) 특정 station 조회 시 필수 파마리터인 name 의 value 가 존재하지 않는 경우 
      */
-    @ExceptionHandler(MissingServletRequestParameterException.class)
-    protected ResponseEntity<ErrorResponse> handleConstraintRequestParameterException(MissingServletRequestParameterException e) {
-    	log.error("handleMissingServletRequestParameterException", e);
+    @ExceptionHandler(ConstraintViolationException.class)
+    protected ResponseEntity<ErrorResponse> handleConstraintViolationException(ConstraintViolationException e) {
+    	log.error("handleConstraintViolationException", e);
     	return ErrorResponse.toResponseEntity(ErrorCode.MISSING_SERVLET_REQUEST_PARAMETER);
     }
     
