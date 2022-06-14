@@ -59,7 +59,7 @@ class JwtServiceTest {
 	@Test
 	@DisplayName("유저 조회 성공 테스트 ")
 	void Should_Build_User_When_User_Is_Exist() {
-		Mockito.when(adminRepository.findAccountByUsername("guke")).thenReturn(Optional.of(adminEntity));
+		Mockito.when(adminRepository.findAccountByUsername("guke")).thenReturn(adminEntity);
 		AdminDto.Request adminRequest = AdminDto.Request.builder().username("guke").password("").build();
 		UserDetails userDetails = jwtServiceImpl.loadUserByUsername(adminRequest.getUsername());
 		assertThat(userDetails.getUsername(), is(adminRequest.getUsername()));
@@ -81,7 +81,7 @@ class JwtServiceTest {
 	@Test
 	@DisplayName("Refresh 토큰 저장 성공 테스트 ")
 	void Should_Save_Refresh_Token_When_User_Is_Exist() {
-		Mockito.when(adminRepository.findAccountByUsername("guke")).thenReturn(Optional.of(adminEntity));
+		Mockito.when(adminRepository.findAccountByUsername("guke")).thenReturn(adminEntity);
 		Mockito.when(refreshTokenRepository.existsByAdminId(adminEntity)).thenReturn(false);
 		Mockito.when(refreshTokenRepository.save(any())).thenReturn(refreshTokenEntity);
 		TokenDto.RefreshResponse refreshToken = jwtServiceImpl.saveRefreshToken(tokenRequest);
@@ -94,7 +94,7 @@ class JwtServiceTest {
 	@Test
 	@DisplayName("기존 Refresh 토큰 삭제 후 저장 성공 테스트 ")
 	void Should_Save_Refresh_Token_When_Refresh_Token_Already_Regist() {
-		Mockito.when(adminRepository.findAccountByUsername("guke")).thenReturn(Optional.of(adminEntity));
+		Mockito.when(adminRepository.findAccountByUsername("guke")).thenReturn(adminEntity);
 		Mockito.when(refreshTokenRepository.existsByAdminId(adminEntity)).thenReturn(true);
 		Mockito.when(refreshTokenRepository.save(any())).thenReturn(refreshTokenEntity);
 		TokenDto.RefreshResponse refreshToken = jwtServiceImpl.saveRefreshToken(tokenRequest);
@@ -117,7 +117,7 @@ class JwtServiceTest {
 	@Test
 	@DisplayName("토큰 갱신 성공 테스트 ")
 	void Should_Refresh_Access_Token_When_Refresh_Token_Is_Regist() {
-		Mockito.when(adminRepository.findAccountByUsername("guke")).thenReturn(Optional.of(adminEntity));
+		Mockito.when(adminRepository.findAccountByUsername("guke")).thenReturn(adminEntity);
 		Mockito.when(refreshTokenRepository.findRefreshTokenByAdminId(adminEntity)).thenReturn(Optional.of(refreshTokenEntity));
 		boolean result = jwtServiceImpl.validateRegistRefreshToken(refreshRequest);
 		assertThat(result, is(true));
@@ -130,7 +130,7 @@ class JwtServiceTest {
 	@DisplayName("토큰 갱신 실패 테스트 ")
 	void Should_Throws_Exception_When_Refresh_Token_Is_Not_Regist() {
 		this.refreshRequest = TokenDto.RefreshRequest.builder().refreshToken("token").build();
-		Mockito.lenient().when(adminRepository.findAccountByUsername("guke")).thenReturn(Optional.of(adminEntity));
+		Mockito.lenient().when(adminRepository.findAccountByUsername("guke")).thenReturn(adminEntity);
 		Mockito.lenient().when(refreshTokenRepository.findRefreshTokenByAdminId(adminEntity)).thenReturn(Optional.of(refreshTokenEntity));
 		assertThrows(MalformedJwtException.class, () -> jwtServiceImpl.validateRegistRefreshToken(refreshRequest));
 	}

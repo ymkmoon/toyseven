@@ -3,6 +3,7 @@ package com.toyseven.ymk.voc.answer;
 import static java.util.stream.Collectors.toList;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,7 +35,7 @@ public class VocAnswerServiceImpl implements VocAnswerService {
 		
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		
-		AdminEntity admin = adminRepository.findAccountByUsername(username)
+		AdminEntity admin = Optional.ofNullable(adminRepository.findAccountByUsername(username))
 				.orElseThrow(() -> new BusinessException("해당 Admin 조회가 불가능 합니다.", ErrorCode.BAD_REQUEST));
 		
 		VocAnswerEntity answer = vocAnswerRepository.save(vocAnswerRequest.toEntity(question, admin));
