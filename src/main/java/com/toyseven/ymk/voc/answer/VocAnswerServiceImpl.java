@@ -51,7 +51,8 @@ public class VocAnswerServiceImpl implements VocAnswerService {
 	
 	@Override
 	public List<VocAnswerDto.Response> findVocAnswerByQuestionId(Long id) {
-		VocQuestionEntity question = vocQuestionRepository.findById(id).get();
+		VocQuestionEntity question = vocQuestionRepository.findById(id)
+				.orElseThrow(() -> new BusinessException("해당 Question 조회가 불가능 합니다.", ErrorCode.QUESTION_IS_NOT_EXIST));
 		List<VocAnswerEntity> answers = vocAnswerRepository.findVocAnswerByQuestionId(question);
 		return answers.stream().map(VocAnswerEntity::toVocAnswerResponse).collect(toList());
 	}
