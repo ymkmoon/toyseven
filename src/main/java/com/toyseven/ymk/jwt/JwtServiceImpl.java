@@ -61,8 +61,8 @@ public class JwtServiceImpl implements UserDetailsService, JwtService {
 		String usernameInToken = JwtUtil.getUsernameFromRefreshToken(refreshToken);
 		AdminEntity admin = Optional.ofNullable(adminRepository.findAccountByUsername(usernameInToken))
 				.orElseThrow(() -> new BusinessException("사용자를 찾을 수 없습니다.", ErrorCode.TOKEN_IS_NOT_AUTHORIZED));
-		RefreshTokenEntity entity = refreshTokenRepository.findRefreshTokenByAdminId(admin).orElseThrow(
-				() -> new BusinessException("등록되지 않은 Refresh Token 입니다.", ErrorCode.TOKEN_IS_NOT_AUTHORIZED));
+		RefreshTokenEntity entity = Optional.ofNullable(refreshTokenRepository.findRefreshTokenByAdminId(admin))
+				.orElseThrow(() -> new BusinessException("등록되지 않은 Refresh Token 입니다.", ErrorCode.TOKEN_IS_NOT_AUTHORIZED));
 		return refreshToken.equals(entity.getRefreshToken());
 	}
 	

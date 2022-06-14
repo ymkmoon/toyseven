@@ -5,8 +5,6 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 
-import java.util.Optional;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -118,7 +116,7 @@ class JwtServiceTest {
 	@DisplayName("토큰 갱신 성공 테스트 ")
 	void Should_Refresh_Access_Token_When_Refresh_Token_Is_Regist() {
 		Mockito.when(adminRepository.findAccountByUsername("guke")).thenReturn(adminEntity);
-		Mockito.when(refreshTokenRepository.findRefreshTokenByAdminId(adminEntity)).thenReturn(Optional.of(refreshTokenEntity));
+		Mockito.when(refreshTokenRepository.findRefreshTokenByAdminId(adminEntity)).thenReturn(refreshTokenEntity);
 		boolean result = jwtServiceImpl.validateRegistRefreshToken(refreshRequest);
 		assertThat(result, is(true));
 	}
@@ -131,7 +129,7 @@ class JwtServiceTest {
 	void Should_Throws_Exception_When_Refresh_Token_Is_Not_Regist() {
 		this.refreshRequest = TokenDto.RefreshRequest.builder().refreshToken("token").build();
 		Mockito.lenient().when(adminRepository.findAccountByUsername("guke")).thenReturn(adminEntity);
-		Mockito.lenient().when(refreshTokenRepository.findRefreshTokenByAdminId(adminEntity)).thenReturn(Optional.of(refreshTokenEntity));
+		Mockito.lenient().when(refreshTokenRepository.findRefreshTokenByAdminId(adminEntity)).thenReturn(refreshTokenEntity);
 		assertThrows(MalformedJwtException.class, () -> jwtServiceImpl.validateRegistRefreshToken(refreshRequest));
 	}
 }
