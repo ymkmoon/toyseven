@@ -40,7 +40,8 @@ class JwtServiceTest {
 	TokenDto.Request tokenRequest;
 	TokenDto.RefreshRequest refreshRequest;
 	
-	static String REFRESH_TOKEN = "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2NTE3Mjk2NTcsImlhdCI6MTY1MTQ3MDQ1NywidXNlcm5hbWUiOiJndWtlIn0.J5FBz41-Sbej_vWsfcmmNgF3cu5pYIcFSBNu63Ys7oc_wMHSERPmrMfRFZDwGHkxOBRb3dGb9jWLox1DN-Q8xQ";
+	// Token 데이터에는 만료기간에 대한 설정값이 들어가 있어, unit 시에도 갱신시켜줘야 한다.
+	static String REFRESH_TOKEN = "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2NTU0Mzk0NjcsImlhdCI6MTY1NTE4MDI2NywidXNlcm5hbWUiOiJndWtlIn0.6RAUUgOxxxHWCCM7HdnyuqsMSTY1HLFnKPh23574lXSEk0lS_Z8dKiV4P8ScHmHzk_awvbp5VMZljl_EbepZsw";
 	
 	@BeforeEach
 	void setup() {
