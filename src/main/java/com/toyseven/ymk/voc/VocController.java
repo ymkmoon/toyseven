@@ -84,7 +84,7 @@ public class VocController {
 		return new ResponseEntity<>(vocAnswerService.getLatestVocQAnswers(), HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/category")
+	@GetMapping(value = "/categories")
 	public ResponseEntity<List<VocCategoryDto.Response>> getCategories() {
 		return new ResponseEntity<>(vocCategoryService.getVocCategory(), HttpStatus.OK);
 	}
