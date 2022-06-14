@@ -45,7 +45,7 @@ public class StationServiceImpl implements StationService {
 
     @Override
     public List<StationInformationDto.Response> findByStationName(String stationName) {
-    	List<StationInformationEntity> stations = stationRepository.findByStationNameContaining(stationName).get();
+    	List<StationInformationEntity> stations = stationRepository.findByStationNameContaining(stationName);
     	return stations.stream().map(StationInformationEntity::toStationInformationResponse).collect(toList());
     }
     

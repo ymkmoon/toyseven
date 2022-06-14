@@ -1,5 +1,7 @@
 package com.toyseven.ymk.jwt;
 
+import java.util.Optional;
+
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,8 +26,8 @@ public class JwtServiceImpl implements UserDetailsService, JwtService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        AdminEntity adminItem = adminRepository.findAccountByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
+        AdminEntity adminItem = Optional.ofNullable(adminRepository.findAccountByUsername(username))
+        		.orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
 
         return User.builder()
                 .username(adminItem.getUsername())
@@ -37,8 +39,8 @@ public class JwtServiceImpl implements UserDetailsService, JwtService {
 	@Override
 	public TokenDto.RefreshResponse saveRefreshToken(TokenDto.Request token) {
 		String username = JwtUtil.getUsernameFromRefreshToken(token.getRefreshToken());
-		AdminEntity admin = adminRepository.findAccountByUsername(username).orElseThrow(
-				() -> new BusinessException("사용자를 찾을 수 없습니다.", ErrorCode.USER_NAME_NOT_FOUND));
+		AdminEntity admin = Optional.ofNullable(adminRepository.findAccountByUsername(username))
+				.orElseThrow(() -> new BusinessException("사용자를 찾을 수 없습니다.", ErrorCode.USER_NAME_NOT_FOUND));
 		
 		boolean exists = refreshTokenRepository.existsByAdminId(admin);
 		if(exists) {
@@ -57,10 +59,10 @@ public class JwtServiceImpl implements UserDetailsService, JwtService {
 	public boolean validateRegistRefreshToken(TokenDto.RefreshRequest refreshRequest) {
 		String refreshToken = refreshRequest.getRefreshToken();
 		String usernameInToken = JwtUtil.getUsernameFromRefreshToken(refreshToken);
-		AdminEntity admin = adminRepository.findAccountByUsername(usernameInToken).orElseThrow(
-				() -> new BusinessException("사용자를 찾을 수 없습니다.", ErrorCode.TOKEN_IS_NOT_AUTHORIZED));
-		RefreshTokenEntity entity = refreshTokenRepository.findRefreshTokenByAdminId(admin).orElseThrow(
-				() -> new BusinessException("등록되지 않은 Refresh Token 입니다.", ErrorCode.TOKEN_IS_NOT_AUTHORIZED));
+		AdminEntity admin = Optional.ofNullable(adminRepository.findAccountByUsername(usernameInToken))
+				.orElseThrow(() -> new BusinessException("사용자를 찾을 수 없습니다.", ErrorCode.TOKEN_IS_NOT_AUTHORIZED));
+		RefreshTokenEntity entity = Optional.ofNullable(refreshTokenRepository.findRefreshTokenByAdminId(admin))
+				.orElseThrow(() -> new BusinessException("등록되지 않은 Refresh Token 입니다.", ErrorCode.TOKEN_IS_NOT_AUTHORIZED));
 		return refreshToken.equals(entity.getRefreshToken());
 	}
 	

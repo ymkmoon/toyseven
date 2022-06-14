@@ -7,7 +7,6 @@ import static org.hamcrest.core.IsNot.not;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -66,7 +65,7 @@ class StationServiceTest {
 	void Should_Return_Stations_When_Find_By_Station_Name_Containing() {
 		List<StationInformationEntity> stationFindByStationNameContaining = new ArrayList<>();
 		stationFindByStationNameContaining.add(station);
-		Mockito.when(stationRepository.findByStationNameContaining("103. 망원역 2번출구 앞")).thenReturn(Optional.of(stationFindByStationNameContaining));
+		Mockito.when(stationRepository.findByStationNameContaining("103. 망원역 2번출구 앞")).thenReturn(stationFindByStationNameContaining);
 		List<StationInformationDto.Response> response = stationServiceImpl.findByStationName("103. 망원역 2번출구 앞");
 		assertThat(response, is(not(empty())));
 	}
