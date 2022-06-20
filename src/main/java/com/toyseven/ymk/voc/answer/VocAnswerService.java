@@ -6,9 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.toyseven.ymk.common.dto.VocAnswerDto;
 
-@Transactional
+@Transactional(readOnly = true)
 public interface VocAnswerService {
-	VocAnswerDto.Response save(VocAnswerDto.Request vocAnswerRequest);
+	@Transactional VocAnswerDto.Response save(VocAnswerDto.Request vocAnswerRequest);
 	List<VocAnswerDto.Response> findVocAnswerByQuestionId(Long id);
 	List<VocAnswerDto.Response> getLatestVocQAnswers();
 }
