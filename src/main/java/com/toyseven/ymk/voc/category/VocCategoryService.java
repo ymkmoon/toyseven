@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.toyseven.ymk.common.dto.VocCategoryDto;
 
-@Transactional
+@Transactional(readOnly = true)
 public interface VocCategoryService {
 	List<VocCategoryDto.Response> getVocCategory();
 }

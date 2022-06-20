@@ -6,10 +6,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.toyseven.ymk.common.dto.VocQuestionDto;
 
-@Transactional
+@Transactional(readOnly = true)
 public interface VocQuestionService {
 	List<VocQuestionDto.Response> findAll();
-	VocQuestionDto.Response save(VocQuestionDto.Request vocQuestionRequest, String username);
+	@Transactional VocQuestionDto.Response save(VocQuestionDto.Request vocQuestionRequest, String username);
 	VocQuestionDto.Response findVocQuestionById(Long id);
 	List<VocQuestionDto.Response> getLatestVocQuestions();
 }

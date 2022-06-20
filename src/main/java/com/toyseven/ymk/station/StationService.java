@@ -7,10 +7,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.toyseven.ymk.common.dto.StationInformationDto;
 import com.toyseven.ymk.common.model.entity.StationInformationEntity;
 
-@Transactional
+@Transactional(readOnly = true)
 public interface StationService {
 	List<StationInformationDto.Response> findAll();
 	List<StationInformationDto.Response> findByStationName(String stationName);
 	List<StationInformationEntity> getStations();
-	void save(List<StationInformationEntity> stations);
+	@Transactional void save(List<StationInformationEntity> stations);
 }
