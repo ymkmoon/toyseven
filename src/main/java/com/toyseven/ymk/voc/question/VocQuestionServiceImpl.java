@@ -25,13 +25,13 @@ public class VocQuestionServiceImpl implements VocQuestionService {
 	private final StationRepository stationRepository;
 	
 	@Override
-	public List<VocQuestionDto.Response> findAll() {
+	public List<VocQuestionDto.Response> getAllVocQuestions() {
 		List<VocQuestionEntity> questions = vocQuestionRepository.findAll();
 		return questions.stream().map(VocQuestionEntity::toVocQuestionResponse).collect(toList());
 	}
 	
 	@Override
-	public VocQuestionDto.Response save(VocQuestionDto.Request vocQuestionRequest, String username) {
+	public VocQuestionDto.Response saveVocQuestion(VocQuestionDto.Request vocQuestionRequest, String username) {
 		VocCategoryEntity category = vocCategoryRepository.findById(vocQuestionRequest.getCategoryId())
 				.orElseThrow(() -> new BusinessException("해당 Category 조회가 불가능 합니다.", ErrorCode.CATEGORY_IS_NOT_EXIST));
 		StationInformationEntity station = stationRepository.findByStationId(vocQuestionRequest.getStationId());
@@ -41,7 +41,7 @@ public class VocQuestionServiceImpl implements VocQuestionService {
 	}
 	
 	@Override
-	public VocQuestionDto.Response findVocQuestionById(Long id) {
+	public VocQuestionDto.Response getVocQuestionById(Long id) {
 		VocQuestionEntity question = vocQuestionRepository.findById(id)
 				.orElseThrow(() -> new BusinessException("해당 Question 조회가 불가능 합니다.", ErrorCode.QUESTION_IS_NOT_EXIST));;
 		
