@@ -12,5 +12,5 @@ public interface StationService {
 	List<StationInformationDto.Response> getAllStations();
 	List<StationInformationDto.Response> getStationByStationName(String stationName);
 	List<StationInformationEntity> getStations();
-	@Transactional void save(List<StationInformationEntity> stations);
+	@Transactional void saveStations(List<StationInformationEntity> stations);
 }

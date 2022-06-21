@@ -56,7 +56,7 @@ public class StationServiceImpl implements StationService {
 	}
     
     @Override
-    public void save(List<StationInformationEntity> stations) {
+    public void saveStations(List<StationInformationEntity> stations) {
     	stationRepository.saveAll(stations);
     }
     

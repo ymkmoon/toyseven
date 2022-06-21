@@ -16,13 +16,13 @@ public class StationJob {
 	
 	private final StationService stationService;
 	
-	@Scheduled(fixedDelay = 1000000)
+	@Scheduled(fixedDelay = 100000000)
     public void saveStations() {
         List<StationInformationEntity> stations = stationService.getStations();
         if(!stations.isEmpty()) {
-            stationService.save(stations);
+            stationService.saveStations(stations);
         } else {
-        	stationService.save(ToysevenCommonUtil.getStationsFromJsonArrayFile("StationFindAll.json"));
+        	stationService.saveStations(ToysevenCommonUtil.getStationsFromJsonArrayFile("StationFindAll.json"));
         }
     }
 }

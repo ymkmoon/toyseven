@@ -56,7 +56,7 @@ class StationServiceTest {
 	@DisplayName("Station 목록 조회 성공 테스트")
 	void Should_Return_Stations_When_Find_All() {
 		Mockito.when(stationRepository.findAll()).thenReturn(stations);
-		List<StationInformationDto.Response> response = stationServiceImpl.findAll();
+		List<StationInformationDto.Response> response = stationServiceImpl.getAllStations();
 		assertThat(response, is(not(empty())));
 	}
 	
@@ -66,7 +66,7 @@ class StationServiceTest {
 		List<StationInformationEntity> stationFindByStationNameContaining = new ArrayList<>();
 		stationFindByStationNameContaining.add(station);
 		Mockito.when(stationRepository.findByStationNameContaining("103. 망원역 2번출구 앞")).thenReturn(stationFindByStationNameContaining);
-		List<StationInformationDto.Response> response = stationServiceImpl.findByStationName("103. 망원역 2번출구 앞");
+		List<StationInformationDto.Response> response = stationServiceImpl.getStationByStationName("103. 망원역 2번출구 앞");
 		assertThat(response, is(not(empty())));
 	}
 	
