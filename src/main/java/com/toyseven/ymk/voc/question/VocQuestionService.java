@@ -12,4 +12,5 @@ public interface VocQuestionService {
 	List<VocQuestionDto.Response> getLatestVocQuestions();
 	VocQuestionDto.Response getVocQuestionById(Long id);
 	@Transactional VocQuestionDto.Response saveVocQuestion(VocQuestionDto.Request vocQuestionRequest, String username);
+	@Transactional VocQuestionDto.Response updateVocQuestion(String username, VocQuestionDto.UpdateRequest vocQuestionUpdateRequest);
 }

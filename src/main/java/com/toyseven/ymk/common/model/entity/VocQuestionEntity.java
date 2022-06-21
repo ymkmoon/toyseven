@@ -87,4 +87,8 @@ public class VocQuestionEntity extends BaseTimeEntity {
 				.build();
 	}
 	
+	public void update(String title, String content) {
+		this.title = title;
+		this.content = content;
+	}
 }

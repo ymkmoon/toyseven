@@ -41,6 +41,15 @@ public class VocQuestionDto {
 	    }
 	}
 	
+	@Getter
+	@NoArgsConstructor
+	public static class UpdateRequest {
+		
+		@NotNull private Long id;
+		@NotBlank private String title;
+		@NotBlank private String content;
+	}
+	
 	@Builder
 	@Getter
 	@AllArgsConstructor
