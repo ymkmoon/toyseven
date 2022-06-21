@@ -71,12 +71,12 @@ public class StationServiceImpl implements StationService {
         if(!ToysevenCommonUtil.isSuccessResponse(response))
         	return row;
 
-        Map<String, Object> responseData = (Map<String, Object>)response.getBody().get("rentBikeStatus");
-        String listTotalCount = responseData.entrySet().stream()
+        Map<String, Object> responseData = (Map<String, Object>)response.getBody().get("getStationOpenApiJson");
+        String listTotalCount = responseData != null ? responseData.entrySet().stream()
         		.filter(station -> station.getKey().equals("list_total_count"))
         		.map(station -> station.getValue().toString())
         		.findFirst()
-        		.orElse("0");
+        		.orElse("0") : "0";
         
         if(!listTotalCount.equals("0")) 
         	row.addAll((List<StationInformationEntity>)responseData.get("row"));
