@@ -28,14 +28,14 @@ public class StationController {
 
     @GetMapping()
     public ResponseEntity<List<StationInformationDto.Response>> getStations() {
-        List<StationInformationDto.Response> stations = stationService.findAll();
+        List<StationInformationDto.Response> stations = stationService.getAllStations();
         return new ResponseEntity<>(stations, HttpStatus.OK);
     }
 
     @GetMapping(value = "/search")
     public ResponseEntity<List<StationInformationDto.Response>> searchStations(
     		@RequestParam(name="name") @NotBlank String name) {
-        List<StationInformationDto.Response> stations = stationService.findByStationName(name);
+        List<StationInformationDto.Response> stations = stationService.getStationByStationName(name);
         return new ResponseEntity<>(stations, HttpStatus.OK);
     }
 
