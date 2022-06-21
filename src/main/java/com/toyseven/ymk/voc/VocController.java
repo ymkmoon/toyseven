@@ -39,7 +39,7 @@ public class VocController {
 	 
 	@GetMapping()
 	public ResponseEntity<List<VocQuestionDto.Response>> getVocQuestions() {
-		return new ResponseEntity<>(vocQuestionService.findAll(), HttpStatus.OK);
+		return new ResponseEntity<>(vocQuestionService.getAllVocQuestions(), HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/question")
@@ -49,17 +49,17 @@ public class VocController {
 				.orElseThrow(() -> new BusinessException("비회원은 게시글 작성을 할 수 없습니다.", ErrorCode.UNAUTHORIZED))
 				.getName();
 		
-		return new ResponseEntity<>(vocQuestionService.save(vocQuestionRequest, username), HttpStatus.CREATED);
+		return new ResponseEntity<>(vocQuestionService.saveVocQuestion(vocQuestionRequest, username), HttpStatus.CREATED);
 	}
 	
 	@GetMapping(value = "/search/{id}")
 	public ResponseEntity<Map<String, Object>> getVocQuestion(
 			@PathVariable(value = "id") Long id) {
 		Map<String, Object> voc = new HashMap<>();
-		VocQuestionDto.Response question = vocQuestionService.findVocQuestionById(id);
+		VocQuestionDto.Response question = vocQuestionService.getVocQuestionById(id);
 		voc.put("question", question);
 		if(question != null) {
-			List<VocAnswerDto.Response> answer =  vocAnswerService.findVocAnswerByQuestionId(question.getId());
+			List<VocAnswerDto.Response> answer =  vocAnswerService.getVocAnswerByQuestionId(question.getId());
 			if(answer != null) {
 				voc.put("answer", answer);
 			}
@@ -71,7 +71,7 @@ public class VocController {
 	@PostMapping(value = "/answer")
 	public ResponseEntity<VocAnswerDto.Response> saveVocAnswer(
 			@RequestBody @Valid VocAnswerDto.Request vocAnswerRequest) {
-		return new ResponseEntity<>(vocAnswerService.save(vocAnswerRequest), HttpStatus.CREATED);
+		return new ResponseEntity<>(vocAnswerService.saveVocAnswer(vocAnswerRequest), HttpStatus.CREATED);
 	}
 	
 	@GetMapping(value = "/questions")

@@ -29,7 +29,7 @@ public class VocAnswerServiceImpl implements VocAnswerService {
 //	private final JavaMailSender mailSender;
 	
 	@Override
-	public VocAnswerDto.Response save(VocAnswerDto.Request vocAnswerRequest) {
+	public VocAnswerDto.Response saveVocAnswer(VocAnswerDto.Request vocAnswerRequest) {
 		VocQuestionEntity question = vocQuestionRepository.findById(vocAnswerRequest.getQuestionId())
 				.orElseThrow(() -> new BusinessException("해당 Question 조회가 불가능 합니다.", ErrorCode.QUESTION_IS_NOT_EXIST));
 		
@@ -50,7 +50,7 @@ public class VocAnswerServiceImpl implements VocAnswerService {
 	}
 	
 	@Override
-	public List<VocAnswerDto.Response> findVocAnswerByQuestionId(Long id) {
+	public List<VocAnswerDto.Response> getVocAnswerByQuestionId(Long id) {
 		VocQuestionEntity question = vocQuestionRepository.findById(id)
 				.orElseThrow(() -> new BusinessException("해당 Question 조회가 불가능 합니다.", ErrorCode.QUESTION_IS_NOT_EXIST));
 		List<VocAnswerEntity> answers = vocAnswerRepository.findVocAnswerByQuestionId(question);

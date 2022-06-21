@@ -38,13 +38,13 @@ public class StationServiceImpl implements StationService {
     private static final String BASE_URL = "http://openapi.seoul.go.kr:8088";
 
     @Override
-    public List<StationInformationDto.Response> findAll() {
+    public List<StationInformationDto.Response> getAllStations() {
     	List<StationInformationEntity> stations = stationRepository.findAll();
     	return stations.stream().map(StationInformationEntity::toStationInformationResponse).collect(toList());
     }
 
     @Override
-    public List<StationInformationDto.Response> findByStationName(String stationName) {
+    public List<StationInformationDto.Response> getStationByStationName(String stationName) {
     	List<StationInformationEntity> stations = stationRepository.findByStationNameContaining(stationName);
     	return stations.stream().map(StationInformationEntity::toStationInformationResponse).collect(toList());
     }
@@ -56,7 +56,7 @@ public class StationServiceImpl implements StationService {
 	}
     
     @Override
-    public void save(List<StationInformationEntity> stations) {
+    public void saveStations(List<StationInformationEntity> stations) {
     	stationRepository.saveAll(stations);
     }
     

@@ -8,8 +8,8 @@ import com.toyseven.ymk.common.dto.VocQuestionDto;
 
 @Transactional(readOnly = true)
 public interface VocQuestionService {
-	List<VocQuestionDto.Response> findAll();
-	@Transactional VocQuestionDto.Response save(VocQuestionDto.Request vocQuestionRequest, String username);
-	VocQuestionDto.Response findVocQuestionById(Long id);
+	List<VocQuestionDto.Response> getAllVocQuestions();
 	List<VocQuestionDto.Response> getLatestVocQuestions();
+	VocQuestionDto.Response getVocQuestionById(Long id);
+	@Transactional VocQuestionDto.Response saveVocQuestion(VocQuestionDto.Request vocQuestionRequest, String username);
 }

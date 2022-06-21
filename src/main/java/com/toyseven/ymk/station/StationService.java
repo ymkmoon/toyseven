@@ -9,8 +9,8 @@ import com.toyseven.ymk.common.model.entity.StationInformationEntity;
 
 @Transactional(readOnly = true)
 public interface StationService {
-	List<StationInformationDto.Response> findAll();
-	List<StationInformationDto.Response> findByStationName(String stationName);
+	List<StationInformationDto.Response> getAllStations();
+	List<StationInformationDto.Response> getStationByStationName(String stationName);
 	List<StationInformationEntity> getStations();
-	@Transactional void save(List<StationInformationEntity> stations);
+	@Transactional void saveStations(List<StationInformationEntity> stations);
 }
