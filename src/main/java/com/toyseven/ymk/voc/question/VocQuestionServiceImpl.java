@@ -64,5 +64,25 @@ public class VocQuestionServiceImpl implements VocQuestionService {
 		List<VocQuestionEntity> questions = vocQuestionRepository.findTop10ByOrderByCreatedAtDesc();
 		return questions.stream().map(VocQuestionEntity::toVocQuestionResponse).collect(toList());
 	}
+
+	@Override
+	public VocQuestionDto.Response updateVocQuestion(String username, VocQuestionDto.UpdateRequest vocQuestionUpdateRequest) {
+		
+		VocQuestionEntity question = vocQuestionRepository.findById(vocQuestionUpdateRequest.getId())
+				.orElseThrow(() -> new BusinessException("해당 Question 조회가 불가능 합니다.", ErrorCode.QUESTION_IS_NOT_EXIST));
+				
+		String compareUsername = question.getUsername();
+		validQuestionWriter(username, compareUsername);
+		question.update(vocQuestionUpdateRequest.getTitle(), vocQuestionUpdateRequest.getContent());
+		
+		return question.toVocQuestionResponse();
+	}
+	
+	private void validQuestionWriter(final String username, final String compareUsername) {
+        if (!username.equals(compareUsername)) {
+        	throw new BusinessException("작성자만 수정 가능합니다.", ErrorCode.IS_NOT_WRITER);
+        }
+    }
+	
 	
 }

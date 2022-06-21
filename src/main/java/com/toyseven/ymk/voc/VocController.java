@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -90,5 +91,13 @@ public class VocController {
 	}
 	
 	
-	
+	@PatchMapping(value = "/question")
+	public ResponseEntity<?> patchVocQuestion(
+			Principal principal, @RequestBody @Valid VocQuestionDto.UpdateRequest vocQuestionUpdateRequest) {
+		String username = Optional.ofNullable(principal)
+				.orElseThrow(() -> new BusinessException("비회원은 게시글 수정을 할 수 없습니다.", ErrorCode.UNAUTHORIZED))
+				.getName();
+		
+		return new ResponseEntity<>(vocQuestionService.updateVocQuestion(username, vocQuestionUpdateRequest), HttpStatus.OK);
+	}
 }
