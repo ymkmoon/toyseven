@@ -4,7 +4,6 @@ import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -21,8 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.toyseven.ymk.common.dto.VocAnswerDto;
 import com.toyseven.ymk.common.dto.VocCategoryDto;
 import com.toyseven.ymk.common.dto.VocQuestionDto;
-import com.toyseven.ymk.common.error.ErrorCode;
-import com.toyseven.ymk.common.error.exception.BusinessException;
 import com.toyseven.ymk.voc.answer.VocAnswerService;
 import com.toyseven.ymk.voc.category.VocCategoryService;
 import com.toyseven.ymk.voc.question.VocQuestionService;
