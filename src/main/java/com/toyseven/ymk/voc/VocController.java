@@ -45,11 +45,9 @@ public class VocController {
 	
 	@PostMapping(value = "/question")
 	public ResponseEntity<VocQuestionDto.Response> saveVocQuestion(
-			Principal principal, @RequestBody @Valid VocQuestionDto.Request vocQuestionRequest) {
-		String username = Optional.ofNullable(principal)
-				.orElseThrow(() -> new BusinessException("비회원은 게시글 작성을 할 수 없습니다.", ErrorCode.UNAUTHORIZED))
-				.getName();
-		
+			Principal principal, 
+			@RequestBody @Valid VocQuestionDto.Request vocQuestionRequest) {
+		String username = principal.getName();
 		return new ResponseEntity<>(vocQuestionService.saveVocQuestion(vocQuestionRequest, username), HttpStatus.CREATED);
 	}
 	
@@ -92,12 +90,10 @@ public class VocController {
 	
 	
 	@PatchMapping(value = "/question")
-	public ResponseEntity<?> patchVocQuestion(
-			Principal principal, @RequestBody @Valid VocQuestionDto.UpdateRequest vocQuestionUpdateRequest) {
-		String username = Optional.ofNullable(principal)
-				.orElseThrow(() -> new BusinessException("비회원은 게시글 수정을 할 수 없습니다.", ErrorCode.UNAUTHORIZED))
-				.getName();
-		
+	public ResponseEntity<VocQuestionDto.Response> patchVocQuestion(
+			Principal principal, 
+			@RequestBody @Valid VocQuestionDto.UpdateRequest vocQuestionUpdateRequest) {
+		String username = principal.getName();
 		return new ResponseEntity<>(vocQuestionService.updateVocQuestion(username, vocQuestionUpdateRequest), HttpStatus.OK);
 	}
 }
