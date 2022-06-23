@@ -25,7 +25,6 @@ public enum ErrorCode {
     QUESTION_IS_NOT_EXIST(HttpStatus.BAD_REQUEST, "해당 Question 조회가 불가능 합니다."),
     ADMIN_IS_NOT_EXIST(HttpStatus.BAD_REQUEST, "해당 Admin 조회가 불가능 합니다."),
     
-    FAIL_COGNITO_GET_USERINFO(HttpStatus.BAD_REQUEST, "Cognito 유저 정보 획득 실패"),
     FAIL_COGNITO_REFRESH_ACCESSTOKEN(HttpStatus.BAD_REQUEST, "Cognito 토큰 갱신 실패"),
 
     // 401
@@ -38,6 +37,7 @@ public enum ErrorCode {
     TOKEN_IS_NOT_AUTHORIZED(HttpStatus.UNAUTHORIZED, "인증되지 않은 토큰 입니다."),
     IS_NOT_WRITER(HttpStatus.UNAUTHORIZED, "작성자만 수정 가능합니다."),
     
+    FAIL_COGNITO_GET_USERINFO(HttpStatus.UNAUTHORIZED, "Cognito 유저 정보 획득 실패"),
     
     // 403
     ACCESS_DENIED(HttpStatus.FORBIDDEN, "접근 하기 위해서는 권한을 확인해주세요."),
