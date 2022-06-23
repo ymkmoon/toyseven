@@ -20,7 +20,8 @@ import org.springframework.web.cors.CorsConfiguration;
 
 import com.toyseven.ymk.common.error.exception.JwtAccessDeniedHandler;
 import com.toyseven.ymk.common.error.exception.JwtAuthenticationEntryPoint;
-import com.toyseven.ymk.jwt.JwtRequestFilter;
+import com.toyseven.ymk.common.filter.JwtRequestFilter;
+import com.toyseven.ymk.common.filter.OAuth2RequestFilter;
 import com.toyseven.ymk.jwt.JwtServiceImpl;
 
 import lombok.RequiredArgsConstructor;
@@ -94,6 +95,46 @@ public class SecurityConfig {
 		
 		private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 		private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+		private final OAuth2RequestFilter oauth2RequestFilter2;
+		
+		@Override
+		protected void configure(HttpSecurity http) throws Exception {
+			http
+            	.authorizeRequests()
+	            .antMatchers("/voc/question")
+                .authenticated()
+                .and()
+                .cors() // cross-origin
+                .and()
+				.oauth2ResourceServer()
+					.authenticationEntryPoint(jwtAuthenticationEntryPoint)
+					.accessDeniedHandler(jwtAccessDeniedHandler)
+					.jwt()
+					.jwkSetUri(jwkSetUri);
+			
+			http.csrf().disable(); 
+			http.headers()
+				.frameOptions().sameOrigin(); 
+			http
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // 토큰 기반 인증이므로 세션 사용 x
+			http.httpBasic().disable()
+				.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
+			http.addFilterBefore(oauth2RequestFilter2, UsernamePasswordAuthenticationFilter.class);
+		}
+		
+		@Bean
+		@Override
+		public AuthenticationManager authenticationManagerBean() throws Exception {
+			return super.authenticationManagerBean();
+		}
+	}
+	
+	@Configuration
+	@Order(3)
+	@PropertySource(value = "classpath:application.yml")
+	@RequiredArgsConstructor
+	public class DefaultSecurityConfig extends WebSecurityConfigurerAdapter {
+		
 		
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
@@ -104,12 +145,7 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
                 .and()
                 .cors() // cross-origin
-                .and()
-				.oauth2ResourceServer()
-					.authenticationEntryPoint(jwtAuthenticationEntryPoint)
-					.accessDeniedHandler(jwtAccessDeniedHandler)
-					.jwt()
-					.jwkSetUri(jwkSetUri);
+                .and();
 			
 			http.csrf().disable(); 
 			http.headers()
