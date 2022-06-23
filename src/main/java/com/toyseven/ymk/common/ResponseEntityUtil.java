@@ -10,6 +10,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import com.toyseven.ymk.common.dto.StationInformationDto;
 import com.toyseven.ymk.common.dto.WeatherDto;
+import com.toyseven.ymk.common.error.ErrorCode;
+import com.toyseven.ymk.common.error.exception.BusinessException;
 
 import lombok.experimental.UtilityClass;
 
@@ -84,7 +86,25 @@ public class ResponseEntityUtil {
 				.retrieve()
 				.onStatus(status -> !status.is2xxSuccessful() , clientResponse ->
 				clientResponse.bodyToMono(String.class)
-				.map(body -> new Exception("Token_Update_Error_"+body)))
+				.map(body -> new BusinessException("Cognito 토큰 갱신 실패", ErrorCode.FAIL_COGNITO_REFRESH_ACCESSTOKEN)))
+				.toEntity(JSONObject.class)
+				.block();
+	}
+	
+	public static ResponseEntity<JSONObject> cognitoGetUserInfo(WebClient webClient, String accessToken) {
+		return webClient.post()
+				.uri(uriBuilder -> uriBuilder
+						.path("/oauth2")
+						.path("/userInfo")
+						.build())
+				.headers(httpHeaders -> 
+				httpHeaders.add("Authorization", "Bearer "+accessToken))
+				.accept(MediaType.APPLICATION_JSON)
+				.acceptCharset(StandardCharsets.UTF_8)
+				.retrieve()
+				.onStatus(status -> !status.is2xxSuccessful() , clientResponse ->
+				clientResponse.bodyToMono(String.class)
+				.map(body -> new BusinessException("Cognito 유저 정보 획득 실패", ErrorCode.FAIL_COGNITO_GET_USERINFO)))
 				.toEntity(JSONObject.class)
 				.block();
 	}
