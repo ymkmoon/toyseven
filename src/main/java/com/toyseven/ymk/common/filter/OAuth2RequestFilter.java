@@ -1,4 +1,4 @@
-package com.toyseven.ymk.jwt;
+package com.toyseven.ymk.common.filter;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,37 +11,35 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.util.DefaultUriBuilderFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.toyseven.ymk.common.ResponseEntityUtil;
 import com.toyseven.ymk.common.error.ErrorCode;
 import com.toyseven.ymk.common.error.ErrorResponse;
-import com.toyseven.ymk.common.util.JwtUtil;
+import com.toyseven.ymk.common.error.exception.BusinessException;
 
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureException;
 import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class JwtRequestFilter extends OncePerRequestFilter {
+public class OAuth2RequestFilter extends OncePerRequestFilter {
 	
-	private final JwtService jwtService;
+	@Value("${aws.cognito.domaim}")
+	private String ISSUER_URI;
+	
     private final ObjectMapper objectMapper;
     
     private static final List<String> INCLUDE_URL =
             Collections.unmodifiableList(
                     Arrays.asList(
-                        "/voc/answer"
+                        "/voc/question"
                     ));
 
     @Override
@@ -49,37 +47,18 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         throws ServletException, IOException {
     	
         String accessToken = getAccessTokenFromRequestHeader(request);
-        String username = null;
-        
-        if(accessToken != null) {
-        	try {
-        		username = JwtUtil.getUsernameFromAccessToken(accessToken);
-        	} catch (IllegalArgumentException | AccessDeniedException | MalformedJwtException | SignatureException e) {
-        		logger.error("Unable to get JWT Token", e);
-        		failResponse(response, ErrorCode.FAIL_AUTHORIZED);
-        		return;
-        	} catch (ExpiredJwtException e) {
-        		logger.info("JWT Token has expired", e);
-        		failResponse(response, ErrorCode.TOKEN_EXPIRED);
-        		return;
-        	} catch (Exception e) {
-        		logger.info("Unable to get JWT Token", e);
-        		failResponse(response, ErrorCode.FAIL_AUTHORIZED);
-        		return;
-        	}
-        	
-        	if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-        		
-        		UserDetails userDetails = this.jwtService.loadUserByUsername(username);
-        		if (Boolean.TRUE.equals(JwtUtil.validateAccessToken(accessToken, userDetails))) {
-        			UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-        					userDetails, null, userDetails.getAuthorities());
-        			usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-        			SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-        			
-        		}
-        	}
-        }
+        DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory(ISSUER_URI);
+		factory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
+		WebClient wc = WebClient.builder().uriBuilderFactory(factory)
+				.baseUrl(ISSUER_URI).build();
+		
+		try {
+			ResponseEntityUtil.cognitoGetUserInfo(wc, accessToken);
+		} catch(Exception e) {
+			failResponse(response, ErrorCode.FAIL_COGNITO_GET_USERINFO);
+			return;
+		}
+		
         chain.doFilter(request, response);
     }
     
@@ -100,10 +79,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             return bearerToken.substring(7);
         }
 
-        return null;
+        throw new BusinessException("인증 실패", ErrorCode.FAIL_AUTHORIZED);
     }
     
     private void failResponse(HttpServletResponse response, ErrorCode errorCode) throws IOException {
+    	
     	ErrorResponse fail = ErrorResponse.builder()
 				.status(errorCode.getHttpStatus().value())
 				.error(errorCode.getHttpStatus().name())
