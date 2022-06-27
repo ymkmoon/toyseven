@@ -29,7 +29,7 @@ public class WeatherDto {
 	@AllArgsConstructor
 	public static class Response {
 
-	    private int fineDust;
+	    private String fineDust;
 	    private JSONObject weather;
 	}
 	

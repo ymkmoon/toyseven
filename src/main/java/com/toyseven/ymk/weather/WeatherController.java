@@ -21,7 +21,7 @@ public class WeatherController {
 
     @GetMapping(value = "/weather")
     public ResponseEntity<WeatherDto.Response> getWeatherInfo(WeatherDto.Request weatherRequest) throws Exception {
-        int fineDust = fineDustService.getFineDustInfo(weatherRequest);
+        String fineDust = fineDustService.getFineDustInfo(weatherRequest);
 //        JSONObject weather = temperatureService.getTemperature(weatherRequest);
         JSONObject weather = new JSONObject();
         weather.put("description", "2022/01/28 현재 공공데이터 포탈의 날씨 api 서비스가 종료되어 지원 불가능합니다.");

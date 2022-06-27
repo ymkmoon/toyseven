@@ -35,7 +35,7 @@ public class FineDustServiceImpl implements FineDustService {
 
     @SuppressWarnings("unchecked")
     @Override
-	public int getFineDustInfo(WeatherDto.Request weatherRequest) {
+	public String getFineDustInfo(WeatherDto.Request weatherRequest) {
 		WeatherDto.FineDustRequest fineDustRequest = setFineDustRequest(weatherRequest.getStationName());
         WebClient wc = WebClientUtil.buildWebClient(BASE_URL, DefaultUriBuilderFactory.EncodingMode.NONE);
         ResponseEntity<JSONObject> response = ResponseEntityUtil.fineDustApi(wc, fineDustRequest);
@@ -47,15 +47,13 @@ public class FineDustServiceImpl implements FineDustService {
         
         List<Map<String, Object>> items = (List<Map<String, Object>>)(((Map<String, Object>)responseData.get("body")).get("items"));
         
-        String fineDust = (String)StreamSupport.stream(items.spliterator(), false)
+        return (String)StreamSupport.stream(items.spliterator(), false)
         		.map(item -> item)
         		.filter(item -> !item.isEmpty())
         		.filter(item -> !item.get("khaiValue").toString().isEmpty())
         		.findFirst()
         		.map(item -> item.get("khaiValue"))
-        		.orElse(0);
-
-        return Integer.parseInt(fineDust);
+        		.orElse("0");
     }
     
     private WeatherDto.FineDustRequest setFineDustRequest(String stationName) {

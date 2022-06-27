@@ -6,5 +6,5 @@ import com.toyseven.ymk.common.dto.WeatherDto;
 
 @Transactional
 public interface FineDustService {
-	int getFineDustInfo(WeatherDto.Request weatherRequest);
+	String getFineDustInfo(WeatherDto.Request weatherRequest);
 }
