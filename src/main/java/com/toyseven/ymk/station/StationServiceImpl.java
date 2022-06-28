@@ -19,6 +19,8 @@ import com.toyseven.ymk.common.ResponseEntityUtil;
 import com.toyseven.ymk.common.ToysevenCommonUtil;
 import com.toyseven.ymk.common.WebClientUtil;
 import com.toyseven.ymk.common.dto.StationInformationDto;
+import com.toyseven.ymk.common.error.ErrorCode;
+import com.toyseven.ymk.common.error.exception.BusinessException;
 import com.toyseven.ymk.common.model.entity.StationInformationEntity;
 
 import lombok.RequiredArgsConstructor;
@@ -46,6 +48,8 @@ public class StationServiceImpl implements StationService {
     @Override
     public List<StationInformationDto.Response> getStationByStationName(String stationName) {
     	List<StationInformationEntity> stations = stationRepository.findByStationNameContaining(stationName);
+    	if(stations.isEmpty()) throw new BusinessException("데이터가 존재하지 않습니다.", ErrorCode.NO_SUCH_ELEMENT);
+    	
     	return stations.stream().map(StationInformationEntity::toStationInformationResponse).collect(toList());
     }
     
