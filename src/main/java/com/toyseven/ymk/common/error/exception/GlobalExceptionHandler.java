@@ -213,6 +213,15 @@ public class GlobalExceptionHandler {
     	return ErrorResponse.toResponseEntity(ErrorCode.INVALID_DATA_ACCESS_API_USAGE);
     }
     
+    /**
+     * 형변환 시 객체 타입 변환이 적절하지 않을 때 발생
+     */
+    @ExceptionHandler(ClassCastException.class)
+    protected ResponseEntity<ErrorResponse> handleClassCastException(ClassCastException e) {
+    	log.error("handleClassCastException", e);
+    	return ErrorResponse.toResponseEntity(ErrorCode.CLASS_CAST_ERROR);
+    }
+    
     
     /**
      * Request 요청 시 데이터가 잘못 된 경우
