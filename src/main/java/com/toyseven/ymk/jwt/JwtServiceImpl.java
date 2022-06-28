@@ -27,7 +27,7 @@ public class JwtServiceImpl implements UserDetailsService, JwtService {
     @Override
     public UserDetails loadUserByUsername(String username) {
         AdminEntity adminItem = Optional.ofNullable(adminRepository.findAccountByUsername(username))
-        		.orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
+        		.orElseThrow(() -> new UsernameNotFoundException(ErrorCode.USER_NAME_NOT_FOUND.getDetail()));
 
         return User.builder()
                 .username(adminItem.getUsername())
@@ -40,7 +40,7 @@ public class JwtServiceImpl implements UserDetailsService, JwtService {
 	public TokenDto.RefreshResponse saveRefreshToken(TokenDto.Request token) {
 		String username = JwtUtil.getUsernameFromRefreshToken(token.getRefreshToken());
 		AdminEntity admin = Optional.ofNullable(adminRepository.findAccountByUsername(username))
-				.orElseThrow(() -> new BusinessException("사용자를 찾을 수 없습니다.", ErrorCode.USER_NAME_NOT_FOUND));
+				.orElseThrow(() -> new UsernameNotFoundException(ErrorCode.USER_NAME_NOT_FOUND.getDetail()));
 		
 		boolean exists = refreshTokenRepository.existsByAdminId(admin);
 		if(exists) {
@@ -60,9 +60,9 @@ public class JwtServiceImpl implements UserDetailsService, JwtService {
 		String refreshToken = refreshRequest.getRefreshToken();
 		String usernameInToken = JwtUtil.getUsernameFromRefreshToken(refreshToken);
 		AdminEntity admin = Optional.ofNullable(adminRepository.findAccountByUsername(usernameInToken))
-				.orElseThrow(() -> new BusinessException("사용자를 찾을 수 없습니다.", ErrorCode.TOKEN_IS_NOT_AUTHORIZED));
+				.orElseThrow(() -> new UsernameNotFoundException(ErrorCode.USER_NAME_NOT_FOUND.getDetail()));
 		RefreshTokenEntity entity = Optional.ofNullable(refreshTokenRepository.findRefreshTokenByAdminId(admin))
-				.orElseThrow(() -> new BusinessException("등록되지 않은 Refresh Token 입니다.", ErrorCode.TOKEN_IS_NOT_AUTHORIZED));
+				.orElseThrow(() -> new BusinessException(ErrorCode.TOKEN_IS_NOT_AUTHORIZED.getDetail(), ErrorCode.TOKEN_IS_NOT_AUTHORIZED));
 		return refreshToken.equals(entity.getRefreshToken());
 	}
 	

@@ -31,12 +31,12 @@ public class VocAnswerServiceImpl implements VocAnswerService {
 	@Override
 	public VocAnswerDto.Response saveVocAnswer(VocAnswerDto.Request vocAnswerRequest) {
 		VocQuestionEntity question = vocQuestionRepository.findById(vocAnswerRequest.getQuestionId())
-				.orElseThrow(() -> new BusinessException("해당 Question 조회가 불가능 합니다.", ErrorCode.QUESTION_IS_NOT_EXIST));
+				.orElseThrow(() -> new BusinessException(ErrorCode.QUESTION_IS_NOT_EXIST.getDetail(), ErrorCode.QUESTION_IS_NOT_EXIST));
 		
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		
 		AdminEntity admin = Optional.ofNullable(adminRepository.findAccountByUsername(username))
-				.orElseThrow(() -> new BusinessException("해당 Admin 조회가 불가능 합니다.", ErrorCode.BAD_REQUEST));
+				.orElseThrow(() -> new BusinessException(ErrorCode.ADMIN_IS_NOT_EXIST.getDetail(), ErrorCode.ADMIN_IS_NOT_EXIST));
 		
 		VocAnswerEntity answer = vocAnswerRepository.save(vocAnswerRequest.toEntity(question, admin));
 		
@@ -52,7 +52,7 @@ public class VocAnswerServiceImpl implements VocAnswerService {
 	@Override
 	public List<VocAnswerDto.Response> getVocAnswerByQuestionId(Long id) {
 		VocQuestionEntity question = vocQuestionRepository.findById(id)
-				.orElseThrow(() -> new BusinessException("해당 Question 조회가 불가능 합니다.", ErrorCode.QUESTION_IS_NOT_EXIST));
+				.orElseThrow(() -> new BusinessException(ErrorCode.QUESTION_IS_NOT_EXIST.getDetail(), ErrorCode.QUESTION_IS_NOT_EXIST));
 		List<VocAnswerEntity> answers = vocAnswerRepository.findVocAnswerByQuestionId(question);
 		return answers.stream().map(VocAnswerEntity::toVocAnswerResponse).collect(toList());
 	}

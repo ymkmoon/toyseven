@@ -11,6 +11,8 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 
 import com.toyseven.ymk.common.ResponseEntityUtil;
 import com.toyseven.ymk.common.dto.CognitoDto;
+import com.toyseven.ymk.common.error.ErrorCode;
+import com.toyseven.ymk.common.error.exception.BusinessException;
 
 @Service
 public class CognitoServiceImpl implements CognitoService {
@@ -37,12 +39,17 @@ public class CognitoServiceImpl implements CognitoService {
 		params.add(REFRESH_TOKEN, request.getRefreshToken());
 		
 		ResponseEntity<JSONObject> cognitoResponse = ResponseEntityUtil.cognitoRefreshToken(wc, params);
-		String accessToken = cognitoResponse.getBody().get("access_token").toString();
 		
-		return CognitoDto.RefreshResponse.builder()
-				.accessToken(accessToken)
-				.refreshToken(request.getRefreshToken())
-				.build();
+		if(cognitoResponse.hasBody()) {
+			String accessToken = cognitoResponse.hasBody() ? cognitoResponse.getBody().get("access_token").toString() : "";
+			return CognitoDto.RefreshResponse.builder()
+					.accessToken(accessToken)
+					.refreshToken(request.getRefreshToken())
+					.build();
+		}
+		
+		throw new BusinessException(ErrorCode.FAIL_COGNITO_GET_USERINFO.getDetail(), ErrorCode.FAIL_COGNITO_GET_USERINFO);
+		
 	}
 
 }

@@ -86,7 +86,7 @@ public class ResponseEntityUtil {
 				.retrieve()
 				.onStatus(status -> !status.is2xxSuccessful() , clientResponse ->
 				clientResponse.bodyToMono(String.class)
-				.map(body -> new BusinessException("Cognito 토큰 갱신 실패", ErrorCode.FAIL_COGNITO_REFRESH_ACCESSTOKEN)))
+				.map(body -> new BusinessException(ErrorCode.FAIL_COGNITO_REFRESH_ACCESSTOKEN.getDetail(), ErrorCode.FAIL_COGNITO_REFRESH_ACCESSTOKEN)))
 				.toEntity(JSONObject.class)
 				.block();
 	}
@@ -104,7 +104,7 @@ public class ResponseEntityUtil {
 				.retrieve()
 				.onStatus(status -> !status.is2xxSuccessful() , clientResponse ->
 				clientResponse.bodyToMono(String.class)
-				.map(body -> new BusinessException("Cognito 유저 정보 획득 실패", ErrorCode.FAIL_COGNITO_GET_USERINFO)))
+				.map(body -> new BusinessException(ErrorCode.FAIL_COGNITO_GET_USERINFO.getDetail(), ErrorCode.FAIL_COGNITO_GET_USERINFO)))
 				.toEntity(JSONObject.class)
 				.block();
 	}
