@@ -33,7 +33,7 @@ public class VocQuestionServiceImpl implements VocQuestionService {
 	@Override
 	public VocQuestionDto.Response saveVocQuestion(VocQuestionDto.Request vocQuestionRequest, String username) {
 		VocCategoryEntity category = vocCategoryRepository.findById(vocQuestionRequest.getCategoryId())
-				.orElseThrow(() -> new BusinessException("해당 Category 조회가 불가능 합니다.", ErrorCode.CATEGORY_IS_NOT_EXIST));
+				.orElseThrow(() -> new BusinessException(ErrorCode.CATEGORY_IS_NOT_EXIST.getDetail(), ErrorCode.CATEGORY_IS_NOT_EXIST));
 		StationInformationEntity station = stationRepository.findByStationId(vocQuestionRequest.getStationId());
 		VocQuestionEntity question = vocQuestionRepository.save(vocQuestionRequest.toEntity(category, station, username));
 				
@@ -43,7 +43,7 @@ public class VocQuestionServiceImpl implements VocQuestionService {
 	@Override
 	public VocQuestionDto.Response getVocQuestionById(Long id) {
 		VocQuestionEntity question = vocQuestionRepository.findById(id)
-				.orElseThrow(() -> new BusinessException("해당 Question 조회가 불가능 합니다.", ErrorCode.QUESTION_IS_NOT_EXIST));;
+				.orElseThrow(() -> new BusinessException(ErrorCode.QUESTION_IS_NOT_EXIST.getDetail(), ErrorCode.QUESTION_IS_NOT_EXIST));;
 		
 		return VocQuestionDto.Response.builder()
 				.id(question.getId())
@@ -69,7 +69,7 @@ public class VocQuestionServiceImpl implements VocQuestionService {
 	public VocQuestionDto.Response updateVocQuestion(String username, VocQuestionDto.UpdateRequest vocQuestionUpdateRequest) {
 		
 		VocQuestionEntity question = vocQuestionRepository.findById(vocQuestionUpdateRequest.getId())
-				.orElseThrow(() -> new BusinessException("해당 Question 조회가 불가능 합니다.", ErrorCode.QUESTION_IS_NOT_EXIST));
+				.orElseThrow(() -> new BusinessException(ErrorCode.QUESTION_IS_NOT_EXIST.getDetail(), ErrorCode.QUESTION_IS_NOT_EXIST));
 				
 		String compareUsername = question.getUsername();
 		validQuestionWriter(username, compareUsername);
@@ -80,7 +80,7 @@ public class VocQuestionServiceImpl implements VocQuestionService {
 	
 	private void validQuestionWriter(final String username, final String compareUsername) {
         if (!username.equals(compareUsername)) {
-        	throw new BusinessException("작성자만 수정 가능합니다.", ErrorCode.IS_NOT_WRITER);
+        	throw new BusinessException(ErrorCode.IS_NOT_WRITER.getDetail(), ErrorCode.IS_NOT_WRITER);
         }
     }
 	

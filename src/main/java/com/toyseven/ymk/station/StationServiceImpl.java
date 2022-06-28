@@ -5,6 +5,7 @@ import static java.util.stream.Collectors.toList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,7 +21,6 @@ import com.toyseven.ymk.common.ToysevenCommonUtil;
 import com.toyseven.ymk.common.WebClientUtil;
 import com.toyseven.ymk.common.dto.StationInformationDto;
 import com.toyseven.ymk.common.error.ErrorCode;
-import com.toyseven.ymk.common.error.exception.BusinessException;
 import com.toyseven.ymk.common.model.entity.StationInformationEntity;
 
 import lombok.RequiredArgsConstructor;
@@ -48,7 +48,7 @@ public class StationServiceImpl implements StationService {
     @Override
     public List<StationInformationDto.Response> getStationByStationName(String stationName) {
     	List<StationInformationEntity> stations = stationRepository.findByStationNameContaining(stationName);
-    	if(stations.isEmpty()) throw new BusinessException("데이터가 존재하지 않습니다.", ErrorCode.NO_SUCH_ELEMENT);
+    	if(stations.isEmpty()) throw new NoSuchElementException(ErrorCode.NO_SUCH_ELEMENT.getDetail());
     	
     	return stations.stream().map(StationInformationEntity::toStationInformationResponse).collect(toList());
     }
