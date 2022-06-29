@@ -4,6 +4,8 @@ import javax.servlet.http.Cookie;
 
 import org.springframework.stereotype.Service;
 
+import com.toyseven.ymk.common.Constants;
+
 @Service
 public class CookieUtil {
 
