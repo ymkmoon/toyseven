@@ -41,7 +41,7 @@ public class CognitoServiceImpl implements CognitoService {
 		ResponseEntity<JSONObject> cognitoResponse = ResponseEntityUtil.cognitoRefreshToken(wc, params);
 		
 		if(cognitoResponse.hasBody()) {
-			String accessToken = cognitoResponse.hasBody() ? cognitoResponse.getBody().get("access_token").toString() : "";
+			String accessToken = cognitoResponse.getBody().get("access_token").toString();
 			return CognitoDto.RefreshResponse.builder()
 					.accessToken(accessToken)
 					.refreshToken(request.getRefreshToken())
