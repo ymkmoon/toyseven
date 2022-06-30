@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.toyseven.ymk.common.Constants;
 import com.toyseven.ymk.common.dto.TokenDto;
+import com.toyseven.ymk.common.error.ErrorCode;
+import com.toyseven.ymk.common.error.exception.BusinessException;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -115,7 +117,10 @@ public class JwtUtil {
     
     public String validateRefreshToken(String refreshToken){
     	final Claims claims = getAllClaimsFromRefreshToken(refreshToken);
-        return isRefreshTokenExpired(refreshToken) ? null : doGenerateAccessToken(claims); 
+        if(Boolean.FALSE.equals(isRefreshTokenExpired(refreshToken))) {
+    		return doGenerateAccessToken(claims);
+    	}
+    	throw new BusinessException(ErrorCode.TOKEN_EXPIRED.getDetail(), ErrorCode.TOKEN_EXPIRED);
     }
     
 }
