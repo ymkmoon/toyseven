@@ -16,7 +16,7 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.toyseven.ymk.common.ResponseEntityUtil;
+import com.toyseven.ymk.common.ResponseEntityComponent;
 import com.toyseven.ymk.common.ToysevenCommonUtil;
 import com.toyseven.ymk.common.WebClientUtil;
 import com.toyseven.ymk.common.dto.StationInformationDto;
@@ -29,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class StationServiceImpl implements StationService {
 
+	private final ResponseEntityComponent responseEntityComponent;
     private final StationRepository stationRepository;
     private final ObjectMapper objectMapper;
     
@@ -71,7 +72,7 @@ public class StationServiceImpl implements StationService {
         List<StationInformationEntity> row = new ArrayList<>();
         
         StationInformationDto.Request stationRequest = setStationRequest(index);
-        ResponseEntity<JSONObject> response = ResponseEntityUtil.stationApi(wc, stationRequest);
+        ResponseEntity<JSONObject> response = responseEntityComponent.stationApi(wc, stationRequest);
         if(!ToysevenCommonUtil.isSuccessResponse(response))
         	return row;
 

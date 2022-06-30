@@ -5,6 +5,7 @@ import java.nio.charset.StandardCharsets;
 import org.json.simple.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -13,12 +14,10 @@ import com.toyseven.ymk.common.dto.WeatherDto;
 import com.toyseven.ymk.common.error.ErrorCode;
 import com.toyseven.ymk.common.error.exception.BusinessException;
 
-import lombok.experimental.UtilityClass;
-
-@UtilityClass
-public class ResponseEntityUtil {
+@Component
+public class ResponseEntityComponent {
 	
-	public static ResponseEntity<JSONObject> stationApi(WebClient webClient, StationInformationDto.Request stationRequest) {
+	public ResponseEntity<JSONObject> stationApi(WebClient webClient, StationInformationDto.Request stationRequest) {
 		return webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/"+stationRequest.getServiceKey())
@@ -33,7 +32,7 @@ public class ResponseEntityUtil {
                 .block();
 	}
 	
-	public static ResponseEntity<JSONObject> fineDustApi(WebClient webClient, WeatherDto.FineDustRequest fineDustRequest) {
+	public ResponseEntity<JSONObject> fineDustApi(WebClient webClient, WeatherDto.FineDustRequest fineDustRequest) {
 		return webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/getMsrstnAcctoRltmMesureDnsty")
@@ -52,7 +51,7 @@ public class ResponseEntityUtil {
                 .block();
 	}
 	
-	public static ResponseEntity<JSONObject> temperatureApi(WebClient webClient, WeatherDto.TemperatureRequest temperatureRequest) {
+	public ResponseEntity<JSONObject> temperatureApi(WebClient webClient, WeatherDto.TemperatureRequest temperatureRequest) {
 		return webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/getVilageFcst")
@@ -72,7 +71,7 @@ public class ResponseEntityUtil {
 	}
 	
 	
-	public static ResponseEntity<JSONObject> cognitoRefreshToken(WebClient webClient, MultiValueMap<String, String> params) {
+	public ResponseEntity<JSONObject> cognitoRefreshToken(WebClient webClient, MultiValueMap<String, String> params) {
 		return webClient.post()
 				.uri(uriBuilder -> uriBuilder
 						.path("/oauth2")
@@ -91,7 +90,7 @@ public class ResponseEntityUtil {
 				.block();
 	}
 	
-	public static ResponseEntity<JSONObject> cognitoGetUserInfo(WebClient webClient, String accessToken) {
+	public ResponseEntity<JSONObject> cognitoGetUserInfo(WebClient webClient, String accessToken) {
 		return webClient.post()
 				.uri(uriBuilder -> uriBuilder
 						.path("/oauth2")

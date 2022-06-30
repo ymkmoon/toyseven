@@ -9,13 +9,18 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
-import com.toyseven.ymk.common.ResponseEntityUtil;
+import com.toyseven.ymk.common.ResponseEntityComponent;
 import com.toyseven.ymk.common.dto.CognitoDto;
 import com.toyseven.ymk.common.error.ErrorCode;
 import com.toyseven.ymk.common.error.exception.BusinessException;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class CognitoServiceImpl implements CognitoService {
+	
+	private final ResponseEntityComponent responseEntityComponent;
 	
 	@Value("${aws.cognito.domaim}")
 	private String ISSUER_URI;
@@ -38,7 +43,7 @@ public class CognitoServiceImpl implements CognitoService {
 		params.add("client_id", CLIENT_ID);
 		params.add(REFRESH_TOKEN, request.getRefreshToken());
 		
-		ResponseEntity<JSONObject> cognitoResponse = ResponseEntityUtil.cognitoRefreshToken(wc, params);
+		ResponseEntity<JSONObject> cognitoResponse = responseEntityComponent.cognitoRefreshToken(wc, params);
 		
 		if(cognitoResponse.hasBody()) {
 			String accessToken = cognitoResponse.getBody().get("access_token").toString();
