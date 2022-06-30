@@ -1,4 +1,4 @@
-package com.toyseven.ymk.common;
+package com.toyseven.ymk.common.util;
 
 import java.io.FileReader;
 import java.io.IOException;

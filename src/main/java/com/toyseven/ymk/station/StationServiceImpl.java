@@ -17,11 +17,11 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toyseven.ymk.common.ResponseEntityComponent;
-import com.toyseven.ymk.common.ToysevenCommonUtil;
-import com.toyseven.ymk.common.WebClientUtil;
 import com.toyseven.ymk.common.dto.StationInformationDto;
 import com.toyseven.ymk.common.error.ErrorCode;
 import com.toyseven.ymk.common.model.entity.StationInformationEntity;
+import com.toyseven.ymk.common.util.ToysevenCommonUtil;
+import com.toyseven.ymk.common.util.WebClientUtil;
 
 import lombok.RequiredArgsConstructor;
 
