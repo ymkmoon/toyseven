@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
-import com.toyseven.ymk.common.ResponseEntityUtil;
+import com.toyseven.ymk.common.ResponseEntityComponent;
 import com.toyseven.ymk.common.WebClientUtil;
 import com.toyseven.ymk.common.dto.WeatherDto;
 import com.toyseven.ymk.common.error.ErrorCode;
@@ -25,6 +25,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class FineDustServiceImpl implements FineDustService {
+	
+	private final ResponseEntityComponent responseEntityComponent;
+	
     private static final String BASE_URL = "http://apis.data.go.kr/B552584/ArpltnInforInqireSvc";
     
     @Value("${api.key.fineDust}") 
@@ -38,7 +41,7 @@ public class FineDustServiceImpl implements FineDustService {
 	public String getFineDustInfo(WeatherDto.Request weatherRequest) {
 		WeatherDto.FineDustRequest fineDustRequest = setFineDustRequest(weatherRequest.getStationName());
         WebClient wc = WebClientUtil.buildWebClient(BASE_URL, DefaultUriBuilderFactory.EncodingMode.NONE);
-        ResponseEntity<JSONObject> response = ResponseEntityUtil.fineDustApi(wc, fineDustRequest);
+        ResponseEntity<JSONObject> response = responseEntityComponent.fineDustApi(wc, fineDustRequest);
         
         Map<String, Object> responseData = ((Map<String, Object>)response.getBody().get("response"))
         		.entrySet().stream()

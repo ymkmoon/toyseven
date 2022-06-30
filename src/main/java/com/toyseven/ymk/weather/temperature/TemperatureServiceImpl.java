@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
-import com.toyseven.ymk.common.ResponseEntityUtil;
+import com.toyseven.ymk.common.ResponseEntityComponent;
 import com.toyseven.ymk.common.WebClientUtil;
 import com.toyseven.ymk.common.dto.WeatherDto;
 
@@ -23,6 +23,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class TemperatureServiceImpl implements TemperatureService {
+	
+	private final ResponseEntityComponent responseEntityComponent;
 	
     private static final String BASE_URL = "http://apis.data.go.kr/1360000/VilageFcstInfoService";
     
@@ -39,7 +41,7 @@ public class TemperatureServiceImpl implements TemperatureService {
     	WeatherDto.TemperatureRequest temperatureRequest = setTemperatureRequest(weatherRequest);
 
         WebClient wc = WebClientUtil.buildWebClient(BASE_URL, DefaultUriBuilderFactory.EncodingMode.VALUES_ONLY);
-        ResponseEntity<JSONObject> response = ResponseEntityUtil.temperatureApi(wc, temperatureRequest);
+        ResponseEntity<JSONObject> response = responseEntityComponent.temperatureApi(wc, temperatureRequest);
         
         Map<String, Object> responseData = ((Map<String, Object>)response.getBody().get("response"))
         		.entrySet().stream()

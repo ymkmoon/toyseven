@@ -20,7 +20,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.toyseven.ymk.common.ResponseEntityUtil;
+import com.toyseven.ymk.common.ResponseEntityComponent;
 import com.toyseven.ymk.common.error.ErrorCode;
 import com.toyseven.ymk.common.error.ErrorResponse;
 import com.toyseven.ymk.common.error.exception.BusinessException;
@@ -30,6 +30,8 @@ import lombok.RequiredArgsConstructor;
 @Component
 @RequiredArgsConstructor
 public class OAuth2RequestFilter extends OncePerRequestFilter {
+	
+	private final ResponseEntityComponent responseEntityComponent;
 	
 	@Value("${aws.cognito.domaim}")
 	private String ISSUER_URI;
@@ -53,7 +55,7 @@ public class OAuth2RequestFilter extends OncePerRequestFilter {
 				.baseUrl(ISSUER_URI).build();
 		
 		try {
-			ResponseEntityUtil.cognitoGetUserInfo(wc, accessToken);
+			responseEntityComponent.cognitoGetUserInfo(wc, accessToken);
 		} catch(Exception e) {
 			failResponse(response, ErrorCode.FAIL_COGNITO_GET_USERINFO);
 			return;
