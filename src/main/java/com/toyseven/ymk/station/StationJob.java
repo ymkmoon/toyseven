@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.toyseven.ymk.common.ToysevenCommonUtil;
 import com.toyseven.ymk.common.model.entity.StationInformationEntity;
+import com.toyseven.ymk.common.util.ToysevenCommonUtil;
 
 import lombok.RequiredArgsConstructor;
 

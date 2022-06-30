@@ -1,4 +1,4 @@
-package com.toyseven.ymk.common;
+package com.toyseven.ymk.common.util;
 
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.DefaultUriBuilderFactory;
