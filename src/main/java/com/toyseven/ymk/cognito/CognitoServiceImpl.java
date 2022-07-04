@@ -1,5 +1,7 @@
 package com.toyseven.ymk.cognito;
 
+import java.util.Map;
+
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,7 @@ import com.toyseven.ymk.common.ResponseEntityComponent;
 import com.toyseven.ymk.common.dto.CognitoDto;
 import com.toyseven.ymk.common.error.ErrorCode;
 import com.toyseven.ymk.common.error.exception.BusinessException;
+import com.toyseven.ymk.common.util.DataParsingUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -43,10 +46,11 @@ public class CognitoServiceImpl implements CognitoService {
 		params.add("client_id", CLIENT_ID);
 		params.add(REFRESH_TOKEN, request.getRefreshToken());
 		
-		ResponseEntity<JSONObject> cognitoResponse = responseEntityComponent.cognitoRefreshToken(wc, params);
+		ResponseEntity<JSONObject> response = responseEntityComponent.cognitoRefreshToken(wc, params);
 		
-		if(cognitoResponse.hasBody()) {
-			String accessToken = cognitoResponse.getBody().get("access_token").toString();
+		if(response.hasBody()) {
+			Map<String, Object> responseBody = DataParsingUtil.toMap(response.getBody());
+			String accessToken = responseBody.get("access_token").toString();
 			return CognitoDto.RefreshResponse.builder()
 					.accessToken(accessToken)
 					.refreshToken(request.getRefreshToken())

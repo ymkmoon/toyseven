@@ -43,7 +43,7 @@ public class VocQuestionServiceImpl implements VocQuestionService {
 	@Override
 	public VocQuestionDto.Response getVocQuestionById(Long id) {
 		VocQuestionEntity question = vocQuestionRepository.findById(id)
-				.orElseThrow(() -> new BusinessException(ErrorCode.QUESTION_IS_NOT_EXIST.getDetail(), ErrorCode.QUESTION_IS_NOT_EXIST));;
+				.orElseThrow(() -> new BusinessException(ErrorCode.QUESTION_IS_NOT_EXIST.getDetail(), ErrorCode.QUESTION_IS_NOT_EXIST));
 		
 		return VocQuestionDto.Response.builder()
 				.id(question.getId())
