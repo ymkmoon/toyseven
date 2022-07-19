@@ -33,14 +33,7 @@ public class FilterChainProxyAdvice {
 	        pjp.proceed();
 	    } catch (RequestRejectedException exception) {
 	        HttpServletResponse response = (HttpServletResponse) pjp.getArgs()[1];
-//	        ErrorResponse fail = ErrorResponse.builder()
-//					.status(ErrorCode.BAD_REQUEST.getHttpStatus().value())
-//					.error(ErrorCode.BAD_REQUEST.getHttpStatus().name())
-//	                .code(ErrorCode.BAD_REQUEST.name())
-//	                .message(ErrorCode.BAD_REQUEST.getDetail())
-//	                .build();
 	        ErrorResponse fail = ErrorResponse.toBuilder(ErrorCode.BAD_REQUEST);
-			
 		    response.setStatus(ErrorCode.BAD_REQUEST.getHttpStatus().value());
 		    response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		    String json = objectMapper.writeValueAsString(fail);
