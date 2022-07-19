@@ -98,12 +98,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     
     private void failResponse(HttpServletResponse response, ErrorCode errorCode) throws IOException {
     	
-    	ErrorResponse fail = ErrorResponse.builder()
-				.status(errorCode.getHttpStatus().value())
-				.error(errorCode.getHttpStatus().name())
-                .code(errorCode.name())
-                .message(errorCode.getDetail())
-                .build();
+//    	ErrorResponse fail = ErrorResponse.builder()
+//				.status(errorCode.getHttpStatus().value())
+//				.error(errorCode.getHttpStatus().name())
+//                .code(errorCode.name())
+//                .message(errorCode.getDetail())
+//                .build();
+    	ErrorResponse fail = ErrorResponse.toBuilder(errorCode);
+    	
     	
 		response.setStatus(errorCode.getHttpStatus().value());
 	    response.setContentType(MediaType.APPLICATION_JSON_VALUE);

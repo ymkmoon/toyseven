@@ -26,12 +26,13 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException {
-    	ErrorResponse fail = ErrorResponse.builder()
-				.status(ErrorCode.UNAUTHORIZED.getHttpStatus().value())
-				.error(ErrorCode.UNAUTHORIZED.getHttpStatus().name())
-                .code(ErrorCode.UNAUTHORIZED.name())
-                .message(ErrorCode.UNAUTHORIZED.getDetail())
-                .build();
+//    	ErrorResponse fail = ErrorResponse.builder()
+//				.status(ErrorCode.UNAUTHORIZED.getHttpStatus().value())
+//				.error(ErrorCode.UNAUTHORIZED.getHttpStatus().name())
+//                .code(ErrorCode.UNAUTHORIZED.name())
+//                .message(ErrorCode.UNAUTHORIZED.getDetail())
+//                .build();
+    	ErrorResponse fail = ErrorResponse.toBuilder(ErrorCode.UNAUTHORIZED);
 		
 	    response.setStatus(ErrorCode.UNAUTHORIZED.getHttpStatus().value());
 	    response.setContentType(MediaType.APPLICATION_JSON_VALUE);
