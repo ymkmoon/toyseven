@@ -34,7 +34,7 @@ public class FilterChainProxyAdvice {
 	    } catch (RequestRejectedException exception) {
 	        HttpServletResponse response = (HttpServletResponse) pjp.getArgs()[1];
 	        ErrorResponse fail = ErrorResponse.toBuilder(ErrorCode.BAD_REQUEST);
-		    response.setStatus(ErrorCode.BAD_REQUEST.getHttpStatus().value());
+		    response.setStatus(fail.getStatus());
 		    response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		    String json = objectMapper.writeValueAsString(fail);
 		    PrintWriter writer = response.getWriter();
