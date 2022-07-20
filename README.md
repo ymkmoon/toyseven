@@ -29,7 +29,7 @@
 
 ## Entity
 
-- aQuery
+- aQuery (현재 재정적인 문제로 구독이 종료됐습니다. 이미지 참고 부탁드립니다)
   - url : https://aquerytool.com/aquerymain/index/?rurl=89e9a03e-c93e-4dc6-9617-79ce1bc5fe64
   - pass : vtz0tb
 
