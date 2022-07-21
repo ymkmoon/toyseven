@@ -16,12 +16,10 @@ import com.toyseven.ymk.common.model.BaseTimeEntity;
 
 import lombok.AccessLevel;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@EqualsAndHashCode(callSuper=false)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Proxy(lazy = false)
 @Entity(name="voc_question")
