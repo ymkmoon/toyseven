@@ -14,6 +14,7 @@ import org.hibernate.annotations.Proxy;
 import com.toyseven.ymk.common.dto.VocQuestionDto;
 import com.toyseven.ymk.common.model.BaseTimeEntity;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -23,7 +24,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @EqualsAndHashCode(callSuper=false)
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Proxy(lazy = false)
 @Entity(name="voc_question")
 public class VocQuestionEntity extends BaseTimeEntity {

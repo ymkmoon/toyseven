@@ -12,12 +12,13 @@ import org.hibernate.annotations.Proxy;
 
 import com.toyseven.ymk.common.dto.VocCategoryDto;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Proxy(lazy = false)
 @Entity(name="voc_category")
 public class VocCategoryEntity implements Serializable {
