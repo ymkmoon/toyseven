@@ -13,14 +13,12 @@ import com.toyseven.ymk.common.dto.TokenDto;
 import com.toyseven.ymk.common.model.BaseTimeEntity;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @Entity(name="refresh_token")
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RefreshTokenEntity extends BaseTimeEntity {
 	

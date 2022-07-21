@@ -15,7 +15,6 @@ import org.hibernate.annotations.Proxy;
 import com.toyseven.ymk.common.model.BaseTimeEntity;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -23,7 +22,6 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @EqualsAndHashCode(callSuper=false)
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Proxy(lazy = false)
 @Entity(name="admin") 
