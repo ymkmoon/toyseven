@@ -5,12 +5,13 @@ import javax.validation.constraints.NotEmpty;
 
 import org.json.simple.JSONObject;
 
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class WeatherDto {
 
 	@Getter
@@ -24,13 +25,16 @@ public class WeatherDto {
 	    private String stationName;
 	}
 	
-	@Builder
 	@Getter
-	@AllArgsConstructor
 	public static class Response {
-
 	    private String fineDust;
 	    private JSONObject weather;
+
+	    @Builder
+		public Response(String fineDust, JSONObject weather) {
+			this.fineDust = fineDust;
+			this.weather = weather;
+		}
 	}
 	
 	@Getter

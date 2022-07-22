@@ -11,11 +11,12 @@ import com.toyseven.ymk.common.model.entity.StationInformationEntity;
 import com.toyseven.ymk.common.model.entity.VocCategoryEntity;
 import com.toyseven.ymk.common.model.entity.VocQuestionEntity;
 
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class VocQuestionDto {
 	
 	@Getter
@@ -50,9 +51,7 @@ public class VocQuestionDto {
 		@NotBlank private String content;
 	}
 	
-	@Builder
 	@Getter
-	@AllArgsConstructor
 	public static class Response {
 		private Long id;
 		private String category;
@@ -70,6 +69,21 @@ public class VocQuestionDto {
 		@JsonDeserialize(using = CustomLocalDateTimeDeserializer.class) 
 		@JsonSerialize(using = CustomLocalDateTimeSerializer.class) 
 		private LocalDateTime updatedAt;
+
+		@Builder
+		public Response(Long id, String category, String title, String content, String email, String username,
+				String stationId, int needReply, LocalDateTime createdAt, LocalDateTime updatedAt) {
+			this.id = id;
+			this.category = category;
+			this.title = title;
+			this.content = content;
+			this.email = email;
+			this.username = username;
+			this.stationId = stationId;
+			this.needReply = needReply;
+			this.createdAt = createdAt;
+			this.updatedAt = updatedAt;
+		}
 	}
 
 }

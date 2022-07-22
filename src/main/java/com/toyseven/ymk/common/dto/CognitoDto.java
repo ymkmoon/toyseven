@@ -2,11 +2,12 @@ package com.toyseven.ymk.common.dto;
 
 import javax.validation.constraints.NotBlank;
 
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CognitoDto {
 
 	@Getter
@@ -15,11 +16,15 @@ public class CognitoDto {
 		@NotBlank private String refreshToken;
 	}
 	
-	@Builder
 	@Getter
-	@AllArgsConstructor
 	public static class RefreshResponse {
 		private String accessToken;
 		private String refreshToken;
+		
+		@Builder
+		public RefreshResponse(String accessToken, String refreshToken) {
+			this.accessToken = accessToken;
+			this.refreshToken = refreshToken;
+		}
 	}
 }
