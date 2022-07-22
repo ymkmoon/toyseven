@@ -11,12 +11,14 @@ import com.toyseven.ymk.common.model.entity.AdminEntity;
 import com.toyseven.ymk.common.model.entity.VocAnswerEntity;
 import com.toyseven.ymk.common.model.entity.VocQuestionEntity;
 
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class VocAnswerDto {
+	
 	@Getter
 	@NoArgsConstructor
 	public static class Request {
@@ -32,9 +34,7 @@ public class VocAnswerDto {
 		}
 	}
 	
-	@Builder
 	@Getter
-	@AllArgsConstructor
 	public static class Response {
 		private Long id;
 		private long questionId;
@@ -48,6 +48,17 @@ public class VocAnswerDto {
 		@JsonDeserialize(using = CustomLocalDateTimeDeserializer.class) 
 		@JsonSerialize(using = CustomLocalDateTimeSerializer.class)
 		private LocalDateTime updatedAt;
+
+		@Builder
+		public Response(Long id, long questionId, String content, String adminName, LocalDateTime createdAt,
+				LocalDateTime updatedAt) {
+			this.id = id;
+			this.questionId = questionId;
+			this.content = content;
+			this.adminName = adminName;
+			this.createdAt = createdAt;
+			this.updatedAt = updatedAt;
+		}
 	}
 
 }
