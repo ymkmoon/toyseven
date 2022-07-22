@@ -16,6 +16,7 @@ import com.toyseven.ymk.common.dto.CognitoDto;
 import com.toyseven.ymk.common.error.ErrorCode;
 import com.toyseven.ymk.common.error.exception.BusinessException;
 import com.toyseven.ymk.common.util.DataParsingUtil;
+import com.toyseven.ymk.common.util.WebClientUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -36,10 +37,7 @@ public class CognitoServiceImpl implements CognitoService {
 	@Override
 	public CognitoDto.RefreshResponse refreshAccessToken(CognitoDto.RefreshRequest request) {
 		
-		DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory(ISSUER_URI);
-		factory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
-		WebClient wc = WebClient.builder().uriBuilderFactory(factory)
-				.baseUrl(ISSUER_URI).build();
+		WebClient wc = WebClientUtil.buildWebClient(ISSUER_URI, DefaultUriBuilderFactory.EncodingMode.NONE);
 		
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		params.add("grant_type", REFRESH_TOKEN);
