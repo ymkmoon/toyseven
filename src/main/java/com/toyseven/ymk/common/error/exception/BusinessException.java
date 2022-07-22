@@ -2,11 +2,9 @@ package com.toyseven.ymk.common.error.exception;
 
 import com.toyseven.ymk.common.error.ErrorCode;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor
 public class BusinessException extends RuntimeException {
 
     /**
