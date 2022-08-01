@@ -87,10 +87,17 @@ public class VocController {
 	
 	
 	@PatchMapping(value = "/question")
-	public ResponseEntity<VocQuestionDto.Response> patchVocQuestion(
+	public ResponseEntity<VocQuestionDto.Response> updateVocQuestion(
 			Principal principal, 
 			@RequestBody @Valid VocQuestionDto.UpdateRequest vocQuestionUpdateRequest) {
 		String username = principal.getName();
 		return new ResponseEntity<>(vocQuestionService.updateVocQuestion(username, vocQuestionUpdateRequest), HttpStatus.OK);
 	}
+	
+	@PatchMapping(value = "/answer")
+	public ResponseEntity<VocAnswerDto.Response> updateVocAnswer(
+			@RequestBody @Valid VocAnswerDto.UpdateRequest vocAnswerUpdateRequest) {
+		return new ResponseEntity<>(vocAnswerService.updateVocAnswer(vocAnswerUpdateRequest), HttpStatus.OK);
+	}
+	
 }
