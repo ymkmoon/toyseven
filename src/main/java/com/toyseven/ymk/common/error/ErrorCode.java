@@ -23,6 +23,7 @@ public enum ErrorCode {
     STATION_IS_NOT_EXIST(HttpStatus.BAD_REQUEST, "해당 Station 조회가 불가능 합니다."),
     CATEGORY_IS_NOT_EXIST(HttpStatus.BAD_REQUEST, "해당 Category 조회가 불가능 합니다."),
     QUESTION_IS_NOT_EXIST(HttpStatus.BAD_REQUEST, "해당 Question 조회가 불가능 합니다."),
+    ANSWER_IS_NOT_EXIST(HttpStatus.BAD_REQUEST, "해당 Answer 조회가 불가능 합니다."),
     ADMIN_IS_NOT_EXIST(HttpStatus.BAD_REQUEST, "해당 Admin 조회가 불가능 합니다."),
     
     FAIL_COGNITO_REFRESH_ACCESSTOKEN(HttpStatus.BAD_REQUEST, "Cognito 토큰 갱신 실패"),

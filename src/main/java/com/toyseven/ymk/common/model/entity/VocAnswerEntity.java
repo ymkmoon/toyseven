@@ -58,4 +58,8 @@ public class VocAnswerEntity extends BaseTimeEntity {
 				.updatedAt(getUpdatedAt())
 				.build();
 	}
+	
+	public void update(String content) {
+		this.content = content;
+	}
 }

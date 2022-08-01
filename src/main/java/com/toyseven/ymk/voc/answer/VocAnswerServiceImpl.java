@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.toyseven.ymk.common.dto.VocAnswerDto;
+import com.toyseven.ymk.common.dto.VocAnswerDto.Response;
 import com.toyseven.ymk.common.error.ErrorCode;
 import com.toyseven.ymk.common.error.exception.BusinessException;
 import com.toyseven.ymk.common.model.entity.AdminEntity;
@@ -62,4 +63,15 @@ public class VocAnswerServiceImpl implements VocAnswerService {
 		List<VocAnswerEntity> answers = vocAnswerRepository.findTop10ByOrderByCreatedAtDesc();
 		return answers.stream().map(VocAnswerEntity::toVocAnswerResponse).collect(toList());
 	}
+
+	@Override
+	public Response updateVocAnswer(VocAnswerDto.UpdateRequest vocAnswerUpdateRequest) {
+		VocAnswerEntity answer = vocAnswerRepository.findById(vocAnswerUpdateRequest.getId())
+				.orElseThrow(() -> new BusinessException(ErrorCode.ANSWER_IS_NOT_EXIST.getDetail(), ErrorCode.ANSWER_IS_NOT_EXIST));
+		
+		answer.update(vocAnswerUpdateRequest.getContent());
+		
+		return answer.toVocAnswerResponse();
+	}
+	
 }

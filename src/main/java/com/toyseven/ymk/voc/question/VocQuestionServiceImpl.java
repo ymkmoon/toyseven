@@ -44,20 +44,6 @@ public class VocQuestionServiceImpl implements VocQuestionService {
 	public VocQuestionDto.Response getVocQuestionById(Long id) {
 		VocQuestionEntity question = vocQuestionRepository.findById(id)
 				.orElseThrow(() -> new BusinessException(ErrorCode.QUESTION_IS_NOT_EXIST.getDetail(), ErrorCode.QUESTION_IS_NOT_EXIST));
-		
-//		return VocQuestionDto.Response.builder()
-//				.id(question.getId())
-//				.category(question.getCategory().getDisplayName())
-//				.title(question.getTitle())
-//				.content(question.getContent())
-//				.email(question.getEmail())
-//				.username(question.getUsername())
-//				.stationId(question.getStationId().getStationId())
-//				.needReply(question.getNeedReply())
-//				.createdAt(question.getCreatedAt())
-//				.updatedAt(question.getUpdatedAt())
-//				.build();
-		
 		return question.toVocQuestionResponse();
 	}
 	

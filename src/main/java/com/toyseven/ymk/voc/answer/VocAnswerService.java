@@ -11,4 +11,6 @@ public interface VocAnswerService {
 	@Transactional VocAnswerDto.Response saveVocAnswer(VocAnswerDto.Request vocAnswerRequest);
 	List<VocAnswerDto.Response> getVocAnswerByQuestionId(Long id);
 	List<VocAnswerDto.Response> getLatestVocQAnswers();
+	
+	@Transactional VocAnswerDto.Response updateVocAnswer(VocAnswerDto.UpdateRequest vocAnswerUpdateRequest);
 }

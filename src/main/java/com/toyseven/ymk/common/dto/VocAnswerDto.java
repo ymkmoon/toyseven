@@ -35,6 +35,13 @@ public class VocAnswerDto {
 	}
 	
 	@Getter
+	@NoArgsConstructor
+	public static class UpdateRequest {
+		@NotNull private Long id;
+		@NotBlank private String content;
+	}
+	
+	@Getter
 	public static class Response {
 		private Long id;
 		private long questionId;
