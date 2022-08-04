@@ -5,10 +5,13 @@ import static java.util.stream.Collectors.toList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.jms.JMSException;
+
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.toyseven.ymk.common.SqsComponent;
 import com.toyseven.ymk.common.dto.VocAnswerDto;
 import com.toyseven.ymk.common.dto.VocAnswerDto.Response;
 import com.toyseven.ymk.common.error.ErrorCode;
@@ -27,7 +30,8 @@ public class VocAnswerServiceImpl implements VocAnswerService {
 	private final VocAnswerRepository vocAnswerRepository;
 	private final VocQuestionRepository vocQuestionRepository;
 	private final AdminRepository adminRepository;
-//	private final JavaMailSender mailSender;
+	
+	private final SqsComponent sqsComponent;
 	
 	@Override
 	public VocAnswerDto.Response saveVocAnswer(VocAnswerDto.Request vocAnswerRequest) {
@@ -40,6 +44,14 @@ public class VocAnswerServiceImpl implements VocAnswerService {
 				.orElseThrow(() -> new BusinessException(ErrorCode.ADMIN_IS_NOT_EXIST.getDetail(), ErrorCode.ADMIN_IS_NOT_EXIST));
 		
 		VocAnswerEntity answer = vocAnswerRepository.save(vocAnswerRequest.toEntity(question, admin));
+		
+		try {
+			String queueName = "testUser";
+			sqsComponent.sendMessage(queueName, vocAnswerRequest);
+//			sqsComponent.receive("testQueue");
+		} catch (JMSException e) {
+			
+		}
 		
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setTo(question.getEmail());
