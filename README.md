@@ -34,7 +34,7 @@
   - pass : vtz0tb
 
 - ERD 엑셀
-  - https://github.com/ymkmoon/toyseven/blob/develop/src/main/resources/assets/xls/toyseven_erd.xlsx
+  - https://github.com/ymkmoon/toyseven/tree/develop/src/main/resources/assets/xls
 
 - 테이블 생성 쿼리
   - https://github.com/ymkmoon/toyseven/blob/develop/src/main/resources/assets/txt/Create_Table.txt
