@@ -58,6 +58,9 @@ dependencies {
 	implementation 'com.azure:azure-core:1.17.0'
 	// https://mvnrepository.com/artifact/com.azure.spring/azure-spring-boot-starter-keyvault-secrets
 	implementation 'com.azure.spring:azure-spring-boot-starter-keyvault-secrets:3.5.0'
+	// https://mvnrepository.com/artifact/com.microsoft.azure/azure-storage
+	implementation 'com.microsoft.azure:azure-storage:8.6.5'
+	
 	
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
