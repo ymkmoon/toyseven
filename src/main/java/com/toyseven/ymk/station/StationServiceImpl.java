@@ -9,6 +9,8 @@ import java.util.NoSuchElementException;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -41,8 +43,8 @@ public class StationServiceImpl implements StationService {
     private static final String BASE_URL = "http://openapi.seoul.go.kr:8088";
 
     @Override
-    public List<StationInformationDto.Response> getAllStations() {
-    	List<StationInformationEntity> stations = stationRepository.findAll();
+    public List<StationInformationDto.Response> getAllStations(Pageable pageable) {
+    	Page<StationInformationEntity> stations = stationRepository.findAll(pageable);
     	return stations.stream().map(StationInformationEntity::toStationInformationResponse).collect(toList());
     }
 

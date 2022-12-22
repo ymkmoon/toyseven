@@ -4,6 +4,8 @@ import static java.util.stream.Collectors.toList;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.toyseven.ymk.common.dto.VocQuestionDto;
@@ -25,8 +27,8 @@ public class VocQuestionServiceImpl implements VocQuestionService {
 	private final StationRepository stationRepository;
 	
 	@Override
-	public List<VocQuestionDto.Response> getAllVocQuestions() {
-		List<VocQuestionEntity> questions = vocQuestionRepository.findAll();
+	public List<VocQuestionDto.Response> getAllVocQuestions(Pageable pageable) {
+		Page<VocQuestionEntity> questions = vocQuestionRepository.findAll(pageable);
 		return questions.stream().map(VocQuestionEntity::toVocQuestionResponse).collect(toList());
 	}
 	
