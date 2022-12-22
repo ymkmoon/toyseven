@@ -88,8 +88,11 @@ public class VocController {
 	}
 	
 	@GetMapping(value = "/categories")
-	public ResponseEntity<List<VocCategoryDto.Response>> getCategories() {
-		return new ResponseEntity<>(vocCategoryService.getVocCategory(), HttpStatus.OK);
+	public ResponseEntity<List<VocCategoryDto.Response>> getCategories(
+			@RequestParam(name="offset") @NotNull long offset,
+    		@RequestParam(name="limit") @NotNull int limit) {
+		Pageable pageable = new OffsetBasedPageRequest(offset, limit);
+		return new ResponseEntity<>(vocCategoryService.getVocCategory(pageable), HttpStatus.OK);
 	}
 	
 	
