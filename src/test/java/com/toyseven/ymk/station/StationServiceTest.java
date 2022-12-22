@@ -17,8 +17,10 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.toyseven.ymk.common.OffsetBasedPageRequest;
 import com.toyseven.ymk.common.ToysevenUnitTestUtil;
 import com.toyseven.ymk.common.dto.StationInformationDto;
 import com.toyseven.ymk.common.model.entity.StationInformationEntity;
@@ -56,7 +58,8 @@ class StationServiceTest {
 	@DisplayName("Station 목록 조회 성공 테스트")
 	void Should_Return_Stations_When_Find_All() {
 		Mockito.when(stationRepository.findAll()).thenReturn(stations);
-		List<StationInformationDto.Response> response = stationServiceImpl.getAllStations();
+		Pageable pageable = new OffsetBasedPageRequest(1, 1);
+		List<StationInformationDto.Response> response = stationServiceImpl.getAllStations(pageable);
 		assertThat(response, is(not(empty())));
 	}
 	
