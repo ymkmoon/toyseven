@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,8 +17,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.toyseven.ymk.common.OffsetBasedPageRequest;
 import com.toyseven.ymk.common.dto.VocAnswerDto;
 import com.toyseven.ymk.common.dto.VocCategoryDto;
 import com.toyseven.ymk.common.dto.VocQuestionDto;
@@ -36,8 +40,11 @@ public class VocController {
 	private final VocCategoryService vocCategoryService;
 	 
 	@GetMapping()
-	public ResponseEntity<List<VocQuestionDto.Response>> getVocQuestions() {
-		return new ResponseEntity<>(vocQuestionService.getAllVocQuestions(), HttpStatus.OK);
+	public ResponseEntity<List<VocQuestionDto.Response>> getVocQuestions(
+			@RequestParam(name="offset") @NotNull long offset,
+    		@RequestParam(name="limit") @NotNull int limit) {
+		Pageable pageable = new OffsetBasedPageRequest(offset, limit);
+		return new ResponseEntity<>(vocQuestionService.getAllVocQuestions(pageable), HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/question")
