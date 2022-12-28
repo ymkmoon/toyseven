@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,8 +43,9 @@ public class VocController {
 	@GetMapping()
 	public ResponseEntity<List<VocQuestionDto.Response>> getVocQuestions(
 			@RequestParam(name="offset") @NotNull long offset,
-    		@RequestParam(name="limit") @NotNull int limit) {
-		Pageable pageable = new OffsetBasedPageRequest(offset, limit);
+    		@RequestParam(name="limit") @NotNull int limit,
+    		Sort sort) {
+		Pageable pageable = new OffsetBasedPageRequest(offset, limit, sort);
 		return new ResponseEntity<>(vocQuestionService.getAllVocQuestions(pageable), HttpStatus.OK);
 	}
 	
