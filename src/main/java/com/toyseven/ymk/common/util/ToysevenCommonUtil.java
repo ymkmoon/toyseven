@@ -30,10 +30,10 @@ public class ToysevenCommonUtil {
 		return response != null && response.getStatusCode().is2xxSuccessful();
 	}
 	
-	private static final Path CURRENT_PATH = Paths.get("src/main/java/com/toyseven/ymk/station");
+	private static final Path DATA_PATH = Paths.get("src/main/java/com/toyseven/ymk/data");
 
-	public static List<StationInformationEntity> getStationsFromJsonArrayFile(String filePath) {
-		JSONArray stationArray = (JSONArray)readJsonFile(filePath);
+	public static List<StationInformationEntity> getStationsFromJsonArrayFile(String fileName) {
+		JSONArray stationArray = (JSONArray)readJsonFile(fileName);
 		try {
 			return new ObjectMapper().readValue(stationArray.toString(), new TypeReference<List<StationInformationEntity>>() {});
 		} catch (JsonProcessingException e) {
@@ -41,10 +41,10 @@ public class ToysevenCommonUtil {
 		}
 	}
 	
-	public static Object readJsonFile(String filePath) {
+	public static Object readJsonFile(String fileName) {
 		try {
 			JSONParser parser = new JSONParser();
-			Path p = Paths.get(CURRENT_PATH.toString(), filePath);
+			Path p = Paths.get(DATA_PATH.toString(), fileName);
 			return parser.parse(new FileReader(p.toString()));
 		} catch (IOException | ParseException e) {
 			throw new RuntimeException(e);
