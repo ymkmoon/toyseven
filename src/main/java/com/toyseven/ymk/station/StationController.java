@@ -6,6 +6,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -32,8 +33,9 @@ public class StationController {
     @GetMapping()
     public ResponseEntity<List<StationInformationDto.Response>> getStations(
     		@RequestParam(name="offset") @NotNull long offset,
-    		@RequestParam(name="limit") @NotNull int limit) {
-    	Pageable pageable = new OffsetBasedPageRequest(offset, limit);
+    		@RequestParam(name="limit") @NotNull int limit,
+    		Sort sort) {
+    	Pageable pageable = new OffsetBasedPageRequest(offset, limit, sort);
         List<StationInformationDto.Response> stations = stationService.getAllStations(pageable);
         return new ResponseEntity<>(stations, HttpStatus.OK);
     }
