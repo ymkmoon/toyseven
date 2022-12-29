@@ -18,6 +18,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.reactive.function.client.WebClientRequestException;
 
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.toyseven.ymk.common.error.ErrorCode;
@@ -231,6 +232,16 @@ public class GlobalExceptionHandler {
     protected ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
     	log.error("handleHttpMessageNotReadableException", e);
     	return ErrorResponse.toResponseEntity(ErrorCode.HTTP_MESSAGE_NOT_READABLE);
+    }
+    
+    /**
+     * Webclient 가 써드파티에 Request 를 실패 한 경우
+     * 	ex) 써드파티 서버가 죽어있다던지, 써드파티의 주소가 잘못되어 있다던지 등
+     */
+    @ExceptionHandler(WebClientRequestException.class)
+    protected ResponseEntity<ErrorResponse> handleWebClientRequestException(WebClientRequestException e) {
+    	log.error("handleWebClientRequestException", e);
+    	return ErrorResponse.toResponseEntity(ErrorCode.WEBCLIENT_REQUEST_ERROR);
     }
     
     @ExceptionHandler(Exception.class)
