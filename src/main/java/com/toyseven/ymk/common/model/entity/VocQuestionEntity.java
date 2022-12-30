@@ -27,7 +27,7 @@ public class VocQuestionEntity extends BaseTimeEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", nullable = false, updatable = false, insertable = false)
+	@Column(name = "id", nullable = false, unique = true, updatable = false, insertable = false)
 	private Long id;
 	
 //	@Column(name = "category", nullable = false, updatable = true, insertable = true)
