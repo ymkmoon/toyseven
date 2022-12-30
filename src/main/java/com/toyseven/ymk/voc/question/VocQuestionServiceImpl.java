@@ -64,7 +64,7 @@ public class VocQuestionServiceImpl implements VocQuestionService {
 				
 		String compareUsername = question.getUsername();
 		validQuestionWriter(username, compareUsername);
-		question.update(vocQuestionUpdateRequest.getTitle(), vocQuestionUpdateRequest.getContent());
+		question.update(vocQuestionUpdateRequest.getTitle(), vocQuestionUpdateRequest.getContent(), vocQuestionUpdateRequest.isActive());
 		
 		return question.toVocQuestionResponse();
 	}
