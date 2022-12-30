@@ -41,6 +41,7 @@ public class VocAnswerDto {
 	public static class UpdateRequest {
 		@NotNull private Long id;
 		@NotBlank private String content;
+		@NotNull private boolean active = true;
 	}
 	
 	@Getter

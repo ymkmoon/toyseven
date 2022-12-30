@@ -51,6 +51,7 @@ public class VocQuestionDto {
 		@NotNull private Long id;
 		@NotBlank private String title;
 		@NotBlank private String content;
+		@NotNull private boolean active = true;
 	}
 	
 	@Getter
