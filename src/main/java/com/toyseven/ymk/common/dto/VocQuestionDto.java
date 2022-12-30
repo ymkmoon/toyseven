@@ -28,8 +28,9 @@ public class VocQuestionDto {
 		@NotBlank private String email;
 		@NotNull private String stationId;
 		@NotNull private int needReply;
+		@NotNull private boolean active;
 		
-		public VocQuestionEntity toEntity(VocCategoryEntity category, StationInformationEntity station, String username) {
+		public VocQuestionEntity toEntity(VocCategoryEntity category, StationInformationEntity station, String username, boolean active) {
 	        return VocQuestionEntity.builder()
 	        		.category(category)
 	        		.title(title)
@@ -38,6 +39,7 @@ public class VocQuestionDto {
 	                .username(username)
 	                .stationId(station)
 	                .needReply(needReply)
+	                .active(active)
 	                .build();
 	    }
 	}
@@ -49,6 +51,7 @@ public class VocQuestionDto {
 		@NotNull private Long id;
 		@NotBlank private String title;
 		@NotBlank private String content;
+		@NotNull private boolean active = true;
 	}
 	
 	@Getter
@@ -61,6 +64,7 @@ public class VocQuestionDto {
 		private String username;
 		private String stationId;
 		private int needReply;
+		private boolean active;
 		
 		@JsonDeserialize(using = CustomLocalDateTimeDeserializer.class) 
 		@JsonSerialize(using = CustomLocalDateTimeSerializer.class) 
@@ -72,7 +76,7 @@ public class VocQuestionDto {
 
 		@Builder
 		public Response(Long id, String category, String title, String content, String email, String username,
-				String stationId, int needReply, LocalDateTime createdAt, LocalDateTime updatedAt) {
+				String stationId, int needReply, LocalDateTime createdAt, LocalDateTime updatedAt, boolean active) {
 			this.id = id;
 			this.category = category;
 			this.title = title;
@@ -83,6 +87,7 @@ public class VocQuestionDto {
 			this.needReply = needReply;
 			this.createdAt = createdAt;
 			this.updatedAt = updatedAt;
+			this.active = active;
 		}
 	}
 

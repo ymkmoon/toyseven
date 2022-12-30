@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Entity(name="station_information")
 public class StationInformationEntity {
     @Id
-    @Column(name = "station_id", nullable = false, updatable = false)
+    @Column(name = "station_id", unique = true, nullable = false, updatable = false)
     private String stationId;
 
     @Column(name = "name", nullable = false)

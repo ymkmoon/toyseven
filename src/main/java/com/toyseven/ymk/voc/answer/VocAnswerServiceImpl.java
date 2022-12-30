@@ -43,7 +43,7 @@ public class VocAnswerServiceImpl implements VocAnswerService {
 		AdminEntity admin = Optional.ofNullable(adminRepository.findAccountByUsername(username))
 				.orElseThrow(() -> new BusinessException(ErrorCode.ADMIN_IS_NOT_EXIST.getDetail(), ErrorCode.ADMIN_IS_NOT_EXIST));
 		
-		VocAnswerEntity answer = vocAnswerRepository.save(vocAnswerRequest.toEntity(question, admin));
+		VocAnswerEntity answer = vocAnswerRepository.save(vocAnswerRequest.toEntity(question, admin, true));
 		
 		try {
 			String queueName = "testUser";
@@ -81,7 +81,7 @@ public class VocAnswerServiceImpl implements VocAnswerService {
 		VocAnswerEntity answer = vocAnswerRepository.findById(vocAnswerUpdateRequest.getId())
 				.orElseThrow(() -> new BusinessException(ErrorCode.ANSWER_IS_NOT_EXIST.getDetail(), ErrorCode.ANSWER_IS_NOT_EXIST));
 		
-		answer.update(vocAnswerUpdateRequest.getContent());
+		answer.update(vocAnswerUpdateRequest.getContent(), vocAnswerUpdateRequest.isActive());
 		
 		return answer.toVocAnswerResponse();
 	}

@@ -27,7 +27,7 @@ public class VocAnswerEntity extends BaseTimeEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", nullable = false, updatable = false, insertable = false)
+	@Column(name = "id", unique = true, nullable = false, updatable = false, insertable = false)
 	private Long id;
 	
 	@OneToOne(fetch = FetchType.LAZY, targetEntity = VocQuestionEntity.class)
@@ -41,11 +41,15 @@ public class VocAnswerEntity extends BaseTimeEntity {
 	@JoinColumn(name="admin_id", referencedColumnName = "id", nullable = false)
 	private AdminEntity adminId;
 	
+	@Column(name = "is_active", nullable = false, columnDefinition = "boolean default true")
+	private boolean active;
+	
 	@Builder
-	public VocAnswerEntity(VocQuestionEntity questionId, String content, AdminEntity adminId) {
+	public VocAnswerEntity(VocQuestionEntity questionId, String content, AdminEntity adminId, boolean active) {
 		this.questionId = questionId;
 		this.content = content;
 		this.adminId = adminId;
+		this.active = active;
 	}
 	
 	public VocAnswerDto.Response toVocAnswerResponse() {
@@ -56,10 +60,12 @@ public class VocAnswerEntity extends BaseTimeEntity {
 				.adminName(adminId.getNickname())
 				.createdAt(getCreatedAt())
 				.updatedAt(getUpdatedAt())
+				.active(active)
 				.build();
 	}
 	
-	public void update(String content) {
+	public void update(String content, boolean active) {
 		this.content = content;
+		this.active = active;
 	}
 }

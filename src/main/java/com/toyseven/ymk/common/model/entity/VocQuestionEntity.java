@@ -27,7 +27,7 @@ public class VocQuestionEntity extends BaseTimeEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", nullable = false, updatable = false, insertable = false)
+	@Column(name = "id", nullable = false, unique = true, updatable = false, insertable = false)
 	private Long id;
 	
 //	@Column(name = "category", nullable = false, updatable = true, insertable = true)
@@ -53,13 +53,16 @@ public class VocQuestionEntity extends BaseTimeEntity {
 	@Column(name = "need_reply", nullable = false)
 	private int needReply;
 	
+	@Column(name = "is_active", nullable = false, insertable = false, columnDefinition = "boolean default true")
+	private boolean active;
+	
 	public VocQuestionEntity(Long id) {
 		this.id = id;
 	}
 	
 	@Builder
 	public VocQuestionEntity(VocCategoryEntity category, String title, String content, String username, String email, StationInformationEntity stationId,
-			int needReply) {
+			int needReply, boolean active) {
 		this.category = category;
 		this.title = title;
 		this.content = content;
@@ -67,6 +70,7 @@ public class VocQuestionEntity extends BaseTimeEntity {
 		this.email = email;
 		this.stationId = stationId;
 		this.needReply = needReply;
+		this.active = active;
 	}
 	
 	public VocQuestionDto.Response toVocQuestionResponse() {
@@ -81,11 +85,13 @@ public class VocQuestionEntity extends BaseTimeEntity {
 				.needReply(needReply)
 				.createdAt(getCreatedAt())
 				.updatedAt(getUpdatedAt())
+				.active(active)
 				.build();
 	}
 	
-	public void update(String title, String content) {
+	public void update(String title, String content, boolean active) {
 		this.title = title;
 		this.content = content;
+		this.active = active;
 	}
 }
