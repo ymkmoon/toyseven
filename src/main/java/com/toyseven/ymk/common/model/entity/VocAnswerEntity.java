@@ -42,14 +42,14 @@ public class VocAnswerEntity extends BaseTimeEntity {
 	private AdminEntity adminId;
 	
 	@Column(name = "is_active", nullable = false, columnDefinition = "boolean default true")
-	private boolean isActive;
+	private boolean active;
 	
 	@Builder
-	public VocAnswerEntity(VocQuestionEntity questionId, String content, AdminEntity adminId, boolean isActive) {
+	public VocAnswerEntity(VocQuestionEntity questionId, String content, AdminEntity adminId, boolean active) {
 		this.questionId = questionId;
 		this.content = content;
 		this.adminId = adminId;
-		this.isActive = isActive;
+		this.active = active;
 	}
 	
 	public VocAnswerDto.Response toVocAnswerResponse() {
@@ -60,11 +60,12 @@ public class VocAnswerEntity extends BaseTimeEntity {
 				.adminName(adminId.getNickname())
 				.createdAt(getCreatedAt())
 				.updatedAt(getUpdatedAt())
-				.isActive(isActive)
+				.active(active)
 				.build();
 	}
 	
-	public void update(String content) {
+	public void update(String content, boolean active) {
 		this.content = content;
+		this.active = active;
 	}
 }

@@ -24,14 +24,14 @@ public class VocAnswerDto {
 	public static class Request {
 		@NotNull private Long questionId;
 		@NotBlank private String content;
-		@NotNull private boolean isActive;
+		@NotNull private boolean active;
 		
-		public VocAnswerEntity toEntity(VocQuestionEntity question, AdminEntity admin, boolean isActive) {
+		public VocAnswerEntity toEntity(VocQuestionEntity question, AdminEntity admin, boolean active) {
 			return VocAnswerEntity.builder()
 					.questionId(question)
 					.content(content)
 					.adminId(admin)
-					.isActive(isActive)
+					.active(active)
 					.build();
 		}
 	}
@@ -49,7 +49,7 @@ public class VocAnswerDto {
 		private long questionId;
 		private String content;
 		private String adminName;
-		private boolean isActive;
+		private boolean active;
 
 		@JsonDeserialize(using = CustomLocalDateTimeDeserializer.class) 
 		@JsonSerialize(using = CustomLocalDateTimeSerializer.class)
@@ -61,14 +61,14 @@ public class VocAnswerDto {
 
 		@Builder
 		public Response(Long id, long questionId, String content, String adminName, LocalDateTime createdAt,
-				LocalDateTime updatedAt, boolean isActive) {
+				LocalDateTime updatedAt, boolean active) {
 			this.id = id;
 			this.questionId = questionId;
 			this.content = content;
 			this.adminName = adminName;
 			this.createdAt = createdAt;
 			this.updatedAt = updatedAt;
-			this.isActive = isActive;
+			this.active = active;
 		}
 	}
 
