@@ -76,17 +76,17 @@ spring:
           region:
             factoryclass: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
         generatestatistics: true
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: ymktest43@gmail.com # 비밀번호가 변경 된 상태입니다.
-    password: test0134^^
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
+#  mail:
+#    host: smtp.gmail.com
+#    port: 587
+#    username: ymktest43@gmail.com # 비밀번호가 변경 된 상태입니다.
+#    password: test0134^^
+#    properties:
+#      mail:
+#        smtp:
+#          auth: true
+#          starttls:
+#            enable: true
 
   security:
     oauth2:
@@ -97,6 +97,26 @@ spring:
         opaquetoken:
           client-id: xxxxxxxxxxxxxxxx
           
+  boot:
+    admin:
+      client:
+        url: http://localhost:7000/toy-admin # 어드민 application 의 url
+        username: ymkmoon # 어드민의 username
+        password: 1234 # 어드민의 pw
+        instance:
+          metadata:
+            user.name: ymkmoon
+            user.password: 1234
+          
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+      
 aws:
   cognito:
     domaim: https://xxxxxxx.auth.ap-northeast-2.amazoncognito.com/
