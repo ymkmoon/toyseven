@@ -37,7 +37,9 @@ public class VocQuestionServiceImpl implements VocQuestionService {
 		VocCategoryEntity category = vocCategoryRepository.findById(vocQuestionRequest.getCategoryId())
 				.orElseThrow(() -> new BusinessException(ErrorCode.CATEGORY_IS_NOT_EXIST.getDetail(), ErrorCode.CATEGORY_IS_NOT_EXIST));
 		StationInformationEntity station = stationRepository.findByStationId(vocQuestionRequest.getStationId());
-		VocQuestionEntity question = vocQuestionRepository.save(vocQuestionRequest.toEntity(category, station, username));
+		
+		boolean isActive = true;
+		VocQuestionEntity question = vocQuestionRepository.save(vocQuestionRequest.toEntity(category, station, username, isActive));
 				
 		return question.toVocQuestionResponse();
 	}

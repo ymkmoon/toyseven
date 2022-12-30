@@ -53,13 +53,16 @@ public class VocQuestionEntity extends BaseTimeEntity {
 	@Column(name = "need_reply", nullable = false)
 	private int needReply;
 	
+	@Column(name = "is_active", nullable = false, insertable = false, columnDefinition = "boolean default true")
+	private boolean isActive;
+	
 	public VocQuestionEntity(Long id) {
 		this.id = id;
 	}
 	
 	@Builder
 	public VocQuestionEntity(VocCategoryEntity category, String title, String content, String username, String email, StationInformationEntity stationId,
-			int needReply) {
+			int needReply, boolean isActive) {
 		this.category = category;
 		this.title = title;
 		this.content = content;
@@ -67,6 +70,7 @@ public class VocQuestionEntity extends BaseTimeEntity {
 		this.email = email;
 		this.stationId = stationId;
 		this.needReply = needReply;
+		this.isActive = isActive;
 	}
 	
 	public VocQuestionDto.Response toVocQuestionResponse() {
@@ -81,6 +85,7 @@ public class VocQuestionEntity extends BaseTimeEntity {
 				.needReply(needReply)
 				.createdAt(getCreatedAt())
 				.updatedAt(getUpdatedAt())
+				.isActive(isActive)
 				.build();
 	}
 	
