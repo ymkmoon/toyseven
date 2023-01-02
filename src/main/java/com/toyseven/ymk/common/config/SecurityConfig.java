@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -57,7 +58,7 @@ public class SecurityConfig {
 			http
 				.antMatcher("/voc/answer")
 				.authorizeRequests()
-					.anyRequest().hasAnyRole("ADMIN", "ADMIN2")
+				.antMatchers(HttpMethod.POST, "/voc/answer").hasAnyRole("ADMIN", "ADMIN2")
 				.and().cors();
 			http.csrf().disable(); 
 	    	http.headers()
@@ -97,7 +98,7 @@ public class SecurityConfig {
 		protected SecurityFilterChain userFilterChain(HttpSecurity http) throws Exception {
 			http
             	.authorizeRequests()
-	            .antMatchers("/voc/question")
+	            .antMatchers(HttpMethod.POST, "/voc/question")
                 .authenticated()
                 .and()
                 .cors() // cross-origin
