@@ -6,15 +6,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
@@ -22,7 +22,6 @@ import com.toyseven.ymk.common.error.exception.JwtAccessDeniedHandler;
 import com.toyseven.ymk.common.error.exception.JwtAuthenticationEntryPoint;
 import com.toyseven.ymk.common.filter.JwtRequestFilter;
 import com.toyseven.ymk.common.filter.OAuth2RequestFilter;
-import com.toyseven.ymk.jwt.JwtServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 
@@ -46,15 +45,15 @@ public class SecurityConfig {
 	@Order(1)
 	@PropertySource(value = "classpath:application.yml")
 	@RequiredArgsConstructor
-	public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+	public class AdminSecurityConfig {
 		
 		private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 		private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 		private final JwtRequestFilter jwtRequestFilter;
-		private final JwtServiceImpl jwtService;
 	    
-	    @Override
-		protected void configure(HttpSecurity http) throws Exception {
+		@Bean
+		protected SecurityFilterChain adminFilterChain(HttpSecurity http) throws Exception {
+			
 			http
 				.antMatcher("/voc/answer")
 				.authorizeRequests()
@@ -71,19 +70,16 @@ public class SecurityConfig {
 	    	http.httpBasic().disable()
 				.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
 	    	http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+	    	
+	    	return http.build();
 		}
 	    
-		
-		@Override
-		public void configure(AuthenticationManagerBuilder auth) throws Exception {
-			auth.userDetailsService(jwtService).passwordEncoder(passwordEncoder());
+	    @Bean
+		public AuthenticationManager authenticationManager(
+				AuthenticationConfiguration authenticationConfiguration) throws Exception {
+			return authenticationConfiguration.getAuthenticationManager();
 		}
 		
-		@Bean
-		@Override
-		public AuthenticationManager authenticationManagerBean() throws Exception {
-			return super.authenticationManagerBean();
-		}
 
 	}
 	
@@ -91,14 +87,14 @@ public class SecurityConfig {
 	@Order(2)
 	@PropertySource(value = "classpath:application.yml")
 	@RequiredArgsConstructor
-	public class OAuthSecurityConfig extends WebSecurityConfigurerAdapter {
+	public class UserSecurityConfig {
 		
 		private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 		private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
-		private final OAuth2RequestFilter oauth2RequestFilter2;
+		private final OAuth2RequestFilter oauth2RequestFilter;
 		
-		@Override
-		protected void configure(HttpSecurity http) throws Exception {
+		@Bean
+		protected SecurityFilterChain userFilterChain(HttpSecurity http) throws Exception {
 			http
             	.authorizeRequests()
 	            .antMatchers("/voc/question")
@@ -119,25 +115,25 @@ public class SecurityConfig {
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // 토큰 기반 인증이므로 세션 사용 x
 			http.httpBasic().disable()
 				.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
-			http.addFilterBefore(oauth2RequestFilter2, UsernamePasswordAuthenticationFilter.class);
+			http.addFilterBefore(oauth2RequestFilter, UsernamePasswordAuthenticationFilter.class);
+			
+			return http.build();
 		}
 		
 		@Bean
-		@Override
-		public AuthenticationManager authenticationManagerBean() throws Exception {
-			return super.authenticationManagerBean();
+		public AuthenticationManager authenticationManager(
+				AuthenticationConfiguration authenticationConfiguration) throws Exception {
+			return authenticationConfiguration.getAuthenticationManager();
 		}
 	}
 	
 	@Configuration
 	@Order(3)
 	@PropertySource(value = "classpath:application.yml")
-	@RequiredArgsConstructor
-	public class DefaultSecurityConfig extends WebSecurityConfigurerAdapter {
+	public class DefaultSecurityConfig {
 		
-		
-		@Override
-		protected void configure(HttpSecurity http) throws Exception {
+		@Bean
+		protected SecurityFilterChain defaultFilterChain(HttpSecurity http) throws Exception {
 			http
             	.authorizeRequests()
 	            .antMatchers("/**/**")
@@ -154,12 +150,14 @@ public class SecurityConfig {
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // 토큰 기반 인증이므로 세션 사용 x
 			http.httpBasic().disable()
 				.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
+			
+			return http.build();
 		}
 		
 		@Bean
-		@Override
-		public AuthenticationManager authenticationManagerBean() throws Exception {
-			return super.authenticationManagerBean();
+		public AuthenticationManager authenticationManager(
+				AuthenticationConfiguration authenticationConfiguration) throws Exception {
+			return authenticationConfiguration.getAuthenticationManager();
 		}
 	}
 }
