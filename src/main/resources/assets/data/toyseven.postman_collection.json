@@ -1,0 +1,582 @@
+{
+	"info": {
+		"_postman_id": "b095f970-e8fb-4b7d-92a9-646ef9f7dcad",
+		"name": "toyseven",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "auth/login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"username\" : \"guke\",\r\n\"password\" : \"1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/toyseven/auth/login",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"toyseven",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "auth/refresh",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"refreshToken\" : \"eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2NzI4OTE2MTgsImlhdCI6MTY3MjYzMjQxOCwidXNlcm5hbWUiOiJndWtlIn0.dw-4xu7SAfxeG0-rHAlFCLsy1dDUc8XjZPlAzx5dFOp_cxDEZ_qNebYA5DlmG84i8ywd3_z9xPJD_NCdHdMGLg\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/toyseven/auth/refresh",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"toyseven",
+						"auth",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "stations",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/toyseven/stations?offset=0&limit=10&sort=stationId,ASC",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"toyseven",
+						"stations"
+					],
+					"query": [
+						{
+							"key": "offset",
+							"value": "0"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						},
+						{
+							"key": "sort",
+							"value": "stationId,ASC"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "stations/search",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/toyseven/stations/search?name=망",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"toyseven",
+						"stations",
+						"search"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "망"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "voc/questions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/toyseven/voc/questions",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"toyseven",
+						"voc",
+						"questions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "voc/answers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/toyseven/voc/answers",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"toyseven",
+						"voc",
+						"answers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "voc",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/toyseven/voc?offset=0&limit=10&sort=id,desc",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"toyseven",
+						"voc"
+					],
+					"query": [
+						{
+							"key": "offset",
+							"value": "0"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						},
+						{
+							"key": "sort",
+							"value": "id,desc"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "voc/question",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJraWQiOiI1VG5rb1BwN0ZJS1NPSVhnNFY2SytNQTV2ZlV6S3cwdGp1cDRYdmw5Um9JPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiIyNzRlMGU4MS0xMjYxLTRlZWItYTM2My0yOWE5NmNhNzk1NmIiLCJjb2duaXRvOmdyb3VwcyI6WyJhcC1ub3J0aGVhc3QtMl9wNUhwSzZzNmtfR29vZ2xlIl0sImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC5hcC1ub3J0aGVhc3QtMi5hbWF6b25hd3MuY29tXC9hcC1ub3J0aGVhc3QtMl9wNUhwSzZzNmsiLCJ2ZXJzaW9uIjoyLCJjbGllbnRfaWQiOiIyb28yaTc3M2ljYjUycmQ2cTY2MDlta3JhciIsIm9yaWdpbl9qdGkiOiIwNjc0MjgzNy0xY2U2LTQxOGYtYjMyOC04MTQ5OWM5YTZiMmMiLCJ0b2tlbl91c2UiOiJhY2Nlc3MiLCJzY29wZSI6ImF3cy5jb2duaXRvLnNpZ25pbi51c2VyLmFkbWluIHBob25lIG9wZW5pZCBwcm9maWxlIGVtYWlsIiwiYXV0aF90aW1lIjoxNjcyNjM1NDM3LCJleHAiOjE2NzI2MzkwODUsImlhdCI6MTY3MjYzNTQ4NSwianRpIjoiOTkxY2FmMmItZGEwMC00MDk4LWJmOGQtYjIzNTA5NmNhODAxIiwidXNlcm5hbWUiOiJnb29nbGVfMTA0NzU2Nzk4NDY3Nzg0NzQxODE3In0.RK-NPG4x_ONY2WUrYrkCGPIz7IwmTD9Y0kos9PcD-x2MBqrxoLGY17asi7pT7dJGBg7pi-T6vKGixtphtYqzG7L5woB_9ivd5Dcp0Uf4uTedeO5AOV7bsGOe94v97C_9gQIHpqb2MlO2GLx6jsSE6gJPz-5bcO8zJ0NFyLLbYFEz9brpLC3Qv2vYSf1VaBMQ_vXJD683ZtPPazl8G8inMhiZrUy9LQuXKI3bIqZiheZd28yvMBucL1fFRLplmuh9ETdM-KyOhC9dAcncGuVytTADKY4MoU9U_QINsALB1JEsQZaLervgG-6JyY00YKZAhRg89IQs4Z3PK8IBzlj5ag",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"categoryId\" : 1,\r\n\"title\" : \"question title\",\r\n\"content\" : \"question content\",\r\n\"email\" : \"email\",\r\n\"stationId\" : \"ST-4\",\r\n\"needReply\" : 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/toyseven/voc/question",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"toyseven",
+						"voc",
+						"question"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "voc/question",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJraWQiOiI1VG5rb1BwN0ZJS1NPSVhnNFY2SytNQTV2ZlV6S3cwdGp1cDRYdmw5Um9JPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiIyNzRlMGU4MS0xMjYxLTRlZWItYTM2My0yOWE5NmNhNzk1NmIiLCJjb2duaXRvOmdyb3VwcyI6WyJhcC1ub3J0aGVhc3QtMl9wNUhwSzZzNmtfR29vZ2xlIl0sImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC5hcC1ub3J0aGVhc3QtMi5hbWF6b25hd3MuY29tXC9hcC1ub3J0aGVhc3QtMl9wNUhwSzZzNmsiLCJ2ZXJzaW9uIjoyLCJjbGllbnRfaWQiOiIyb28yaTc3M2ljYjUycmQ2cTY2MDlta3JhciIsIm9yaWdpbl9qdGkiOiIwNjc0MjgzNy0xY2U2LTQxOGYtYjMyOC04MTQ5OWM5YTZiMmMiLCJ0b2tlbl91c2UiOiJhY2Nlc3MiLCJzY29wZSI6ImF3cy5jb2duaXRvLnNpZ25pbi51c2VyLmFkbWluIHBob25lIG9wZW5pZCBwcm9maWxlIGVtYWlsIiwiYXV0aF90aW1lIjoxNjcyNjM1NDM3LCJleHAiOjE2NzI2MzkwODUsImlhdCI6MTY3MjYzNTQ4NSwianRpIjoiOTkxY2FmMmItZGEwMC00MDk4LWJmOGQtYjIzNTA5NmNhODAxIiwidXNlcm5hbWUiOiJnb29nbGVfMTA0NzU2Nzk4NDY3Nzg0NzQxODE3In0.RK-NPG4x_ONY2WUrYrkCGPIz7IwmTD9Y0kos9PcD-x2MBqrxoLGY17asi7pT7dJGBg7pi-T6vKGixtphtYqzG7L5woB_9ivd5Dcp0Uf4uTedeO5AOV7bsGOe94v97C_9gQIHpqb2MlO2GLx6jsSE6gJPz-5bcO8zJ0NFyLLbYFEz9brpLC3Qv2vYSf1VaBMQ_vXJD683ZtPPazl8G8inMhiZrUy9LQuXKI3bIqZiheZd28yvMBucL1fFRLplmuh9ETdM-KyOhC9dAcncGuVytTADKY4MoU9U_QINsALB1JEsQZaLervgG-6JyY00YKZAhRg89IQs4Z3PK8IBzlj5ag",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"id\" : 2,\r\n\"title\" : \"update title2\",\r\n\"content\" : \"update content2\",\r\n\"active\" : false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/toyseven/voc/question",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"toyseven",
+						"voc",
+						"question"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "voc/search",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/toyseven/voc/search/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"toyseven",
+						"voc",
+						"search",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "voc/category",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/toyseven/voc/categories?offset=0&limit=10",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"toyseven",
+						"voc",
+						"categories"
+					],
+					"query": [
+						{
+							"key": "offset",
+							"value": "0"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "voc/answer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2NzI2MzczOTEsImlhdCI6MTY3MjYzNTU5MSwidXNlcm5hbWUiOiJndWtlIn0.c4ElfdxdDBLf42o4N95GLP58y-4vu4YKiWVX4Zb6Uo_WsVABgsm2UwoiQQYNRVz_52tDvLV7U48p4VG9hJOY6A",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"questionId\" : 1,\r\n\"content\" : \"answer content\"\r\n} ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/toyseven/voc/answer",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"toyseven",
+						"voc",
+						"answer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "voc/answer",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2NzI2MjY5MjYsImlhdCI6MTY3MjYyNTEyNiwidXNlcm5hbWUiOiJndWtlIn0.FtQ1sfegabC1C1mpB1Jp7VBtbYdS8QQWrsvDRbzr6oy2DDPuWAWBfyS-SIfRfR99ByFfucmU4PmzYc_Uff_41Q",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"id\" : 1,\r\n\"content\" : \"update answer\",\r\n\"active\" : false\r\n} ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/toyseven/voc/answer",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"toyseven",
+						"voc",
+						"answer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "weather",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/toyseven/weather?nx=10&ny=18&stationName=구로구",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"toyseven",
+						"weather"
+					],
+					"query": [
+						{
+							"key": "nx",
+							"value": "10"
+						},
+						{
+							"key": "ny",
+							"value": "18"
+						},
+						{
+							"key": "stationName",
+							"value": "구로구"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cognito/payload/sub",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJraWQiOiI1VG5rb1BwN0ZJS1NPSVhnNFY2SytNQTV2ZlV6S3cwdGp1cDRYdmw5Um9JPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJiNDI2YzFjMS0zYzk1LTQ2MDQtYjA4NC1jYTQ5ZDM2MGQyM2YiLCJjb2duaXRvOmdyb3VwcyI6WyJhcC1ub3J0aGVhc3QtMl9wNUhwSzZzNmtfR29vZ2xlIl0sImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC5hcC1ub3J0aGVhc3QtMi5hbWF6b25hd3MuY29tXC9hcC1ub3J0aGVhc3QtMl9wNUhwSzZzNmsiLCJ2ZXJzaW9uIjoyLCJjbGllbnRfaWQiOiIyb28yaTc3M2ljYjUycmQ2cTY2MDlta3JhciIsIm9yaWdpbl9qdGkiOiI5ZDI3ZDM3MS01MTg1LTQ2NDAtOTBlZC1iOGYwYjMwZDVkNGUiLCJ0b2tlbl91c2UiOiJhY2Nlc3MiLCJzY29wZSI6ImF3cy5jb2duaXRvLnNpZ25pbi51c2VyLmFkbWluIHBob25lIG9wZW5pZCBwcm9maWxlIGVtYWlsIiwiYXV0aF90aW1lIjoxNjU5MzE0NjA0LCJleHAiOjE2NzI2MjkwNzgsImlhdCI6MTY3MjYyNTQ3OCwianRpIjoiODBkOWI0NGQtNDgxNi00OWVhLWJhMTYtNGRjYjdjN2RhYWY2IiwidXNlcm5hbWUiOiJnb29nbGVfMTE3ODA5NTkwNTI3MzQyNzc5MzU0In0.kVtkgWky_NC4rFPz-PWcjHP67sbudr4YsJklTXobjWEf_AtppP-Dnih7Vh_aW70RnD0-PGTJqCkIGt9tVTcpBqahX1somP7p9as1iT3w780vA1uFAMwKx_Tj2PhJmCOIkktGmU45bsMZu1GLnCXfEPjNyv2UJuAJ_NKJVIHjBpPRRje6WJyNL16rmnNEWxdYLiL1rrmiKg-1WZE7_G_D3L7cKp_atzeORkrx_ddTXTfozFisnuxZKoXfSD8HLH-d-Z63GwRdlN8ksymgVz6gGUeTgqpGxmkCSOCrRY1fCE1eE67N6iczBqJ9oF9pZfbEYQBhRahm3cQGe3D6qXatiQ",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/toyseven/cognito/payload/sub",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"toyseven",
+						"cognito",
+						"payload",
+						"sub"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "YMKMOON cognito/refresh",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"refreshToken\" : \"eyJjdHkiOiJKV1QiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiUlNBLU9BRVAifQ.pzqVQksoV-a9tAHpNg-Ir1u0UDkFEfeyYqBq2USPqdtoWBIPye5ZFQsyI3KcYlKDkuY7bZ6qdzJTDu3cPUoOt7sZEYrF2M9byExiAtGLBtWJBsh1UT-PstYvXAAVhJ4fQfNYH2OY7G89s3PVkFkZfeS6UNUbh6hfC7leTNiYVpKWB7eS8FBGA4nVWXtV821JQzHso1sqL4c4IEorPZske70PTa1JBZJT9K7TRcDB_UQvE4JxHGEZ8xaLHqayTk_8f0OSfb6gvpbyZ0sQIeWGv0xFStVAuj9gJMjkMx39auybR-P4BveUdM0dKk2LoKr5scCGzXK1iLtNISwhpMsJYg.Wi60Sn-TfPfLzT1k.obA8RK3NYrLPf4N_UpMIhvYlPEF97qFxTTMcx8_pqjDox4K86NQhFjSxJZoDttsueMWBoNAxIHXHVYg1ntLur0OMClLT2XalJhkyL5C2p_cHvbUc8WfIwArV939-JtI8wBdEInJxV9oIoy6RxXDCWLAmV41CSKJQrG4OnhYw0_pvuhB-oYNjdHIbDgmlQVm9dsExD_zpmUxgBPdqCrtu3do785DvFusaa2CnT9JuTEXXFnHc_MTpP9cRGgPYdmYEaOKbL2tUpESIYFbsox9AbiKbbY6qEzDmT3XoRQ7uCd_U-cKz62mHkI3jOzjYFCzTBPASQ51zgxpEHaaqLmGeIWutn57Nsotsz_yH-qOcZrLBa8LovHlTo34CfN5gWF-IMOdOgR1QxGqTJ4nAIDVgF0_Az-XoxX_cMGNM9ScXx71_jPWgK4u_EULpwQf_KxZp7ZlhXUCpKxbYiens_07-mbsEhif1-LT91E9MmGkmCZFK-f5fG-ANaaZYC7k5sQlb97G5iPKEWNEKDoGYs0mHX4EryjYETYlZUDbDslMsJwPM1x92JXeMcSbzob1TbDZleVzBdb7lhZmUCchG6p9RsTeBZvFyHjLogq37JaXRfrSMT-gxfZSsujt7SExfRf-cIxXy0OuujMh96QNZaTBmlnE_h-2f_3rzaDkb2icdBiIljtXoiOdIp8uqGGwVDbRYJ_AAyvtauHEPxCKyjhyY3MMOUELV1PG3WnjK5QcLzSpoyquxSAKyVSmLNKrTaWtB9WPBIXOI9yefnSJ4G9WxJFb6K43xjYbuzzc-U1zxuf9ALTUCPowz4F03ok4-a_ypUAJkoU6DSAqxj5LcjPLi72fq1maxo1r64-NqtaRvE7mKBdJ7niOFcPva60rOqGQmyStqp45Skm4tg9EsV-YiZVyie66uEO2IRMW3OWAjnh6NJbiX61fG_vjwiKYMEc8At0C-0KUgtIsBlU0vBLwjXiAFoRSipHa0Qh0k12rw5jaMiWlNt7Dv5Ic7JDXZGiq7WHQdtAScP43XPHBfxL-fChDjgwOAdwQ4aeXx7Ot2DAGHNwrlmnzjfNRjKFfbOqstt2m7IwcXKx3CsqZk0JeYj-62L6dBZ6wf-AQw6qzX0g0Ovtf7xufGqjzLmIl3X9lPbb0xEtSAbHz2xE6iHH8FeINtVLM-0kykAmObzVWGfJC88eqRXgumLAoUXwgAuiBC_YttU3BCIN6xoZnaPHXzusC9lczTQUYWZGLzbjqhOwwIVQCRUQdRaAC55AkPAYFI853UyI4iR2az-_vWoytSJjiU-CIl4hUVrw-FlWHELA.NozxjZ8eUEXxDkGzvycyLw\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/toyseven/cognito/refresh",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"toyseven",
+						"cognito",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GEOWAP50 cognito/refresh",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"refreshToken\" : \"eyJjdHkiOiJKV1QiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiUlNBLU9BRVAifQ.l-m0kTc4_1twgskG8yIib5RdswpQygKb-2podDYKHykzCWwsVe9tkiWW4U4d4I5pIqpi5mN_BW1anq-UqETZQGJqQA52vUrVojkDJsTrdJYD3rWi9NRBvvM6upG0EVzRa1i3nwDBhWVRDWjiUytDNiSopKh9AKQ0qicNn-clnfmDw5ZOKRffWmBdkTViZ_XdhS4XUkVA82JK3i4MLMqUgWnY5C-LA39FzVjDj2ewK4R55atxxRCieqBTBoigIxPvvkCO0ztxH_kEe1sv6hAcornvsTbPwOG8azbetLDOqQPatZy69rNysCAAZuTQtspVXlDpPTlp3wljoJOOkGlDgw.EVRg6pXUE3qSmaCs.dG0paektF2PCumAlWuhIvaGZpsi3gCBZyAFypXhzg-bqugI76VKckFGYsm5a-djCbFbPlFFS2B12T8iFd7RAlSJN41ahEUtq_L1iBjR6njlEyJPJkpsCgVCHx05tCpSI_v5V2QSjNLLj5wOWQH-gd0UudilAhBomq46ufZyHkay_NgYWwJHj-x9jDQvdRLFAU-RTzvoXmzaXP-0zzfjpzQxsNox6HuGTKnLaxu9X0qRvc7iQRQnf7-ZLKZ8Gb3HVFi2oyOC72QalJIWBuprkngwPy8axI7EKlYBpxyHXbFXANuK8kV-NBx3GA6lRGMyd2UFMbyxJr2qgElw2FQg4OEyYzH68CsewXQxNIW8-A8mYgrkO-ci9sqEIVcpBcvZ_BjccO8-Urxu8N37n5E7dnEvPGWFIpyktG5ehWCxtbSYyIoUc-FFy3dfswQV9w8lWY-yHw1OBznpZHj8nLUN-2ew-u0YWzv_4nYSGGeiRMyRpxGYzlLl8Oil6Vfr21K8CcJyn7TG9V4lI8wkD_4dXhasHlqllxgcje1vQaPpm3_rOnxWY9KMJn0kH5P2_HtFVBsCESq0Us2cSa67PabvO_SG372n0A2WHvQkGpwuasDSbD6Lqr5-VeGVoUEtoJtb5RJr6sHIsnO9Xtvq1Lmo_2yGnVgdF5Hne-fVjcL5iqBX-91LyVocwyEmyXVdc7i5Ad_IK2w8HRGxBaTTXcVJrypiTVHg4B3w7z1f3TH1vvY3Z7PuB30DEz_QbSPkxdHyRnMBZe1Gw_nyJQQ3tjIbvAScRw30VE7Y1w536TmRdB3hQXMr5YfwOKZlP7ARHJJFLvf1MzSlB10O91sF8rB3tTZQ60QjzBS6NH1JOgD6tS79E3NbZmVwmN-xVPAkr7a6uE8bkqNSLCPbBzpWPoU_evs_3vhn9bfzeDd-iJ1TF99YUK51MvE6sztWVJxdD3hwbzss-CJjX_HW1OaphNNvgCePhCi93TU3aMFdocn1vTP4hkk3Yq1zu1v1EL8LKqOyvxQUZWNspz5BvFc0dod8iUk6m9iMdfV1r-VkI1ABFEIS7zh15SyOBBS6_jRtPwMO649g-FQXbKbkHYvm7Ff04PZ9iWF3v0kONMHEXSrn9lKjrrFJ7P_8U-KM30jlEGr2c9KncDf0s5P-ULzvesdftVhKfmqvs5JeKp7QQQNqyijKETv_bTyfg9u4cEOuCj3HXwPth5eXbb1QoQMXdavcoIi0bqEbKMBz4m6B2ZxsZXgk8FBF8-MISV8wRf6nQXKL83ZKMREu_a0ASfFR0tZIY27Y7pmD8h5_HDOyyO_N_vA.iCDu0YeNZPO5Wx9u0hFxxw\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/toyseven/cognito/refresh",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"toyseven",
+						"cognito",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
