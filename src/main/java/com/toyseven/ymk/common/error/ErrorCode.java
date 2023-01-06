@@ -41,7 +41,7 @@ public enum ErrorCode {
     FAIL_COGNITO_GET_USERINFO(HttpStatus.UNAUTHORIZED, "Cognito 유저 정보 획득 실패"),
     
     // 403
-    ACCESS_DENIED(HttpStatus.FORBIDDEN, "접근 하기 위해서는 권한을 확인해주세요."),
+    ACCESS_DENIED(HttpStatus.FORBIDDEN, "허가되지 않은 권한입니다."),
     
     // 404
     NO_SUCH_ELEMENT(HttpStatus.NOT_FOUND, "데이터가 존재하지 않습니다."),
