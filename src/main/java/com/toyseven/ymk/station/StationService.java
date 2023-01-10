@@ -11,7 +11,7 @@ import com.toyseven.ymk.common.model.entity.StationInformationEntity;
 @Transactional(readOnly = true)
 public interface StationService {
 	List<StationInformationDto.Response> getAllStations(Pageable pageable);
-	List<StationInformationDto.Response> getStationByStationName(String stationName);
+	List<StationInformationDto.Response> getStationByStationName(String stationName, Pageable pageable);
 	List<StationInformationEntity> getStations();
 	@Transactional void saveStations(List<StationInformationEntity> stations);
 }
