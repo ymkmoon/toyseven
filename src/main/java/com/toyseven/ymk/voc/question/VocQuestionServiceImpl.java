@@ -29,7 +29,8 @@ public class VocQuestionServiceImpl implements VocQuestionService {
 	@Override
 	public List<VocQuestionDto.Response> getAllVocQuestions(Pageable pageable) {
 		Page<VocQuestionEntity> questions = vocQuestionRepository.findAll(pageable);
-		return questions.stream().map(VocQuestionEntity::toVocQuestionResponse).collect(toList());
+		return questions.map(VocQuestionEntity::toVocQuestionResponse).toList();
+//		return questions.stream().map(VocQuestionEntity::toVocQuestionResponse).collect(toList());
 	}
 	
 	@Override

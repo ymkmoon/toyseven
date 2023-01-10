@@ -1,7 +1,5 @@
 package com.toyseven.ymk.voc.category;
 
-import static java.util.stream.Collectors.toList;
-
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -22,7 +20,8 @@ public class VocCategoryServiceImpl implements VocCategoryService {
 	@Override
 	public List<VocCategoryDto.Response> getVocCategory(Pageable pageable) {
 		Page<VocCategoryEntity> category = vocCategoryRepository.findAll(pageable);
-		return category.stream().map(VocCategoryEntity::toVocCategoryResponse).collect(toList());
+		return category.map(VocCategoryEntity::toVocCategoryResponse).toList();
+//		return category.stream().map(VocCategoryEntity::toVocCategoryResponse).collect(toList());
 	}
 	
 }

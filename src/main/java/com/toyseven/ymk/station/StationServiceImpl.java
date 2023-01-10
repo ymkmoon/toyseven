@@ -1,7 +1,5 @@
 package com.toyseven.ymk.station;
 
-import static java.util.stream.Collectors.toList;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -45,15 +43,16 @@ public class StationServiceImpl implements StationService {
     @Override
     public List<StationInformationDto.Response> getAllStations(Pageable pageable) {
     	Page<StationInformationEntity> stations = stationRepository.findAll(pageable);
-    	return stations.stream().map(StationInformationEntity::toStationInformationResponse).collect(toList());
+		return stations.map(StationInformationEntity::toStationInformationResponse).toList();
+//    	return stations.stream().map(StationInformationEntity::toStationInformationResponse).collect(toList());
     }
 
     @Override
-    public List<StationInformationDto.Response> getStationByStationName(String stationName) {
-    	List<StationInformationEntity> stations = stationRepository.findByStationNameContaining(stationName);
+    public List<StationInformationDto.Response> getStationByStationName(String stationName, Pageable pageable) {
+    	Page<StationInformationEntity> stations = stationRepository.findByStationNameContaining(stationName, pageable);
     	if(stations.isEmpty()) throw new NoSuchElementException(ErrorCode.NO_SUCH_ELEMENT.getDetail());
-    	
-    	return stations.stream().map(StationInformationEntity::toStationInformationResponse).collect(toList());
+    	return stations.map(StationInformationEntity::toStationInformationResponse).toList();
+//    	return stations.stream().map(StationInformationEntity::toStationInformationResponse).collect(toList());
     }
     
     @Override
