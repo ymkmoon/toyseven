@@ -1,14 +1,5 @@
 [
     {
-        "stationId": "4",
-        "stationName": "102. 망원역 1번출구 앞",
-        "stationLatitude": 37.5556488,
-        "stationLongitude": 126.91062927,
-        "rackTotCnt": 22,
-        "parkingBikeTotCnt": 8,
-        "shared": 0
-    },
-    {
         "stationId": "ST-4",
         "stationName": "102. 망원역 1번출구 앞",
         "stationLatitude": 37.5556488,
