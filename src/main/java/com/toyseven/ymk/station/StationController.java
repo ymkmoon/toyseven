@@ -42,8 +42,12 @@ public class StationController {
 
     @GetMapping(value = "/search")
     public ResponseEntity<List<StationInformationDto.Response>> searchStations(
-    		@RequestParam(name="name") @NotBlank String name) {
-        List<StationInformationDto.Response> stations = stationService.getStationByStationName(name);
+    		@RequestParam(name="name") @NotBlank String name,
+    		@RequestParam(name="offset") @NotNull long offset,
+    		@RequestParam(name="limit") @NotNull int limit,
+    		Sort sort) {
+    	Pageable pageable = new OffsetBasedPageRequest(offset, limit, sort);
+        List<StationInformationDto.Response> stations = stationService.getStationByStationName(name, pageable);
         return new ResponseEntity<>(stations, HttpStatus.OK);
     }
 

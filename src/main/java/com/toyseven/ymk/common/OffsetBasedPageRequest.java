@@ -31,6 +31,10 @@ public class OffsetBasedPageRequest implements Pageable, Serializable {
         if (limit < 1) {
             throw new IllegalArgumentException("Limit must not be less than one!");
         }
+        
+        if (limit > 100) limit = 100;
+//        offset -= 1;
+        
         this.limit = limit;
         this.offset = offset;
         this.sort = sort;
