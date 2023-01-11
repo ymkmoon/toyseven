@@ -17,6 +17,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -57,8 +59,10 @@ class StationServiceTest {
 	@Test
 	@DisplayName("Station 목록 조회 성공 테스트")
 	void Should_Return_Stations_When_Find_All() {
-		Mockito.when(stationRepository.findAll()).thenReturn(stations);
-		Pageable pageable = new OffsetBasedPageRequest(1, 1);
+		Page<StationInformationEntity> page = new PageImpl<>(stations);
+		
+		Pageable pageable = new OffsetBasedPageRequest(0, 1);
+		Mockito.when(stationRepository.findAll(pageable)).thenReturn(page);		
 		List<StationInformationDto.Response> response = stationServiceImpl.getAllStations(pageable);
 		assertThat(response, is(not(empty())));
 	}
@@ -68,8 +72,13 @@ class StationServiceTest {
 	void Should_Return_Stations_When_Find_By_Station_Name_Containing() {
 		List<StationInformationEntity> stationFindByStationNameContaining = new ArrayList<>();
 		stationFindByStationNameContaining.add(station);
-		Mockito.when(stationRepository.findByStationNameContaining("103. 망원역 2번출구 앞")).thenReturn(stationFindByStationNameContaining);
-		List<StationInformationDto.Response> response = stationServiceImpl.getStationByStationName("103. 망원역 2번출구 앞");
+		
+		Page<StationInformationEntity> page = new PageImpl<>(stationFindByStationNameContaining);
+		Pageable pageable = new OffsetBasedPageRequest(1, 1, null);
+		
+		String stationName = "103. 망원역 2번출구 앞";
+		Mockito.when(stationRepository.findByStationNameContaining(stationName, pageable)).thenReturn(page);
+		List<StationInformationDto.Response> response = stationServiceImpl.getStationByStationName(stationName, pageable);
 		assertThat(response, is(not(empty())));
 	}
 	
