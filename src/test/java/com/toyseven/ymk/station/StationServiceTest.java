@@ -61,7 +61,7 @@ class StationServiceTest {
 	void Should_Return_Stations_When_Find_All() {
 		Page<StationInformationEntity> page = new PageImpl<>(stations);
 		
-		Pageable pageable = new OffsetBasedPageRequest(0, 1);
+		Pageable pageable = new OffsetBasedPageRequest(0, 9999);
 		Mockito.when(stationRepository.findAll(pageable)).thenReturn(page);		
 		List<StationInformationDto.Response> response = stationServiceImpl.getAllStations(pageable);
 		assertThat(response, is(not(empty())));
