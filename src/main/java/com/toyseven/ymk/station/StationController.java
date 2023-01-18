@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.toyseven.ymk.common.OffsetBasedPageRequest;
 import com.toyseven.ymk.common.dto.StationInformationDto;
+import com.toyseven.ymk.common.search.StationSearchCondition;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,13 +32,24 @@ public class StationController {
 
 	private final StationService stationService;
 
-    @GetMapping()
-    public ResponseEntity<List<StationInformationDto.Response>> getStations(
+	@GetMapping("/v1")
+    public ResponseEntity<List<StationInformationDto.Response>> getStationsVer1(
     		@RequestParam(name="offset") @NotNull long offset,
     		@RequestParam(name="limit") @NotNull int limit,
     		Sort sort) {
     	Pageable pageable = new OffsetBasedPageRequest(offset, limit, sort);
         List<StationInformationDto.Response> stations = stationService.getAllStations(pageable);
+        return new ResponseEntity<>(stations, HttpStatus.OK);
+    }
+	
+	@GetMapping("/v2")
+    public ResponseEntity<Page<StationInformationDto.Response>> getStationsVer2(
+    		StationSearchCondition condition,
+    		@RequestParam(name="offset") @NotNull long offset,
+    		@RequestParam(name="limit") @NotNull int limit,
+    		Sort sort) {
+    	Pageable pageable = new OffsetBasedPageRequest(offset, limit, sort);
+        Page<StationInformationDto.Response> stations = stationService.getStationsSearchable(pageable, condition);
         return new ResponseEntity<>(stations, HttpStatus.OK);
     }
 

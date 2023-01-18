@@ -20,6 +20,7 @@ import com.toyseven.ymk.common.ResponseEntityComponent;
 import com.toyseven.ymk.common.dto.StationInformationDto;
 import com.toyseven.ymk.common.error.ErrorCode;
 import com.toyseven.ymk.common.model.entity.StationInformationEntity;
+import com.toyseven.ymk.common.search.StationSearchCondition;
 import com.toyseven.ymk.common.util.ToysevenCommonUtil;
 import com.toyseven.ymk.common.util.WebClientUtil;
 
@@ -32,6 +33,8 @@ public class StationServiceImpl implements StationService {
 	private final ResponseEntityComponent responseEntityComponent;
     private final StationRepository stationRepository;
     private final ObjectMapper objectMapper;
+    
+    private final StationRepositoryCustom customRepository;
     
     @Value("${api.key.station}") 
     private String SERVICE_KEY;
@@ -46,6 +49,11 @@ public class StationServiceImpl implements StationService {
 		return stations.map(StationInformationEntity::toStationInformationResponse).toList();
 //    	return stations.stream().map(StationInformationEntity::toStationInformationResponse).collect(toList());
     }
+    
+    @Override
+	public Page<StationInformationDto.Response> getStationsSearchable(Pageable pageable, StationSearchCondition condition) {
+		return customRepository.searchStations(condition, pageable);
+	}
 
     @Override
     public List<StationInformationDto.Response> getStationByStationName(String stationName, Pageable pageable) {
