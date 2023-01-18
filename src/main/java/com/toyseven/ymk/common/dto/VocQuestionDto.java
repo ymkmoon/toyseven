@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.querydsl.core.annotations.QueryProjection;
 import com.toyseven.ymk.common.model.entity.StationInformationEntity;
 import com.toyseven.ymk.common.model.entity.VocCategoryEntity;
 import com.toyseven.ymk.common.model.entity.VocQuestionEntity;
@@ -75,6 +76,7 @@ public class VocQuestionDto {
 		private LocalDateTime updatedAt;
 
 		@Builder
+		@QueryProjection
 		public Response(Long id, String category, String title, String content, String email, String username,
 				String stationId, int needReply, LocalDateTime createdAt, LocalDateTime updatedAt, boolean active) {
 			this.id = id;

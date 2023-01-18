@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,7 @@ import com.toyseven.ymk.common.OffsetBasedPageRequest;
 import com.toyseven.ymk.common.dto.VocAnswerDto;
 import com.toyseven.ymk.common.dto.VocCategoryDto;
 import com.toyseven.ymk.common.dto.VocQuestionDto;
+import com.toyseven.ymk.common.search.VocQuestionSearchCondition;
 import com.toyseven.ymk.voc.answer.VocAnswerService;
 import com.toyseven.ymk.voc.category.VocCategoryService;
 import com.toyseven.ymk.voc.question.VocQuestionService;
@@ -39,14 +41,25 @@ public class VocController {
 	private final VocQuestionService vocQuestionService;
 	private final VocAnswerService vocAnswerService;
 	private final VocCategoryService vocCategoryService;
-	 
-	@GetMapping()
-	public ResponseEntity<List<VocQuestionDto.Response>> getVocQuestions(
+	
+	@GetMapping("/v1")
+	public ResponseEntity<List<VocQuestionDto.Response>> getVocQuestionsVer1(
 			@RequestParam(name="offset") @NotNull long offset,
     		@RequestParam(name="limit") @NotNull int limit,
     		Sort sort) {
 		Pageable pageable = new OffsetBasedPageRequest(offset, limit, sort);
 		return new ResponseEntity<>(vocQuestionService.getAllVocQuestions(pageable), HttpStatus.OK);
+	}
+	
+	// http://127.0.0.1:8000/toyseven/voc/v2?offset=0&limit=40&sort=createdAt,DESC&title=title 1&username=username 1&email=ymkmoon@naver.com&categoryId=고장&stationId=4
+	@GetMapping("/v2")
+	public ResponseEntity<Page<VocQuestionDto.Response>> getVocQuestionsVer2(
+			VocQuestionSearchCondition condition,
+			@RequestParam(name="offset") @NotNull long offset,
+    		@RequestParam(name="limit") @NotNull int limit,
+    		Sort sort) {
+		Pageable pageable = new OffsetBasedPageRequest(offset, limit, sort);
+		return new ResponseEntity<>(vocQuestionService.getVocQuestionsSearchable(pageable, condition), HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/question")

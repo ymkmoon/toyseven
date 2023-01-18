@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.4.4'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10' // Querydsl
 }
 
 group = 'com.toyseven'
@@ -60,6 +61,25 @@ dependencies {
 	implementation 'de.codecentric:spring-boot-admin-starter-client:2.6.2'
 	
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	
+	implementation "com.querydsl:querydsl-jpa" // Querydsl
+	implementation "com.querydsl:querydsl-apt" // Querydsl
+}
+
+def querydslDir = "src/main/generated/queryDsl" // Querydsl
+
+querydsl {
+    jpa = true // Querydsl
+    querydslSourcesDir = querydslDir // Querydsl
+}
+sourceSets {
+    main.java.srcDir querydslDir // Querydsl
+}
+configurations {
+    querydsl.extendsFrom compileClasspath // Querydsl
+}
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl // Querydsl
 }
 
 test {
