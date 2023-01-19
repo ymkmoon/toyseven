@@ -14,6 +14,7 @@ import com.toyseven.ymk.common.error.exception.BusinessException;
 import com.toyseven.ymk.common.model.entity.StationInformationEntity;
 import com.toyseven.ymk.common.model.entity.VocCategoryEntity;
 import com.toyseven.ymk.common.model.entity.VocQuestionEntity;
+import com.toyseven.ymk.common.search.VocQuestionSearchCondition;
 import com.toyseven.ymk.station.StationRepository;
 import com.toyseven.ymk.voc.category.VocCategoryRepository;
 
@@ -22,15 +23,23 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class VocQuestionServiceImpl implements VocQuestionService {
+	
 	private final VocQuestionRepository vocQuestionRepository;
 	private final VocCategoryRepository vocCategoryRepository;
 	private final StationRepository stationRepository;
+	
+	private final VocQuestionRepositoryCustom customRepository;
 	
 	@Override
 	public List<VocQuestionDto.Response> getAllVocQuestions(Pageable pageable) {
 		Page<VocQuestionEntity> questions = vocQuestionRepository.findAll(pageable);
 		return questions.map(VocQuestionEntity::toVocQuestionResponse).toList();
 //		return questions.stream().map(VocQuestionEntity::toVocQuestionResponse).collect(toList());
+	}
+	
+	@Override
+	public Page<VocQuestionDto.Response> getVocQuestionsSearchable(Pageable pageable, VocQuestionSearchCondition condition) {
+		return customRepository.searchVocQuestion(condition, pageable);
 	}
 	
 	@Override

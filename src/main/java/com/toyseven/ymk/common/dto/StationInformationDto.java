@@ -1,5 +1,7 @@
 package com.toyseven.ymk.common.dto;
 
+import com.querydsl.core.annotations.QueryProjection;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -38,6 +40,7 @@ public class StationInformationDto {
 	    private Integer shared;
 
 	    @Builder
+	    @QueryProjection
 	    public Response(String stationId, String stationName, Double stationLatitude, Double stationLongitude,
 				Integer rackTotCnt, Integer parkingBikeTotCnt, Integer shared) {
 			this.stationId = stationId;
