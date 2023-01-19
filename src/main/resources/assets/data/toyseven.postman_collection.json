@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "b095f970-e8fb-4b7d-92a9-646ef9f7dcad",
+		"_postman_id": "447514e3-cd1c-4178-9b07-fb5ed00bf7c0",
 		"name": "toyseven",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -72,12 +72,12 @@
 			"response": []
 		},
 		{
-			"name": "stations",
+			"name": "stations/v1",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8000/toyseven/stations?offset=0&limit=10&sort=stationId,ASC",
+					"raw": "http://127.0.0.1:8000/toyseven/stations/v1?offset=0&limit=10&sort=stationId,ASC",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -88,7 +88,8 @@
 					"port": "8000",
 					"path": [
 						"toyseven",
-						"stations"
+						"stations",
+						"v1"
 					],
 					"query": [
 						{
@@ -109,12 +110,60 @@
 			"response": []
 		},
 		{
+			"name": "stations/v2",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/toyseven/stations/v2?offset=11&limit=20&sort=stationId,ASC",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"toyseven",
+						"stations",
+						"v2"
+					],
+					"query": [
+						{
+							"key": "offset",
+							"value": "11"
+						},
+						{
+							"key": "limit",
+							"value": "20"
+						},
+						{
+							"key": "sort",
+							"value": "stationId,ASC"
+						},
+						{
+							"key": "stationId",
+							"value": "ST-4",
+							"disabled": true
+						},
+						{
+							"key": "stationName",
+							"value": "103. 망원역 2번출구 앞",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "stations/search",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8000/toyseven/stations/search?name=망",
+					"raw": "http://127.0.0.1:8000/toyseven/stations/search?name=망원역&offset=0&limit=10",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -131,7 +180,15 @@
 					"query": [
 						{
 							"key": "name",
-							"value": "망"
+							"value": "망원역"
+						},
+						{
+							"key": "offset",
+							"value": "0"
+						},
+						{
+							"key": "limit",
+							"value": "10"
 						}
 					]
 				}
@@ -187,12 +244,12 @@
 			"response": []
 		},
 		{
-			"name": "voc",
+			"name": "voc/v1",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8000/toyseven/voc?offset=0&limit=10&sort=id,desc",
+					"raw": "http://127.0.0.1:8000/toyseven/voc/v1?offset=0&limit=40&sort=createdAt,DESC",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -203,7 +260,8 @@
 					"port": "8000",
 					"path": [
 						"toyseven",
-						"voc"
+						"voc",
+						"v1"
 					],
 					"query": [
 						{
@@ -212,11 +270,69 @@
 						},
 						{
 							"key": "limit",
-							"value": "10"
+							"value": "40"
 						},
 						{
 							"key": "sort",
-							"value": "id,desc"
+							"value": "createdAt,DESC"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "voc/v2",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/toyseven/voc/v2?offset=0&limit=40&sort=createdAt,DESC&title=title 1&username=username 1&email=ymkmoon@naver.com&categoryId=고장&stationId=4",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"toyseven",
+						"voc",
+						"v2"
+					],
+					"query": [
+						{
+							"key": "offset",
+							"value": "0"
+						},
+						{
+							"key": "limit",
+							"value": "40"
+						},
+						{
+							"key": "sort",
+							"value": "createdAt,DESC"
+						},
+						{
+							"key": "title",
+							"value": "title 1"
+						},
+						{
+							"key": "username",
+							"value": "username 1"
+						},
+						{
+							"key": "email",
+							"value": "ymkmoon@naver.com"
+						},
+						{
+							"key": "categoryId",
+							"value": "고장"
+						},
+						{
+							"key": "stationId",
+							"value": "4"
 						}
 					]
 				}
@@ -233,7 +349,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJraWQiOiI1VG5rb1BwN0ZJS1NPSVhnNFY2SytNQTV2ZlV6S3cwdGp1cDRYdmw5Um9JPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiIyNzRlMGU4MS0xMjYxLTRlZWItYTM2My0yOWE5NmNhNzk1NmIiLCJjb2duaXRvOmdyb3VwcyI6WyJhcC1ub3J0aGVhc3QtMl9wNUhwSzZzNmtfR29vZ2xlIl0sImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC5hcC1ub3J0aGVhc3QtMi5hbWF6b25hd3MuY29tXC9hcC1ub3J0aGVhc3QtMl9wNUhwSzZzNmsiLCJ2ZXJzaW9uIjoyLCJjbGllbnRfaWQiOiIyb28yaTc3M2ljYjUycmQ2cTY2MDlta3JhciIsIm9yaWdpbl9qdGkiOiIwNjc0MjgzNy0xY2U2LTQxOGYtYjMyOC04MTQ5OWM5YTZiMmMiLCJ0b2tlbl91c2UiOiJhY2Nlc3MiLCJzY29wZSI6ImF3cy5jb2duaXRvLnNpZ25pbi51c2VyLmFkbWluIHBob25lIG9wZW5pZCBwcm9maWxlIGVtYWlsIiwiYXV0aF90aW1lIjoxNjcyNjM1NDM3LCJleHAiOjE2NzI2MzkwODUsImlhdCI6MTY3MjYzNTQ4NSwianRpIjoiOTkxY2FmMmItZGEwMC00MDk4LWJmOGQtYjIzNTA5NmNhODAxIiwidXNlcm5hbWUiOiJnb29nbGVfMTA0NzU2Nzk4NDY3Nzg0NzQxODE3In0.RK-NPG4x_ONY2WUrYrkCGPIz7IwmTD9Y0kos9PcD-x2MBqrxoLGY17asi7pT7dJGBg7pi-T6vKGixtphtYqzG7L5woB_9ivd5Dcp0Uf4uTedeO5AOV7bsGOe94v97C_9gQIHpqb2MlO2GLx6jsSE6gJPz-5bcO8zJ0NFyLLbYFEz9brpLC3Qv2vYSf1VaBMQ_vXJD683ZtPPazl8G8inMhiZrUy9LQuXKI3bIqZiheZd28yvMBucL1fFRLplmuh9ETdM-KyOhC9dAcncGuVytTADKY4MoU9U_QINsALB1JEsQZaLervgG-6JyY00YKZAhRg89IQs4Z3PK8IBzlj5ag",
+						"value": "Bearer eyJraWQiOiI1VG5rb1BwN0ZJS1NPSVhnNFY2SytNQTV2ZlV6S3cwdGp1cDRYdmw5Um9JPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJiNDI2YzFjMS0zYzk1LTQ2MDQtYjA4NC1jYTQ5ZDM2MGQyM2YiLCJjb2duaXRvOmdyb3VwcyI6WyJhcC1ub3J0aGVhc3QtMl9wNUhwSzZzNmtfR29vZ2xlIl0sImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC5hcC1ub3J0aGVhc3QtMi5hbWF6b25hd3MuY29tXC9hcC1ub3J0aGVhc3QtMl9wNUhwSzZzNmsiLCJ2ZXJzaW9uIjoyLCJjbGllbnRfaWQiOiIyb28yaTc3M2ljYjUycmQ2cTY2MDlta3JhciIsIm9yaWdpbl9qdGkiOiI5ZDI3ZDM3MS01MTg1LTQ2NDAtOTBlZC1iOGYwYjMwZDVkNGUiLCJ0b2tlbl91c2UiOiJhY2Nlc3MiLCJzY29wZSI6ImF3cy5jb2duaXRvLnNpZ25pbi51c2VyLmFkbWluIHBob25lIG9wZW5pZCBwcm9maWxlIGVtYWlsIiwiYXV0aF90aW1lIjoxNjU5MzE0NjA0LCJleHAiOjE2NzMzMzg0NTEsImlhdCI6MTY3MzMzNDg1MiwianRpIjoiNmI0OWM2NDMtOTFiMS00MjJlLWExNWEtNDgzNjY4NmU2OWZjIiwidXNlcm5hbWUiOiJnb29nbGVfMTE3ODA5NTkwNTI3MzQyNzc5MzU0In0.hgwLaawpLihLB9R4BSz7bAYNvJbGqR-bcIt8xutZcOy2IeJ6pqwV7ZkUl30ZbBw7cAnJzTJBnGdnlzplKf1I8lwV4SFLQXj94m019Fh-2bCZZIqCFvccClAemWG7_bsUnGFTELA-6qLat54caUNjxRNc4uZ6VIlCpi8abAKTQsuUtFVW17dpapNy1RuGhI2yAL_RF_5Dz2v3qH8mIbCh32GTQruQafFNOa3zuHQ4vplYEoPfyO3UEIHR8DmKMt_AZB2HQqbJULeVRsX1I5snUux-D3idhaaWBaC5Ui9QmIc_U_xGXaxTWppVOGZE_WbLON564O1SnXnpiBOuXR8GUA",
 						"type": "text"
 					}
 				],
