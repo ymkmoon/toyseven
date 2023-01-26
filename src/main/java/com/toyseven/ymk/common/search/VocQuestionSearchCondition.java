@@ -11,10 +11,10 @@ import lombok.Setter;
 @Getter
 public class VocQuestionSearchCondition {
 	
-	// 추 후 updatedAt 추가
 	private String categoryId;
     private String title;
     private String username;
     private String email;
     private String stationId;
+    private Boolean active;
 }

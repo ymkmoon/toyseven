@@ -51,7 +51,7 @@ public class VocController {
 		return new ResponseEntity<>(vocQuestionService.getAllVocQuestions(pageable), HttpStatus.OK);
 	}
 	
-	// http://127.0.0.1:8000/toyseven/voc/v2?offset=0&limit=40&sort=createdAt,DESC&title=title 1&username=username 1&email=ymkmoon@naver.com&categoryId=고장&stationId=4
+	// http://127.0.0.1:8000/toyseven/voc/v2?offset=0&limit=40&title=title 1&username=username 1&email=ymkmoon@naver.com&categoryId=고장&stationId=4&active=true
 	@GetMapping("/v2")
 	public ResponseEntity<Page<VocQuestionDto.Response>> getVocQuestionsVer2(
 			VocQuestionSearchCondition condition,

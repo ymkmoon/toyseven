@@ -57,11 +57,13 @@ public class VocQuestionRepositoryCustom {
 					titleEq(condition.getTitle()),
 					usernameEq(condition.getUsername()),
 					emailEq(condition.getEmail()),
-					categoryIdEq(condition.getCategoryId())
+					categoryIdEq(condition.getCategoryId()),
+					activeEq(condition.getActive())
 				)
     			.offset(pageable.getOffset())
     			.limit(pageable.getPageSize())
     			.orderBy(orders.stream().toArray(OrderSpecifier[]::new))
+//                .orderBy(question.updatedAt.desc())
     			.fetchResults();
         
     	List<VocQuestionDto.Response> content = result.getResults();
@@ -90,6 +92,10 @@ public class VocQuestionRepositoryCustom {
 	
 	private BooleanExpression stationIdEq(final String stationId) { 
         return StringUtils.hasText(stationId) ? question.stationId.stationId.eq(stationId) : null;
+    }
+	
+	private BooleanExpression activeEq(final Boolean active) { 
+        return (active != null) ? question.active.eq(active) : null;
     }
 	
 	private List<OrderSpecifier<?>> getAllOrderSpecifiers() {
