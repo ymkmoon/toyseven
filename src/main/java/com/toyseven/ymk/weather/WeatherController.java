@@ -20,7 +20,7 @@ public class WeatherController {
     private final FineDustService fineDustService;
 
     @GetMapping(value = "/weather")
-    public ResponseEntity<WeatherDto.Response> getWeatherInfo(WeatherDto.Request weatherRequest) throws Exception {
+    public ResponseEntity<WeatherDto.Response> getWeatherInfo(WeatherDto.Request weatherRequest) {
         String fineDust = fineDustService.getFineDustInfo(weatherRequest);
 //        JSONObject weather = temperatureService.getTemperature(weatherRequest);
         JSONObject weather = new JSONObject();
