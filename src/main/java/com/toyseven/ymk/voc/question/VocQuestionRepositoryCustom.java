@@ -27,11 +27,11 @@ import lombok.RequiredArgsConstructor;
 public class VocQuestionRepositoryCustom {
 	
 	private final JPAQueryFactory queryFactory;
-	private final QVocQuestionEntity question = QVocQuestionEntity.vocQuestionEntity;
+	private static final QVocQuestionEntity question = QVocQuestionEntity.vocQuestionEntity;
 	
 	public Page<VocQuestionDto.Response> searchVocQuestion(final VocQuestionSearchCondition condition, final Pageable pageable) {
 		
-		List<OrderSpecifier<?>> orders = getAllOrderSpecifiers(pageable);
+		List<OrderSpecifier<?>> orders = getAllOrderSpecifiers();
 		
     	QueryResults<VocQuestionDto.Response> result = queryFactory
     			.select(
@@ -57,11 +57,13 @@ public class VocQuestionRepositoryCustom {
 					titleEq(condition.getTitle()),
 					usernameEq(condition.getUsername()),
 					emailEq(condition.getEmail()),
-					categoryIdEq(condition.getCategoryId())
+					categoryIdEq(condition.getCategoryId()),
+					activeEq(condition.getActive())
 				)
     			.offset(pageable.getOffset())
     			.limit(pageable.getPageSize())
     			.orderBy(orders.stream().toArray(OrderSpecifier[]::new))
+//                .orderBy(question.updatedAt.desc())
     			.fetchResults();
         
     	List<VocQuestionDto.Response> content = result.getResults();
@@ -92,7 +94,11 @@ public class VocQuestionRepositoryCustom {
         return StringUtils.hasText(stationId) ? question.stationId.stationId.eq(stationId) : null;
     }
 	
-	private List<OrderSpecifier<?>> getAllOrderSpecifiers(Pageable pageable) {
+	private BooleanExpression activeEq(final Boolean active) { 
+        return (active != null) ? question.active.eq(active) : null;
+    }
+	
+	private List<OrderSpecifier<?>> getAllOrderSpecifiers() {
         List<OrderSpecifier<?>> orders = new ArrayList<>();
         OrderSpecifier<?> updatedAt = QuerydslUtil.getSortedColumn(Order.DESC, question, "updatedAt");
         orders.add(updatedAt);
