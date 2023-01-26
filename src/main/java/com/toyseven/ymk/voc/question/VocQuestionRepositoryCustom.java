@@ -1,5 +1,6 @@
 package com.toyseven.ymk.voc.question;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -9,12 +10,15 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.querydsl.core.QueryResults;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.toyseven.ymk.common.dto.QVocQuestionDto_Response;
 import com.toyseven.ymk.common.dto.VocQuestionDto;
 import com.toyseven.ymk.common.model.entity.QVocQuestionEntity;
 import com.toyseven.ymk.common.search.VocQuestionSearchCondition;
+import com.toyseven.ymk.common.util.QuerydslUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,6 +30,9 @@ public class VocQuestionRepositoryCustom {
 	private final QVocQuestionEntity question = QVocQuestionEntity.vocQuestionEntity;
 	
 	public Page<VocQuestionDto.Response> searchVocQuestion(final VocQuestionSearchCondition condition, final Pageable pageable) {
+		
+		List<OrderSpecifier<?>> orders = getAllOrderSpecifiers(pageable);
+		
     	QueryResults<VocQuestionDto.Response> result = queryFactory
     			.select(
 					new QVocQuestionDto_Response(
@@ -54,7 +61,7 @@ public class VocQuestionRepositoryCustom {
 				)
     			.offset(pageable.getOffset())
     			.limit(pageable.getPageSize())
-    			.orderBy(question.updatedAt.desc())
+    			.orderBy(orders.stream().toArray(OrderSpecifier[]::new))
     			.fetchResults();
         
     	List<VocQuestionDto.Response> content = result.getResults();
@@ -83,6 +90,13 @@ public class VocQuestionRepositoryCustom {
 	
 	private BooleanExpression stationIdEq(final String stationId) { 
         return StringUtils.hasText(stationId) ? question.stationId.stationId.eq(stationId) : null;
+    }
+	
+	private List<OrderSpecifier<?>> getAllOrderSpecifiers(Pageable pageable) {
+        List<OrderSpecifier<?>> orders = new ArrayList<>();
+        OrderSpecifier<?> updatedAt = QuerydslUtil.getSortedColumn(Order.DESC, question, "updatedAt");
+        orders.add(updatedAt);
+        return orders;
     }
 	
 
