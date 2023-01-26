@@ -54,6 +54,7 @@ public class VocQuestionRepositoryCustom {
 				)
     			.offset(pageable.getOffset())
     			.limit(pageable.getPageSize())
+    			.orderBy(question.updatedAt.desc())
     			.fetchResults();
         
     	List<VocQuestionDto.Response> content = result.getResults();
