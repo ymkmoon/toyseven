@@ -56,9 +56,8 @@ public class VocController {
 	public ResponseEntity<Page<VocQuestionDto.Response>> getVocQuestionsVer2(
 			VocQuestionSearchCondition condition,
 			@RequestParam(name="offset") @NotNull long offset,
-    		@RequestParam(name="limit") @NotNull int limit,
-    		Sort sort) {
-		Pageable pageable = new OffsetBasedPageRequest(offset, limit, sort);
+    		@RequestParam(name="limit") @NotNull int limit) {
+		Pageable pageable = new OffsetBasedPageRequest(offset, limit);
 		return new ResponseEntity<>(vocQuestionService.getVocQuestionsSearchable(pageable, condition), HttpStatus.OK);
 	}
 	
