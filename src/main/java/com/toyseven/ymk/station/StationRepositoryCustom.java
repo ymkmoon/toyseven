@@ -32,7 +32,7 @@ public class StationRepositoryCustom {
 	
 	public Page<StationInformationDto.Response> searchStations(final StationSearchCondition condition, final Pageable pageable) {
 		
-		List<OrderSpecifier<?>> ORDERS = getAllOrderSpecifiers(pageable);
+		List<OrderSpecifier<?>> orders = getAllOrderSpecifiers(pageable);
 		
     	QueryResults<StationInformationDto.Response> result = queryFactory
     			.select(
@@ -53,7 +53,7 @@ public class StationRepositoryCustom {
 				)
 //    			.offset(pageable.getOffset())
     			.limit(pageable.getPageSize())
-    			.orderBy(ORDERS.stream().toArray(OrderSpecifier[]::new))
+    			.orderBy(orders.stream().toArray(OrderSpecifier[]::new))
     			.fetchResults();
         
     	List<StationInformationDto.Response> content = result.getResults();
@@ -73,7 +73,7 @@ public class StationRepositoryCustom {
 	}
 	
 	 private List<OrderSpecifier<?>> getAllOrderSpecifiers(Pageable pageable) {
-        List<OrderSpecifier<?>> ORDERS = new ArrayList<>();
+        List<OrderSpecifier<?>> orders = new ArrayList<>();
 
         if (!pageable.getSort().isEmpty()) {
             for (Sort.Order order : pageable.getSort()) {
@@ -82,7 +82,7 @@ public class StationRepositoryCustom {
                 switch (order.getProperty()) {
                     case "stationId":
                         OrderSpecifier<?> stationId = QuerydslUtil.getSortedColumn(direction, station, "stationId");
-                        ORDERS.add(stationId);
+                        orders.add(stationId);
                         break;
                     default:
                         break;
@@ -90,7 +90,7 @@ public class StationRepositoryCustom {
             }
         }
 
-        return ORDERS;
+        return orders;
     }
 
 }
