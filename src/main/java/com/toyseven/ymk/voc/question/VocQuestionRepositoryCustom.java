@@ -31,7 +31,7 @@ public class VocQuestionRepositoryCustom {
 	
 	public Page<VocQuestionDto.Response> searchVocQuestion(final VocQuestionSearchCondition condition, final Pageable pageable) {
 		
-		List<OrderSpecifier<?>> orders = getAllOrderSpecifiers(pageable);
+		List<OrderSpecifier<?>> orders = getAllOrderSpecifiers();
 		
     	QueryResults<VocQuestionDto.Response> result = queryFactory
     			.select(
@@ -92,7 +92,7 @@ public class VocQuestionRepositoryCustom {
         return StringUtils.hasText(stationId) ? question.stationId.stationId.eq(stationId) : null;
     }
 	
-	private List<OrderSpecifier<?>> getAllOrderSpecifiers(Pageable pageable) {
+	private List<OrderSpecifier<?>> getAllOrderSpecifiers() {
         List<OrderSpecifier<?>> orders = new ArrayList<>();
         OrderSpecifier<?> updatedAt = QuerydslUtil.getSortedColumn(Order.DESC, question, "updatedAt");
         orders.add(updatedAt);
