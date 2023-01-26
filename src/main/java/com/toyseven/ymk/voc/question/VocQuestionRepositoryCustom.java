@@ -27,7 +27,7 @@ import lombok.RequiredArgsConstructor;
 public class VocQuestionRepositoryCustom {
 	
 	private final JPAQueryFactory queryFactory;
-	private final QVocQuestionEntity question = QVocQuestionEntity.vocQuestionEntity;
+	private static final QVocQuestionEntity question = QVocQuestionEntity.vocQuestionEntity;
 	
 	public Page<VocQuestionDto.Response> searchVocQuestion(final VocQuestionSearchCondition condition, final Pageable pageable) {
 		

@@ -28,7 +28,7 @@ import lombok.RequiredArgsConstructor;
 public class StationRepositoryCustom {
 	
 	private final JPAQueryFactory queryFactory;
-	private final QStationInformationEntity station = QStationInformationEntity.stationInformationEntity;
+	private static final QStationInformationEntity station = QStationInformationEntity.stationInformationEntity;
 	
 	public Page<StationInformationDto.Response> searchStations(final StationSearchCondition condition, final Pageable pageable) {
 		
