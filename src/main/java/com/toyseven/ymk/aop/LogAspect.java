@@ -33,8 +33,7 @@ public class LogAspect {
     	// HttpSession session = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest().getSession();
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     	logger.info("Answered by {}", auth.getName());
-    	Object result = pjp.proceed();
-    	return result;
+    	return pjp.proceed();
     }
     
     @Pointcut("@annotation(org.springframework.web.bind.annotation.GetMapping)")

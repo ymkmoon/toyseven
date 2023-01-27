@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
@@ -49,5 +50,9 @@ public class ToysevenCommonUtil {
 		} catch (IOException | ParseException e) {
 			throw new RuntimeException(e);
 		}
+	}
+	
+	public static boolean isNotNullOrEmptyMap(Map <? , ?> map) {
+	    return !(map == null || map.isEmpty()); // this method defined below
 	}
 }
