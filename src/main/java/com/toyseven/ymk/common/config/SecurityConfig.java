@@ -21,6 +21,7 @@ import org.springframework.web.cors.CorsConfiguration;
 
 import com.toyseven.ymk.common.error.exception.JwtAccessDeniedHandler;
 import com.toyseven.ymk.common.error.exception.JwtAuthenticationEntryPoint;
+import com.toyseven.ymk.common.filter.DefaultRequestFilter;
 import com.toyseven.ymk.common.filter.JwtRequestFilter;
 import com.toyseven.ymk.common.filter.OAuth2RequestFilter;
 
@@ -131,7 +132,10 @@ public class SecurityConfig {
 	@Configuration
 	@Order(3)
 	@PropertySource(value = "classpath:application.yml")
+	@RequiredArgsConstructor
 	public class DefaultSecurityConfig {
+		
+		private final DefaultRequestFilter defaultRequestFilter;
 		
 		@Bean
 		protected SecurityFilterChain defaultFilterChain(HttpSecurity http) throws Exception {
@@ -151,6 +155,8 @@ public class SecurityConfig {
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // 토큰 기반 인증이므로 세션 사용 x
 			http.httpBasic().disable()
 				.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
+//			http.addFilter(defaultRequestFilter);
+			http.addFilterBefore(defaultRequestFilter, UsernamePasswordAuthenticationFilter.class);
 			
 			return http.build();
 		}
