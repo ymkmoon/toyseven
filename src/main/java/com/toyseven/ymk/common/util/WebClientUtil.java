@@ -7,7 +7,7 @@ import org.springframework.web.util.DefaultUriBuilderFactory.EncodingMode;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
-public class WebClientUtil {
+public final class WebClientUtil {
 	
 	public static WebClient buildWebClient(String baseUrl, EncodingMode encodingMode) {
 		DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory(baseUrl);

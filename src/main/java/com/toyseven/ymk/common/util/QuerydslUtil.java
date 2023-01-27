@@ -8,7 +8,7 @@ import com.querydsl.core.types.dsl.Expressions;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
-public class QuerydslUtil {
+public final class QuerydslUtil {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static OrderSpecifier<?> getSortedColumn(Order order, Path<?> parent, String fieldName) {

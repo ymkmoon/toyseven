@@ -12,7 +12,7 @@ import org.json.simple.JSONObject;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
-public class DataParsingUtil {
+public final class DataParsingUtil {
 
 	public static Map<String, Object> toMap(JSONObject jsonobj)  {
 		Map<String, Object> map = new HashMap<String, Object>();
