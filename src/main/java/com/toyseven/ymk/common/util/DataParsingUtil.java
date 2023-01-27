@@ -9,7 +9,9 @@ import java.util.Map;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class DataParsingUtil {
 
 	public static Map<String, Object> toMap(JSONObject jsonobj)  {
