@@ -1,5 +1,11 @@
 package com.toyseven.ymk.aop;
 
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -11,6 +17,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import com.google.common.base.Joiner;
 
 import lombok.RequiredArgsConstructor;
 
@@ -69,8 +79,14 @@ public class LogAspect {
 
 	@Around("getMapping()")
 	public Object aroundGet(ProceedingJoinPoint pjp) throws Throwable {
+		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+		Map<String, String[]> paramMap = request.getParameterMap();
+		if (logger.isInfoEnabled() && !paramMap.isEmpty()) {
+			logger.info("[ {} ]", DataParsingUtil.paramMapToString(paramMap));
+		}
 		return around(pjp);
 	}
+	
 	@Around("postMapping()")
 	public Object aroundPost(ProceedingJoinPoint pjp) throws Throwable {
 		return around(pjp);

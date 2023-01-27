@@ -5,9 +5,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+
+import com.google.common.base.Joiner;
 
 import lombok.experimental.UtilityClass;
 
@@ -44,4 +47,9 @@ public final class DataParsingUtil {
 		}   return list;
 	}
 	
+	public static String paramMapToString(Map<String, String[]> paramMap) {
+	    return paramMap.entrySet().stream()
+	    		.map(entry -> String.format("%s -> (%s)",entry.getKey(), Joiner.on(",").join(entry.getValue())))
+	    		.collect(Collectors.joining(", "));
+	}
 }
