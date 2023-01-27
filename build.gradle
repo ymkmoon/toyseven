@@ -64,6 +64,10 @@ dependencies {
 	
 	implementation "com.querydsl:querydsl-jpa" // Querydsl
 	implementation "com.querydsl:querydsl-apt" // Querydsl
+	
+	// https://mvnrepository.com/artifact/commons-io/commons-io
+	implementation 'commons-io:commons-io:2.6'
+	
 }
 
 def querydslDir = "src/main/generated/queryDsl" // Querydsl

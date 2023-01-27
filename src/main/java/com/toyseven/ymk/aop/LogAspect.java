@@ -1,11 +1,10 @@
 package com.toyseven.ymk.aop;
 
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.IOUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -20,7 +19,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.google.common.base.Joiner;
+import com.toyseven.ymk.common.util.DataParsingUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -89,6 +88,10 @@ public class LogAspect {
 	
 	@Around("postMapping()")
 	public Object aroundPost(ProceedingJoinPoint pjp) throws Throwable {
+		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+		if (logger.isInfoEnabled()) {
+			logger.info("[ {} ]", IOUtils.toString(request.getReader()));
+		}
 		return around(pjp);
 	}
 	@Around("requestMapping()")

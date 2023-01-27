@@ -20,6 +20,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.toyseven.ymk.common.ReadableRequestWrapper;
 import com.toyseven.ymk.common.ResponseEntityComponent;
 import com.toyseven.ymk.common.error.ErrorCode;
 import com.toyseven.ymk.common.error.ErrorResponse;
@@ -61,7 +62,8 @@ public class OAuth2RequestFilter extends OncePerRequestFilter {
 			return;
 		}
 		
-        chain.doFilter(request, response);
+		ReadableRequestWrapper wrapper = new ReadableRequestWrapper(request);
+        chain.doFilter(wrapper, response);
     }
     
     /**

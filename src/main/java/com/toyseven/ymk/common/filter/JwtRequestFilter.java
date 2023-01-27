@@ -22,6 +22,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.toyseven.ymk.common.ReadableRequestWrapper;
 import com.toyseven.ymk.common.error.ErrorCode;
 import com.toyseven.ymk.common.error.ErrorResponse;
 import com.toyseven.ymk.common.util.JwtUtil;
@@ -73,7 +74,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     		failResponse(response, ErrorCode.FAIL_AUTHORIZED);
     		return;
     	}
-        chain.doFilter(request, response);
+        
+        ReadableRequestWrapper wrapper = new ReadableRequestWrapper(request);
+        chain.doFilter(wrapper, response);
     }
     
     /**
