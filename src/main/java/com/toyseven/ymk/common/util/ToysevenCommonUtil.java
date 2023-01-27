@@ -31,7 +31,8 @@ public final class ToysevenCommonUtil {
 		return response != null && response.getStatusCode().is2xxSuccessful();
 	}
 	
-	private static final Path DATA_PATH = Paths.get("src/main/java/com/toyseven/ymk/data");
+//	private static final Path DATA_PATH = Paths.get("src/main/java/com/toyseven/ymk/data");
+	private static final Path DATA_PATH = Paths.get("src/main/resources");
 
 	public static List<StationInformationEntity> getStationsFromJsonArrayFile(String fileName) {
 		JSONArray stationArray = (JSONArray)readJsonFile(fileName);
