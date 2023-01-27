@@ -18,7 +18,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
-public class JwtUtil {
+public final class JwtUtil {
 
 	public String getUsernameFromAccessToken(String token) {
 		return getCustomClaimFromAccessToken(token, "username");
