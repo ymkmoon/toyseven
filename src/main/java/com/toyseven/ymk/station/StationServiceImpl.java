@@ -21,6 +21,7 @@ import com.toyseven.ymk.common.dto.StationInformationDto;
 import com.toyseven.ymk.common.error.ErrorCode;
 import com.toyseven.ymk.common.model.entity.StationInformationEntity;
 import com.toyseven.ymk.common.search.StationSearchCondition;
+import com.toyseven.ymk.common.util.DataParsingUtil;
 import com.toyseven.ymk.common.util.ToysevenCommonUtil;
 import com.toyseven.ymk.common.util.WebClientUtil;
 
@@ -84,19 +85,22 @@ public class StationServiceImpl implements StationService {
         ResponseEntity<JSONObject> response = responseEntityComponent.stationApi(wc, stationRequest);
         if(!ToysevenCommonUtil.isSuccessResponse(response))
         	return row;
+        
+        Map<String, Object> vehicleStatus = (Map<String, Object>)DataParsingUtil.toMap(response.getBody()).get("rentBikeStatus");
 
-        Map<String, Object> responseData = (Map<String, Object>)response.getBody().get("getStationOpenApiJson");
-        String listTotalCount = responseData != null ? responseData.entrySet().stream()
-        		.filter(station -> station.getKey().equals("list_total_count"))
-        		.map(station -> station.getValue().toString())
-        		.findFirst()
-        		.orElse("0") : "0";
+        String listTotalCount = ToysevenCommonUtil.isNotNullOrEmptyMap(vehicleStatus) ? 
+        		vehicleStatus.entrySet().stream()
+        		.filter(vehicle -> vehicle.getKey().equals("list_total_count"))
+        		.map(vehicle -> vehicle.getValue().toString())
+        		.findFirst().orElse("0") 
+        		: "0";
         
         if(!listTotalCount.equals("0")) 
-        	row.addAll((List<StationInformationEntity>)responseData.get("row"));
+        	row.addAll((List<StationInformationEntity>)vehicleStatus.get("row"));
         
-        if(index < 2001)
+        if(index < 3001)
         	row.addAll(requestToStation(index+1000));
+        
         return row;
     }
     
