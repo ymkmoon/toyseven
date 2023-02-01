@@ -60,6 +60,11 @@ public class LogAspect {
 		logger.info("Pointcut RequestMapping(): begin");
 		logger.info("Pointcut RequestMapping(): end");
 	}
+	@Pointcut("@annotation(org.springframework.web.bind.annotation.PatchMapping)")
+	public void patchMapping() {
+		logger.info("Pointcut RequestMapping(): begin");
+		logger.info("Pointcut RequestMapping(): end");
+	}
     
 	
 	@Before("getMapping()") 
@@ -72,6 +77,10 @@ public class LogAspect {
 	}
 	@Before("requestMapping()") 
 	public void beforeRequestMethod(JoinPoint pjp) { 
+		before(pjp);
+	}
+	@Before("patchMapping()") 
+	public void beforePatchMethod(JoinPoint pjp) { 
 		before(pjp);
 	}
 	
@@ -94,8 +103,18 @@ public class LogAspect {
 		}
 		return around(pjp);
 	}
+	
 	@Around("requestMapping()")
 	public Object aroundRequest(ProceedingJoinPoint pjp) throws Throwable {
+		return around(pjp);
+	}
+	
+	@Around("patchMapping()")
+	public Object aroundPatch(ProceedingJoinPoint pjp) throws Throwable {
+		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+		if (logger.isInfoEnabled()) {
+			logger.info("RequestBody : [ {} ]", IOUtils.toString(request.getReader()));
+		}
 		return around(pjp);
 	}
 	
