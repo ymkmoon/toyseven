@@ -81,7 +81,7 @@ public class LogAspect {
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
 		Map<String, String[]> paramMap = request.getParameterMap();
 		if (logger.isInfoEnabled() && !paramMap.isEmpty()) {
-			logger.info("[ {} ]", DataParsingUtil.paramMapToString(paramMap));
+			logger.info("Parameter : [ {} ]", DataParsingUtil.paramMapToString(paramMap));
 		}
 		return around(pjp);
 	}
@@ -90,7 +90,7 @@ public class LogAspect {
 	public Object aroundPost(ProceedingJoinPoint pjp) throws Throwable {
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
 		if (logger.isInfoEnabled()) {
-			logger.info("[ {} ]", IOUtils.toString(request.getReader()));
+			logger.info("RequestBody : [ {} ]", IOUtils.toString(request.getReader()));
 		}
 		return around(pjp);
 	}
