@@ -60,6 +60,11 @@ public class LogAspect {
 		logger.info("Pointcut RequestMapping(): begin");
 		logger.info("Pointcut RequestMapping(): end");
 	}
+	@Pointcut("@annotation(org.springframework.web.bind.annotation.PatchMapping)")
+	public void patchMapping() {
+		logger.info("Pointcut RequestMapping(): begin");
+		logger.info("Pointcut RequestMapping(): end");
+	}
     
 	
 	@Before("getMapping()") 
@@ -74,6 +79,10 @@ public class LogAspect {
 	public void beforeRequestMethod(JoinPoint pjp) { 
 		before(pjp);
 	}
+	@Before("patchMapping()") 
+	public void beforePatchMethod(JoinPoint pjp) { 
+		before(pjp);
+	}
 	
 
 	@Around("getMapping()")
@@ -81,7 +90,7 @@ public class LogAspect {
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
 		Map<String, String[]> paramMap = request.getParameterMap();
 		if (logger.isInfoEnabled() && !paramMap.isEmpty()) {
-			logger.info("[ {} ]", DataParsingUtil.paramMapToString(paramMap));
+			logger.info("Parameter : [ {} ]", DataParsingUtil.paramMapToString(paramMap));
 		}
 		return around(pjp);
 	}
@@ -90,12 +99,22 @@ public class LogAspect {
 	public Object aroundPost(ProceedingJoinPoint pjp) throws Throwable {
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
 		if (logger.isInfoEnabled()) {
-			logger.info("[ {} ]", IOUtils.toString(request.getReader()));
+			logger.info("RequestBody : [ {} ]", IOUtils.toString(request.getReader()));
 		}
 		return around(pjp);
 	}
+	
 	@Around("requestMapping()")
 	public Object aroundRequest(ProceedingJoinPoint pjp) throws Throwable {
+		return around(pjp);
+	}
+	
+	@Around("patchMapping()")
+	public Object aroundPatch(ProceedingJoinPoint pjp) throws Throwable {
+		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+		if (logger.isInfoEnabled()) {
+			logger.info("RequestBody : [ {} ]", IOUtils.toString(request.getReader()));
+		}
 		return around(pjp);
 	}
 	
