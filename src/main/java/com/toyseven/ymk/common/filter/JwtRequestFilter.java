@@ -43,7 +43,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     private static final List<String> INCLUDE_URL =
             Collections.unmodifiableList(
                     Arrays.asList(
-                        "/voc/answer"
+                        "/voc/answer",
+                        "/actuator",
+                        "/actuator/health"
                     ));
 
     @Override

@@ -58,9 +58,12 @@ public class SecurityConfig {
 			
 			http
 				.antMatcher("/voc/answer")
+				.antMatcher("/actuator/**")
 				.authorizeRequests()
 				.antMatchers(HttpMethod.POST, "/voc/answer").hasAnyRole("ADMIN", "ADMIN2")
+				.antMatchers("/actuator/**").hasAnyRole("ADMIN", "SYSTEM")
 				.and().cors();
+			
 			http.csrf().disable(); 
 	    	http.headers()
 	    		.frameOptions().sameOrigin(); 
@@ -98,12 +101,14 @@ public class SecurityConfig {
 		@Bean
 		protected SecurityFilterChain userFilterChain(HttpSecurity http) throws Exception {
 			http
-            	.authorizeRequests()
-	            .antMatchers(HttpMethod.POST, "/voc/question")
-                .authenticated()
-                .and()
-                .cors() // cross-origin
-                .and()
+				.antMatcher("/voc/question")
+				.antMatcher("/cognito/payload/**")
+	        	.authorizeRequests()
+	        	.antMatchers(HttpMethod.POST, "/voc/question").authenticated()
+	        	.antMatchers(HttpMethod.PATCH, "/voc/question").authenticated()
+	        	.antMatchers(HttpMethod.GET, "/cognito/payload/**").authenticated()
+	            .and().cors() // cross-origin
+	            .and()
 				.oauth2ResourceServer()
 					.authenticationEntryPoint(jwtAuthenticationEntryPoint)
 					.accessDeniedHandler(jwtAccessDeniedHandler)
@@ -141,9 +146,8 @@ public class SecurityConfig {
 		protected SecurityFilterChain defaultFilterChain(HttpSecurity http) throws Exception {
 			http
             	.authorizeRequests()
-	            .antMatchers("/**/**")
-	            	.permitAll()
-                .anyRequest().authenticated()
+	            .antMatchers("/**/**").permitAll()
+                .anyRequest().permitAll()
                 .and()
                 .cors() // cross-origin
                 .and();
