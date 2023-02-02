@@ -11,8 +11,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -42,7 +49,8 @@ public class OAuth2RequestFilter extends OncePerRequestFilter {
     private static final List<String> INCLUDE_URL =
             Collections.unmodifiableList(
                     Arrays.asList(
-                        "/voc/question"
+                        "/voc/question", 
+                        "/cognito/payload/sub"
                     ));
 
     @Override
@@ -56,7 +64,13 @@ public class OAuth2RequestFilter extends OncePerRequestFilter {
 				.baseUrl(ISSUER_URI).build();
 		
 		try {
-			responseEntityComponent.cognitoGetUserInfo(wc, accessToken);
+			ResponseEntity<JSONObject> cognitoResponse = responseEntityComponent.cognitoGetUserInfo(wc, accessToken);
+			String username = cognitoResponse.getBody().get("sub").toString();
+			UserDetails userDetails = User.builder().username(username).password("").roles("USER").build();
+			UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+					userDetails, null, userDetails.getAuthorities());
+			usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+			SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 		} catch(Exception e) {
 			failResponse(response, ErrorCode.FAIL_COGNITO_GET_USERINFO);
 			return;

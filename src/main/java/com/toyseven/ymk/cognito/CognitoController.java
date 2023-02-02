@@ -1,11 +1,11 @@
 package com.toyseven.ymk.cognito;
 
-import java.security.Principal;
-
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,8 +24,9 @@ public class CognitoController {
 	private final CognitoService cognitoService;
 
 	@GetMapping("/payload/sub")
-	public ResponseEntity<String> message(Principal principal) {
-		return new ResponseEntity<>(principal.getName(), HttpStatus.OK);
+	public ResponseEntity<String> message() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		return new ResponseEntity<>(auth.getName(), HttpStatus.OK);
 	}
 	
 	@PostMapping("/refresh")
