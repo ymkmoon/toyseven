@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,7 +19,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -35,15 +33,11 @@ import com.toyseven.ymk.common.error.exception.BusinessException;
 
 import lombok.RequiredArgsConstructor;
 
-@Component
 @RequiredArgsConstructor
 public class OAuth2RequestFilter extends OncePerRequestFilter {
 	
 	private final ResponseEntityComponent responseEntityComponent;
-	
-	@Value("${aws.cognito.domaim}")
-	private String ISSUER_URI;
-	
+	private final String ISSUER_URI;
     private final ObjectMapper objectMapper;
     
     private static final List<String> INCLUDE_URL =

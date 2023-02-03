@@ -2,9 +2,6 @@ package com.toyseven.ymk.common.filter;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -17,7 +14,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -33,20 +29,20 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import lombok.RequiredArgsConstructor;
 
-@Component
+//@Component
 @RequiredArgsConstructor
 public class JwtRequestFilter extends OncePerRequestFilter {
 	
 	private final JwtService jwtService;
     private final ObjectMapper objectMapper;
     
-    private static final List<String> INCLUDE_URL =
-            Collections.unmodifiableList(
-                    Arrays.asList(
-                        "/voc/answer",
-                        "/actuator",
-                        "/actuator/health"
-                    ));
+//    private static final List<String> INCLUDE_URL =
+//            Collections.unmodifiableList(
+//                    Arrays.asList(
+//                        "/voc/answer"
+//                        "/actuator",
+//                        "/actuator/health"
+//                    ));
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
@@ -87,10 +83,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
      * 	false : execute doFilterInternal
      * 
      */
-    @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return INCLUDE_URL.stream().noneMatch(exclude -> exclude.equalsIgnoreCase(request.getServletPath()));
-    }
+//    @Override
+//    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+//        return INCLUDE_URL.stream().noneMatch(exclude -> exclude.equalsIgnoreCase(request.getServletPath()));
+//    }
 
     private String getAccessTokenFromRequestHeader(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
