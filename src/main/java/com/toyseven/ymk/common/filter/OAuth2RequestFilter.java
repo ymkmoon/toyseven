@@ -2,9 +2,6 @@ package com.toyseven.ymk.common.filter;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -40,12 +37,12 @@ public class OAuth2RequestFilter extends OncePerRequestFilter {
 	private final String ISSUER_URI;
     private final ObjectMapper objectMapper;
     
-    private static final List<String> INCLUDE_URL =
-            Collections.unmodifiableList(
-                    Arrays.asList(
-                        "/voc/question", 
-                        "/cognito/payload/sub"
-                    ));
+//    private static final List<String> INCLUDE_URL =
+//            Collections.unmodifiableList(
+//                    Arrays.asList(
+//                        "/voc/question", 
+//                        "/cognito/payload/sub"
+//                    ));
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
@@ -80,10 +77,10 @@ public class OAuth2RequestFilter extends OncePerRequestFilter {
      * 	false : execute doFilterInternal
      * 
      */
-    @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return INCLUDE_URL.stream().noneMatch(exclude -> exclude.equalsIgnoreCase(request.getServletPath()));
-    }
+//    @Override
+//    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+//        return INCLUDE_URL.stream().noneMatch(exclude -> exclude.equalsIgnoreCase(request.getServletPath()));
+//    }
 
     private String getAccessTokenFromRequestHeader(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
