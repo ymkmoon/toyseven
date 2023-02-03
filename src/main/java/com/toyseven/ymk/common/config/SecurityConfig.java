@@ -19,11 +19,14 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.toyseven.ymk.common.ResponseEntityComponent;
 import com.toyseven.ymk.common.error.exception.JwtAccessDeniedHandler;
 import com.toyseven.ymk.common.error.exception.JwtAuthenticationEntryPoint;
 import com.toyseven.ymk.common.filter.DefaultRequestFilter;
 import com.toyseven.ymk.common.filter.JwtRequestFilter;
 import com.toyseven.ymk.common.filter.OAuth2RequestFilter;
+import com.toyseven.ymk.jwt.JwtService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -51,15 +54,18 @@ public class SecurityConfig {
 		
 		private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 		private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
-		private final JwtRequestFilter jwtRequestFilter;
+
+		private final JwtService jwtService;
+	    private final ObjectMapper objectMapper;
 	    
 		@Bean
 		protected SecurityFilterChain adminFilterChain(HttpSecurity http) throws Exception {
-			
+
 			http
-				.antMatcher("/voc/answer")
-				.antMatcher("/actuator/**")
+				.requestMatchers().antMatchers("/voc/answer").and()
+				.requestMatchers().antMatchers("/actuator/**").and()
 				.authorizeRequests()
+//				.anyRequest().hasAnyRole("ADMIN", "SYSTEM")
 				.antMatchers(HttpMethod.POST, "/voc/answer").hasAnyRole("ADMIN", "ADMIN2")
 				.antMatchers("/actuator/**").hasAnyRole("ADMIN", "SYSTEM")
 				.and().cors();
@@ -74,7 +80,7 @@ public class SecurityConfig {
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // 토큰 기반 인증이므로 세션 사용 x
 	    	http.httpBasic().disable()
 				.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
-	    	http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+	    	http.addFilterBefore(new JwtRequestFilter(jwtService, objectMapper), UsernamePasswordAuthenticationFilter.class);
 	    	
 	    	return http.build();
 		}
@@ -96,19 +102,24 @@ public class SecurityConfig {
 		
 		private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 		private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
-		private final OAuth2RequestFilter oauth2RequestFilter;
+		
+		private final ResponseEntityComponent responseEntityComponent;
+		private final ObjectMapper objectMapper;
+		@Value("${aws.cognito.domaim}")
+		private String ISSUER_URI;
 		
 		@Bean
 		protected SecurityFilterChain userFilterChain(HttpSecurity http) throws Exception {
+			
 			http
-				.antMatcher("/voc/question")
-				.antMatcher("/cognito/payload/**")
-	        	.authorizeRequests()
-	        	.antMatchers(HttpMethod.POST, "/voc/question").authenticated()
+				.requestMatchers().antMatchers("/voc/question").and()
+				.requestMatchers().antMatchers("/cognito/payload/**").and()
+				.authorizeRequests()
+				.antMatchers(HttpMethod.POST, "/voc/question").authenticated()
 	        	.antMatchers(HttpMethod.PATCH, "/voc/question").authenticated()
 	        	.antMatchers(HttpMethod.GET, "/cognito/payload/**").authenticated()
-	            .and().cors() // cross-origin
-	            .and()
+				.and().cors()
+				.and()
 				.oauth2ResourceServer()
 					.authenticationEntryPoint(jwtAuthenticationEntryPoint)
 					.accessDeniedHandler(jwtAccessDeniedHandler)
@@ -122,7 +133,7 @@ public class SecurityConfig {
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // 토큰 기반 인증이므로 세션 사용 x
 			http.httpBasic().disable()
 				.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
-			http.addFilterBefore(oauth2RequestFilter, UsernamePasswordAuthenticationFilter.class);
+			http.addFilterBefore(new OAuth2RequestFilter(responseEntityComponent, ISSUER_URI, objectMapper), UsernamePasswordAuthenticationFilter.class);
 			
 			return http.build();
 		}
@@ -139,8 +150,6 @@ public class SecurityConfig {
 	@PropertySource(value = "classpath:application.yml")
 	@RequiredArgsConstructor
 	public class DefaultSecurityConfig {
-		
-		private final DefaultRequestFilter defaultRequestFilter;
 		
 		@Bean
 		protected SecurityFilterChain defaultFilterChain(HttpSecurity http) throws Exception {
@@ -160,7 +169,7 @@ public class SecurityConfig {
 			http.httpBasic().disable()
 				.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
 //			http.addFilter(defaultRequestFilter);
-			http.addFilterBefore(defaultRequestFilter, UsernamePasswordAuthenticationFilter.class);
+			http.addFilterBefore(new DefaultRequestFilter(), UsernamePasswordAuthenticationFilter.class);
 			
 			return http.build();
 		}
