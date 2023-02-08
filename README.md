@@ -16,7 +16,7 @@
   - test / test
 
 - ``Postman``
-  - share link : https://www.getpostman.com/collections/21f459dc75f7db465b19
+  - share link : https://api.postman.com/collections/15553250-447514e3-cd1c-4178-9b07-fb5ed00bf7c0?access_key=PMAT-01GRQD6M4FRFGDPMHSKAQGF48C
   
 - ``Admin Server``
   - https://github.com/ymkmoon/admin
