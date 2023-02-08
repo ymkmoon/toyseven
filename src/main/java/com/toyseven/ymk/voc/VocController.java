@@ -70,7 +70,7 @@ public class VocController {
 		return new ResponseEntity<>(vocQuestionService.saveVocQuestion(vocQuestionRequest, username), HttpStatus.CREATED);
 	}
 	
-	@GetMapping(value = "/search/{id}")
+	@GetMapping(value = "/{id}")
 	public ResponseEntity<Map<String, Object>> getVocQuestion(
 			@PathVariable(value = "id") Long id) {
 		Map<String, Object> voc = new HashMap<>();
