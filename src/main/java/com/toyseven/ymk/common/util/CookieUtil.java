@@ -4,7 +4,7 @@ import javax.servlet.http.Cookie;
 
 import org.springframework.stereotype.Service;
 
-import com.toyseven.ymk.common.Constants;
+import com.toyseven.ymk.common.JwtGroup;
 
 @Service
 public class CookieUtil {
@@ -14,7 +14,7 @@ public class CookieUtil {
 
         token.setHttpOnly(true);
         token.setSecure(true);
-        token.setMaxAge((int) Constants.ACCESS_TOKEN_VALIDITY);
+        token.setMaxAge((int) JwtGroup.ACCESS_TOKEN.getValidity());
         token.setPath("/");
 
         return token;
