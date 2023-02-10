@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.toyseven.ymk.common.Constants;
 import com.toyseven.ymk.common.dto.TokenDto;
 import com.toyseven.ymk.common.error.ErrorCode;
 import com.toyseven.ymk.common.error.exception.BusinessException;
@@ -38,7 +39,7 @@ public class JwtServiceImpl implements UserDetailsService, JwtService {
 
 	@Override
 	public TokenDto.RefreshResponse saveRefreshToken(TokenDto.Request token) {
-		String username = JwtUtil.getUsernameFromRefreshToken(token.getRefreshToken());
+		String username = JwtUtil.getUsernameFromToken(token.getRefreshToken(), Constants.REFRESH_TOKEN.getTitle());
 		AdminEntity admin = Optional.ofNullable(adminRepository.findAccountByUsername(username))
 				.orElseThrow(() -> new UsernameNotFoundException(ErrorCode.USER_NAME_NOT_FOUND.getDetail()));
 		
@@ -58,7 +59,7 @@ public class JwtServiceImpl implements UserDetailsService, JwtService {
 	@Override
 	public boolean validateRegistRefreshToken(TokenDto.RefreshRequest refreshRequest) {
 		String refreshToken = refreshRequest.getRefreshToken();
-		String usernameInToken = JwtUtil.getUsernameFromRefreshToken(refreshToken);
+		String usernameInToken = JwtUtil.getUsernameFromToken(refreshToken, Constants.REFRESH_TOKEN.getTitle());
 		AdminEntity admin = Optional.ofNullable(adminRepository.findAccountByUsername(usernameInToken))
 				.orElseThrow(() -> new UsernameNotFoundException(ErrorCode.USER_NAME_NOT_FOUND.getDetail()));
 		RefreshTokenEntity entity = Optional.ofNullable(refreshTokenRepository.findRefreshTokenByAdminId(admin))

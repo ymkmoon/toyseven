@@ -18,6 +18,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.toyseven.ymk.common.Constants;
 import com.toyseven.ymk.common.ReadableRequestWrapper;
 import com.toyseven.ymk.common.error.ErrorCode;
 import com.toyseven.ymk.common.error.ErrorResponse;
@@ -51,7 +52,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String accessToken = getAccessTokenFromRequestHeader(request);
         
     	try {
-    		String username = JwtUtil.getUsernameFromAccessToken(accessToken);
+    		String username = JwtUtil.getUsernameFromToken(accessToken, Constants.ACCESS_TOKEN.getTitle());
     		UserDetails userDetails = this.jwtService.loadUserByUsername(username);
     		if (Boolean.TRUE.equals(JwtUtil.validateAccessToken(accessToken, userDetails))) {
     			UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
