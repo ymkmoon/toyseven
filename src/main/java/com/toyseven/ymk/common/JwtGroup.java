@@ -12,7 +12,7 @@ public enum JwtGroup {
 
 	ACCESS_TOKEN(Constants.ACCESS_TOKEN.getTitle(), "acc_ess_tok_ens_ecr_et", Duration.ofMinutes(30).toMillis()),
 	REFRESH_TOKEN(Constants.REFRESH_TOKEN.getTitle(), "ref_res_hto_ken_sec_ret", Duration.ofDays(3).toMillis()),
-	Empty("Empry", "Empty", 0)
+	EMPTY(Constants.EMPTY.getTitle(), Constants.EMPTY.getTitle(), 0)
 	;
 	
 	private final String type;
@@ -23,7 +23,7 @@ public enum JwtGroup {
 		return Arrays.stream(JwtGroup.values())
 				.filter(token -> token.getType().equals(tokenType))
 				.findAny()
-				.orElse(Empty);
+				.orElse(EMPTY);
 	}
 	
 }

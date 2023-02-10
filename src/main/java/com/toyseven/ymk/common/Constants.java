@@ -9,7 +9,8 @@ public enum Constants {
 	
 	ACCESS_TOKEN("AccessToken"),
 	REFRESH_TOKEN("RefreshToken"),
-	USERNAME("username")
+	USERNAME("username"),
+	EMPTY("Empty")
 	;
 	
 	private final String title;
