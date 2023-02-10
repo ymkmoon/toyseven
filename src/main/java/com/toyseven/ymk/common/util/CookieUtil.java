@@ -14,7 +14,7 @@ public class CookieUtil {
 
         token.setHttpOnly(true);
         token.setSecure(true);
-        token.setMaxAge((int) Constants.ACCESS_TOKEN_VALIDITY);
+        token.setMaxAge((int) Constants.ACCESS_TOKEN.getValidity());
         token.setPath("/");
 
         return token;

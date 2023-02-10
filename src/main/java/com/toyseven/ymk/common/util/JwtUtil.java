@@ -60,11 +60,11 @@ public final class JwtUtil {
     
 
     private Claims getAllClaimsFromAccessToken(String token) {
-        return Jwts.parser().setSigningKey(Constants.ACCESS_TOKEN_SECRET).parseClaimsJws(token).getBody();
+        return Jwts.parser().setSigningKey(Constants.ACCESS_TOKEN.getSecretKey()).parseClaimsJws(token).getBody();
     }
     
     private Claims getAllClaimsFromRefreshToken(String token) {
-    	return Jwts.parser().setSigningKey(Constants.REFRESH_TOKEN_SECRET).parseClaimsJws(token).getBody();
+    	return Jwts.parser().setSigningKey(Constants.REFRESH_TOKEN.getSecretKey()).parseClaimsJws(token).getBody();
     }
 
     private Boolean isAccessTokenExpired(String token) {
@@ -96,8 +96,8 @@ public final class JwtUtil {
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()+Constants.ACCESS_TOKEN_VALIDITY))
-                .signWith(SignatureAlgorithm.HS512, Constants.ACCESS_TOKEN_SECRET)
+                .setExpiration(new Date(System.currentTimeMillis()+Constants.ACCESS_TOKEN.getValidity()))
+                .signWith(SignatureAlgorithm.HS512, Constants.ACCESS_TOKEN.getSecretKey())
                 .compact();
     }
     
@@ -105,8 +105,8 @@ public final class JwtUtil {
     	return Jwts.builder()
     			.setClaims(claims)
     			.setIssuedAt(new Date(System.currentTimeMillis()))
-    			.setExpiration(new Date(System.currentTimeMillis()+Constants.REFRESH_TOKEN_VALIDITY))
-    			.signWith(SignatureAlgorithm.HS512, Constants.REFRESH_TOKEN_SECRET)
+    			.setExpiration(new Date(System.currentTimeMillis()+Constants.REFRESH_TOKEN.getValidity()))
+    			.signWith(SignatureAlgorithm.HS512, Constants.REFRESH_TOKEN.getSecretKey())
     			.compact();
     }
 
