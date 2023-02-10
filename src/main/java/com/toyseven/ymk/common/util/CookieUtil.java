@@ -4,7 +4,7 @@ import javax.servlet.http.Cookie;
 
 import org.springframework.stereotype.Service;
 
-import com.toyseven.ymk.common.JwtGroup;
+import com.toyseven.ymk.jwt.JwtGroup;
 
 @Service
 public class CookieUtil {

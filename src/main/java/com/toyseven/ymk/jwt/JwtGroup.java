@@ -1,7 +1,9 @@
-package com.toyseven.ymk.common;
+package com.toyseven.ymk.jwt;
 
 import java.time.Duration;
 import java.util.Arrays;
+
+import com.toyseven.ymk.common.Constants;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

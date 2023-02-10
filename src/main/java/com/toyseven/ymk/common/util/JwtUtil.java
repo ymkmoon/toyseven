@@ -8,10 +8,10 @@ import java.util.function.Function;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.toyseven.ymk.common.Constants;
-import com.toyseven.ymk.common.JwtGroup;
 import com.toyseven.ymk.common.dto.TokenDto;
 import com.toyseven.ymk.common.error.ErrorCode;
 import com.toyseven.ymk.common.error.exception.BusinessException;
+import com.toyseven.ymk.jwt.JwtGroup;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
