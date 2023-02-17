@@ -73,6 +73,23 @@ class StationServiceTest {
 	}
 	
 	@Test
+	@DisplayName("Station 목록 조회 v2 성공 테스트")
+	void Should_Return_Stations_When_Find_All_V2() {
+		Page<StationInformationEntity> page = new PageImpl<>(stations);
+		List<StationInformationDto.Response> result = page.map(StationInformationEntity::toStationInformationResponse).toList();
+		Page<StationInformationDto.Response> pageToDto = new PageImpl<>(result);
+		
+		Pageable pageable = new OffsetBasedPageRequest(0, 9999);
+		StationSearchCondition condition = new StationSearchCondition();
+		condition.setStationId("ST-4");
+		condition.setStationName("102. 망원역 1번출구 앞");
+		
+		Mockito.when(customRepository.searchStations(condition, pageable)).thenReturn(pageToDto);		
+		Page<StationInformationDto.Response> response = stationServiceImpl.getStationsSearchable(pageable, condition);
+		assertThat(response.getContent(), is(not(empty())));
+	}
+	
+	@Test
 	@DisplayName("Station 검색 성공 테스트")
 	void Should_Return_Stations_When_Find_By_Station_Name_Containing() {
 		List<StationInformationEntity> stationFindByStationNameContaining = new ArrayList<>();
