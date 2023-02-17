@@ -1,5 +1,6 @@
 package com.toyseven.ymk.station;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
@@ -7,6 +8,7 @@ import static org.hamcrest.core.IsNot.not;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -25,7 +27,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toyseven.ymk.common.OffsetBasedPageRequest;
 import com.toyseven.ymk.common.ToysevenUnitTestUtil;
 import com.toyseven.ymk.common.dto.StationInformationDto;
+import com.toyseven.ymk.common.error.ErrorCode;
 import com.toyseven.ymk.common.model.entity.StationInformationEntity;
+import com.toyseven.ymk.common.search.StationSearchCondition;
 
 /**
  * @author YMK
@@ -35,6 +39,7 @@ import com.toyseven.ymk.common.model.entity.StationInformationEntity;
 class StationServiceTest {
 	
 	@Mock StationRepository stationRepository;
+	@Mock StationRepositoryCustom customRepository;
 	@Autowired ObjectMapper objectMapper;
 	@InjectMocks StationServiceImpl stationServiceImpl;
 	List<StationInformationEntity> stations;
@@ -57,11 +62,11 @@ class StationServiceTest {
 	}
 	
 	@Test
-	@DisplayName("Station 목록 조회 성공 테스트")
-	void Should_Return_Stations_When_Find_All() {
+	@DisplayName("Station 목록 조회 v1 성공 테스트")
+	void Should_Return_Stations_When_Find_All_V1() {
 		Page<StationInformationEntity> page = new PageImpl<>(stations);
-		
 		Pageable pageable = new OffsetBasedPageRequest(0, 9999);
+		
 		Mockito.when(stationRepository.findAll(pageable)).thenReturn(page);		
 		List<StationInformationDto.Response> response = stationServiceImpl.getAllStations(pageable);
 		assertThat(response, is(not(empty())));
@@ -80,6 +85,23 @@ class StationServiceTest {
 		Mockito.when(stationRepository.findByStationNameContaining(stationName, pageable)).thenReturn(page);
 		List<StationInformationDto.Response> response = stationServiceImpl.getStationByStationName(stationName, pageable);
 		assertThat(response, is(not(empty())));
+	}
+	
+	@Test
+	@DisplayName("Station 검색 실패 테스트")
+	void Should_Throws_Exception_When_Find_By_Station_Name_Containing() {
+		List<StationInformationEntity> stationFindByStationNameContaining = new ArrayList<>();
+		
+		Page<StationInformationEntity> page = new PageImpl<>(stationFindByStationNameContaining);
+		Pageable pageable = new OffsetBasedPageRequest(1, 1, null);
+		
+		String stationName = "103. 망원역 2번출구 앞";
+		Mockito.when(stationRepository.findByStationNameContaining(stationName, pageable)).thenReturn(page);
+		
+		assertThatThrownBy(() -> { 
+				stationServiceImpl.getStationByStationName(stationName, pageable); 
+		}).isInstanceOf(NoSuchElementException.class)
+		.hasMessage(ErrorCode.NO_SUCH_ELEMENT.getDetail());
 	}
 	
 //	@Test
