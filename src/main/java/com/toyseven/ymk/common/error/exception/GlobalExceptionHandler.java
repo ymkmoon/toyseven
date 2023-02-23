@@ -1,5 +1,6 @@
 package com.toyseven.ymk.common.error.exception;
 
+import java.time.format.DateTimeParseException;
 import java.util.NoSuchElementException;
 
 import javax.validation.ConstraintViolationException;
@@ -242,6 +243,16 @@ public class GlobalExceptionHandler {
     protected ResponseEntity<ErrorResponse> handleWebClientRequestException(WebClientRequestException e) {
     	log.error("handleWebClientRequestException", e);
     	return ErrorResponse.toResponseEntity(ErrorCode.WEBCLIENT_REQUEST_ERROR);
+    }
+    
+    /**
+     * Date 파싱에 실패 한 경우
+     * 	ex) yyyyMMdd 형식으로 요청이 와야하지만 다른 형식으로 왔을 때
+     */
+    @ExceptionHandler(DateTimeParseException.class)
+    protected ResponseEntity<ErrorResponse> handleDateTimeParseExceptionException(DateTimeParseException e) {
+    	log.error("handleDateTimeParseExceptionException", e);
+    	return ErrorResponse.toResponseEntity(ErrorCode.DATE_TIME_PARSING_ERROR);
     }
     
     @ExceptionHandler(Exception.class)
