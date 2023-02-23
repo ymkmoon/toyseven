@@ -1,5 +1,8 @@
 package com.toyseven.ymk.voc.question;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +17,7 @@ import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.toyseven.ymk.common.Constants;
 import com.toyseven.ymk.common.dto.QVocQuestionDto_Response;
 import com.toyseven.ymk.common.dto.VocQuestionDto;
 import com.toyseven.ymk.common.model.entity.QVocQuestionEntity;
@@ -58,7 +62,10 @@ public class VocQuestionRepositoryCustom {
 					usernameEq(condition.getUsername()),
 					emailEq(condition.getEmail()),
 					categoryIdEq(condition.getCategoryId()),
-					activeEq(condition.getActive())
+					activeEq(condition.getActive()),
+					
+					updatedAtGoe(condition.getStartAt()),
+					updatedAtLt(condition.getEndAt())
 				)
     			.offset(pageable.getOffset())
     			.limit(pageable.getPageSize())
@@ -97,6 +104,22 @@ public class VocQuestionRepositoryCustom {
 	private BooleanExpression activeEq(final Boolean active) { 
         return (active != null) ? question.active.eq(active) : null;
     }
+	
+	private BooleanExpression updatedAtGoe(final String startAt) { 
+		return (startAt != null) ? question.updatedAt.goe(stringToLocalDateTime(startAt, Constants.START_AT.getTitle())) : null;
+	}
+	
+	private BooleanExpression updatedAtLt(final String endAt) {
+		return (endAt != null) ? question.updatedAt.lt(stringToLocalDateTime(endAt, Constants.END_AT.getTitle())) : null;
+	}
+	
+	private LocalDateTime stringToLocalDateTime(String str, String type) {
+		
+		LocalDate date = LocalDate.parse(str);
+		if(type.equals(Constants.START_AT.getTitle()))
+			return date.atStartOfDay();
+		return date.atTime(LocalTime.MAX);
+	}
 	
 	private List<OrderSpecifier<?>> getAllOrderSpecifiers() {
         List<OrderSpecifier<?>> orders = new ArrayList<>();

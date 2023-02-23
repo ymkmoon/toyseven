@@ -17,4 +17,7 @@ public class VocQuestionSearchCondition {
     private String email;
     private String stationId;
     private Boolean active;
+    
+    private String startAt;
+    private String endAt;
 }
