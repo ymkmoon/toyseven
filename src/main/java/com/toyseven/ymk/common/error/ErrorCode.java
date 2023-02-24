@@ -54,7 +54,9 @@ public enum ErrorCode {
     CLASS_CAST_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "오류가 발생했습니다. 관리자에게 문의 하십시오."),
     STATION_NAME_ENCODING_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Station Name 의 값이 잘못되었습니다."),
 	WEBCLIENT_REQUEST_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Third Party 요청에 실패했습니다. 관리자에게 문의해주세요."),
-	DATE_TIME_PARSING_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Date 타입의 값이 잘못된 형식입니다. yyyy-MM-dd 형식에 맞춰주세요.")
+	DATE_TIME_PARSING_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Date 타입의 값이 잘못된 형식입니다. yyyy-MM-dd 형식에 맞춰주세요."),
+	READ_JSON_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "JSON 파일을 읽어들이는것에 실패했습니다. "),
+	JSON_PROCESSING_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "JSON 데이터를 처리(구문 분석, 생성)할 때 오류가 발생했습니다.")
 	;
 	
 	

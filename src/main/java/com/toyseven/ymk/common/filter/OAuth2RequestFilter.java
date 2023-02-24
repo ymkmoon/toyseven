@@ -88,7 +88,7 @@ public class OAuth2RequestFilter extends OncePerRequestFilter {
             return bearerToken.substring(7);
         }
 
-        throw new BusinessException(ErrorCode.FAIL_AUTHORIZED.getDetail(), ErrorCode.FAIL_AUTHORIZED);
+        throw new BusinessException(ErrorCode.FAIL_AUTHORIZED);
     }
     
     private void failResponse(HttpServletResponse response, ErrorCode errorCode) throws IOException {

@@ -87,7 +87,7 @@ public final class JwtUtil {
 //    		return doGenerateAccessToken(claims);
         	return doGenerateToken(claims, Constants.ACCESS_TOKEN.getTitle());
     	}
-    	throw new BusinessException(ErrorCode.TOKEN_EXPIRED.getDetail(), ErrorCode.TOKEN_EXPIRED);
+    	throw new BusinessException(ErrorCode.TOKEN_EXPIRED);
     }
     
 }
