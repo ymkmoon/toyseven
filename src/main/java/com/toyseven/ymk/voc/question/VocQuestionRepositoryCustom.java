@@ -74,10 +74,10 @@ public class VocQuestionRepositoryCustom {
     			.fetchResults();
         
     	List<VocQuestionDto.Response> content = result.getResults();
-//    	long total = result.getTotal();
-//    	return new PageImpl<>(content, pageable, total);
+    	long total = result.getTotal();
+    	return new PageImpl<>(content, pageable, total);
     	
-    	return new PageImpl<>(content);
+//    	return new PageImpl<>(content);
     }
 
 	// BooleanExpression으로 해야 나중에 Composition이 가능

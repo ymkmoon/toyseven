@@ -51,16 +51,16 @@ public class StationRepositoryCustom {
 					stationIdEq(condition.getStationId()),
 					stationNameEq(condition.getStationName())
 				)
-//    			.offset(pageable.getOffset())
+    			.offset(pageable.getOffset())
     			.limit(pageable.getPageSize())
     			.orderBy(orders.stream().toArray(OrderSpecifier[]::new))
     			.fetchResults();
         
     	List<StationInformationDto.Response> content = result.getResults();
-//    	long total = result.getTotal();
-//    	return new PageImpl<>(content, pageable, total);
+    	long total = result.getTotal();
+    	return new PageImpl<>(content, pageable, total);
     	
-    	return new PageImpl<>(content);
+//    	return new PageImpl<>(content);
     }
 
 	// BooleanExpression으로 해야 나중에 Composition이 가능
