@@ -10,7 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.StringUtils;
 
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Order;
@@ -23,6 +22,7 @@ import com.toyseven.ymk.common.dto.VocQuestionDto;
 import com.toyseven.ymk.common.model.entity.QVocQuestionEntity;
 import com.toyseven.ymk.common.search.VocQuestionSearchCondition;
 import com.toyseven.ymk.common.util.QuerydslUtil;
+import com.toyseven.ymk.common.util.ToysevenCommonUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -82,23 +82,23 @@ public class VocQuestionRepositoryCustom {
 
 	// BooleanExpression으로 해야 나중에 Composition이 가능
 	private BooleanExpression categoryIdEq(final String categoryId) { 
-        return StringUtils.hasText(categoryId) ? question.category.displayName.eq(categoryId) : null;
+        return ToysevenCommonUtil.hasText(categoryId) ? question.category.displayName.eq(categoryId) : null;
     }
 	
 	private BooleanExpression titleEq(final String title) { 
-		return StringUtils.hasText(title) ? question.title.eq(title) : null;
+		return ToysevenCommonUtil.hasText(title) ? question.title.eq(title) : null;
 	}
 	
 	private BooleanExpression usernameEq(final String username) { 
-		return StringUtils.hasText(username) ? question.username.eq(username) : null;
+		return ToysevenCommonUtil.hasText(username) ? question.username.eq(username) : null;
 	}
 	
 	private BooleanExpression emailEq(final String email) { 
-		return StringUtils.hasText(email) ? question.email.eq(email) : null;
+		return ToysevenCommonUtil.hasText(email) ? question.email.eq(email) : null;
 	}
 	
 	private BooleanExpression stationIdEq(final String stationId) { 
-        return StringUtils.hasText(stationId) ? question.stationId.stationId.eq(stationId) : null;
+        return ToysevenCommonUtil.hasText(stationId) ? question.stationId.stationId.eq(stationId) : null;
     }
 	
 	private BooleanExpression activeEq(final Boolean active) { 
@@ -106,11 +106,11 @@ public class VocQuestionRepositoryCustom {
     }
 	
 	private BooleanExpression updatedAtGoe(final String startAt) { 
-		return (startAt != null) ? question.updatedAt.goe(stringToLocalDateTime(startAt, Constants.START_AT.getTitle())) : null;
+		return (ToysevenCommonUtil.hasText(startAt)) ? question.updatedAt.goe(stringToLocalDateTime(startAt, Constants.START_AT.getTitle())) : null;
 	}
 	
 	private BooleanExpression updatedAtLt(final String endAt) {
-		return (endAt != null) ? question.updatedAt.lt(stringToLocalDateTime(endAt, Constants.END_AT.getTitle())) : null;
+		return (ToysevenCommonUtil.hasText(endAt)) ? question.updatedAt.lt(stringToLocalDateTime(endAt, Constants.END_AT.getTitle())) : null;
 	}
 	
 	private LocalDateTime stringToLocalDateTime(String str, String type) {

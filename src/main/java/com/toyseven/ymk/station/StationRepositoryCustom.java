@@ -8,7 +8,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.StringUtils;
 
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Order;
@@ -20,6 +19,7 @@ import com.toyseven.ymk.common.dto.StationInformationDto;
 import com.toyseven.ymk.common.model.entity.QStationInformationEntity;
 import com.toyseven.ymk.common.search.StationSearchCondition;
 import com.toyseven.ymk.common.util.QuerydslUtil;
+import com.toyseven.ymk.common.util.ToysevenCommonUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -65,11 +65,11 @@ public class StationRepositoryCustom {
 
 	// BooleanExpression으로 해야 나중에 Composition이 가능
 	private BooleanExpression stationIdEq(final String stationId) { 
-        return StringUtils.hasText(stationId) ? station.stationId.eq(stationId) : null;
+        return ToysevenCommonUtil.hasText(stationId) ? station.stationId.eq(stationId) : null;
     }
 	
 	private BooleanExpression stationNameEq(final String stationName) { 
-		return StringUtils.hasText(stationName) ? station.stationName.eq(stationName) : null;
+		return ToysevenCommonUtil.hasText(stationName) ? station.stationName.eq(stationName) : null;
 	}
 	
 	 private List<OrderSpecifier<?>> getAllOrderSpecifiers(Pageable pageable) {
