@@ -36,12 +36,12 @@ public class VocAnswerServiceImpl implements VocAnswerService {
 	@Override
 	public VocAnswerDto.Response saveVocAnswer(VocAnswerDto.Request vocAnswerRequest) {
 		VocQuestionEntity question = vocQuestionRepository.findById(vocAnswerRequest.getQuestionId())
-				.orElseThrow(() -> new BusinessException(ErrorCode.QUESTION_IS_NOT_EXIST.getDetail(), ErrorCode.QUESTION_IS_NOT_EXIST));
+				.orElseThrow(() -> new BusinessException(ErrorCode.QUESTION_IS_NOT_EXIST));
 		
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		
 		AdminEntity admin = Optional.ofNullable(adminRepository.findAccountByUsername(username))
-				.orElseThrow(() -> new BusinessException(ErrorCode.ADMIN_IS_NOT_EXIST.getDetail(), ErrorCode.ADMIN_IS_NOT_EXIST));
+				.orElseThrow(() -> new BusinessException(ErrorCode.ADMIN_IS_NOT_EXIST));
 		
 		VocAnswerEntity answer = vocAnswerRepository.save(vocAnswerRequest.toEntity(question, admin, true));
 		
@@ -50,7 +50,7 @@ public class VocAnswerServiceImpl implements VocAnswerService {
 			sqsComponent.sendMessage(queueName, vocAnswerRequest);
 //			sqsComponent.receive("testQueue");
 		} catch (JMSException e) {
-			
+			throw new BusinessException(ErrorCode.JMS_ERROR, e.getMessage());
 		}
 		
 		SimpleMailMessage message = new SimpleMailMessage();
@@ -65,7 +65,7 @@ public class VocAnswerServiceImpl implements VocAnswerService {
 	@Override
 	public List<VocAnswerDto.Response> getVocAnswerByQuestionId(Long id) {
 		VocQuestionEntity question = vocQuestionRepository.findById(id)
-				.orElseThrow(() -> new BusinessException(ErrorCode.QUESTION_IS_NOT_EXIST.getDetail(), ErrorCode.QUESTION_IS_NOT_EXIST));
+				.orElseThrow(() -> new BusinessException(ErrorCode.QUESTION_IS_NOT_EXIST));
 		List<VocAnswerEntity> answers = vocAnswerRepository.findVocAnswerByQuestionId(question);
 		return answers.stream().map(VocAnswerEntity::toVocAnswerResponse).collect(toList());
 	}
@@ -79,7 +79,7 @@ public class VocAnswerServiceImpl implements VocAnswerService {
 	@Override
 	public Response updateVocAnswer(VocAnswerDto.UpdateRequest vocAnswerUpdateRequest) {
 		VocAnswerEntity answer = vocAnswerRepository.findById(vocAnswerUpdateRequest.getId())
-				.orElseThrow(() -> new BusinessException(ErrorCode.ANSWER_IS_NOT_EXIST.getDetail(), ErrorCode.ANSWER_IS_NOT_EXIST));
+				.orElseThrow(() -> new BusinessException(ErrorCode.ANSWER_IS_NOT_EXIST));
 		
 		answer.update(vocAnswerUpdateRequest.getContent(), vocAnswerUpdateRequest.isActive());
 		

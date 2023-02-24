@@ -16,6 +16,8 @@ import org.springframework.util.StringUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.toyseven.ymk.common.error.ErrorCode;
+import com.toyseven.ymk.common.error.exception.BusinessException;
 import com.toyseven.ymk.common.model.entity.StationInformationEntity;
 
 import lombok.experimental.UtilityClass;
@@ -40,17 +42,17 @@ public final class ToysevenCommonUtil {
 		try {
 			return new ObjectMapper().readValue(stationArray.toString(), new TypeReference<List<StationInformationEntity>>() {});
 		} catch (JsonProcessingException e) {
-			throw new RuntimeException(e);
+			throw new BusinessException(ErrorCode.JSON_PROCESSING_ERROR, e.getMessage());
 		}
 	}
 	
 	public static Object readJsonFile(String fileName) {
 		try {
 			JSONParser parser = new JSONParser();
-			Path p = Paths.get(DATA_PATH.toString(), fileName);
+			Path p = Paths.get(DATA_PATH.toString(), fileName+"123");
 			return parser.parse(new FileReader(p.toString()));
 		} catch (IOException | ParseException e) {
-			throw new RuntimeException(e);
+			throw new BusinessException(ErrorCode.READ_JSON_ERROR, e.getMessage());
 		}
 	}
 	

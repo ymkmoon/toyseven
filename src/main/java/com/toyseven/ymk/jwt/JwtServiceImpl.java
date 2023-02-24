@@ -63,7 +63,7 @@ public class JwtServiceImpl implements UserDetailsService, JwtService {
 		AdminEntity admin = Optional.ofNullable(adminRepository.findAccountByUsername(usernameInToken))
 				.orElseThrow(() -> new UsernameNotFoundException(ErrorCode.USER_NAME_NOT_FOUND.getDetail()));
 		RefreshTokenEntity entity = Optional.ofNullable(refreshTokenRepository.findRefreshTokenByAdminId(admin))
-				.orElseThrow(() -> new BusinessException(ErrorCode.TOKEN_IS_NOT_AUTHORIZED.getDetail(), ErrorCode.TOKEN_IS_NOT_AUTHORIZED));
+				.orElseThrow(() -> new BusinessException(ErrorCode.TOKEN_IS_NOT_AUTHORIZED));
 		return refreshToken.equals(entity.getRefreshToken());
 	}
 	
