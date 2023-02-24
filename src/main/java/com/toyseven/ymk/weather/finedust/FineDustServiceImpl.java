@@ -64,7 +64,7 @@ public class FineDustServiceImpl implements FineDustService {
     	try {
 			request.setStationName(URLEncoder.encode(stationName, "UTF-8"));
 		} catch (final UnsupportedEncodingException e) {
-			throw new BusinessException(ErrorCode.STATION_NAME_ENCODING_ERROR.getDetail(), ErrorCode.STATION_NAME_ENCODING_ERROR);
+			throw new BusinessException(ErrorCode.STATION_NAME_ENCODING_ERROR, e.getMessage());
 		}
     	request.setPageNo(1);
         request.setNumOfRows(1);

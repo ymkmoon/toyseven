@@ -50,7 +50,7 @@ public class VocAnswerServiceImpl implements VocAnswerService {
 			sqsComponent.sendMessage(queueName, vocAnswerRequest);
 //			sqsComponent.receive("testQueue");
 		} catch (JMSException e) {
-			
+			throw new BusinessException(ErrorCode.JMS_ERROR, e.getMessage());
 		}
 		
 		SimpleMailMessage message = new SimpleMailMessage();
