@@ -11,6 +11,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -55,5 +56,9 @@ public final class ToysevenCommonUtil {
 	
 	public static boolean isNotNullOrEmptyMap(Map <? , ?> map) {
 	    return !(map == null || map.isEmpty()); // this method defined below
+	}
+	
+	public boolean hasText(String str) {
+		return StringUtils.hasText(str);
 	}
 }
