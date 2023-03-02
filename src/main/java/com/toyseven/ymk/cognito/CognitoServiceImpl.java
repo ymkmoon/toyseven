@@ -55,7 +55,7 @@ public class CognitoServiceImpl implements CognitoService {
 					.build();
 		}
 		
-		throw new BusinessException(ErrorCode.FAIL_COGNITO_GET_USERINFO);
+		throw new BusinessException(ErrorCode.FAIL_GET_COGNITO_USERINFO);
 		
 	}
 
