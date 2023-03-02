@@ -45,6 +45,7 @@ public enum ErrorCode {
     
     // 404
     NO_SUCH_ELEMENT(HttpStatus.NOT_FOUND, "데이터가 존재하지 않습니다."),
+    NOT_FOUND(HttpStatus.NOT_FOUND, "NOT FOUND"),
     
     // 405
     METHOD_NOT_ALLOWED(HttpStatus.METHOD_NOT_ALLOWED, "지원하지 않은 HTTP method 입니다."),
