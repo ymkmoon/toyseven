@@ -28,7 +28,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class LogAspect {
 	
-    Logger logger =  LoggerFactory.getLogger(LogAspect.class);
+    Logger logger = LoggerFactory.getLogger(this.getClass());
     
     // 특정 패키지에서 로그 출력
 //    @Around("execution(* ~~~.~~~.~~~.~~~..*Service.*(..))")

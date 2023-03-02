@@ -5,6 +5,8 @@ import java.util.NoSuchElementException;
 
 import javax.validation.ConstraintViolationException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.ResponseEntity;
@@ -29,11 +31,11 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
-import lombok.extern.slf4j.Slf4j;
 
 @RestControllerAdvice
-@Slf4j
 public class GlobalExceptionHandler {
+	
+	Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	/**
      * javax.validation.Valid or @Validated 으로 binding error 발생시 발생한다.
@@ -42,7 +44,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        log.error("handleMethodArgumentNotValidException", e);
+        logger.error("handleMethodArgumentNotValidException", e);
         return ErrorResponse.toResponseEntity(ErrorCode.REQUEST_BINDING_ERROR);
     }
 
@@ -52,7 +54,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(BindException.class)
     protected ResponseEntity<ErrorResponse> handleBindException(BindException e) {
-        log.error("handleBindException", e);
+        logger.error("handleBindException", e);
         return ErrorResponse.toResponseEntity(ErrorCode.MODEL_BINDING_ERROR);
     }
 
@@ -62,7 +64,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     protected ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
-        log.error("handleMethodArgumentTypeMismatchException", e);
+        logger.error("handleMethodArgumentTypeMismatchException", e);
         return ErrorResponse.toResponseEntity(ErrorCode.TYPE_BINDING_ERROR);
     }
 
@@ -72,7 +74,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     protected ResponseEntity<ErrorResponse> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
-        log.error("handleHttpRequestMethodNotSupportedException", e);
+        logger.error("handleHttpRequestMethodNotSupportedException", e);
         return ErrorResponse.toResponseEntity(ErrorCode.METHOD_NOT_ALLOWED);
     }
 
@@ -81,7 +83,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(BusinessException.class)
     protected ResponseEntity<ErrorResponse> handleBusinessException(final BusinessException e) {
-        log.error("handleBusinessException", e);
+        logger.error("handleBusinessException", e);
         return ErrorResponse.toResponseEntity(e.getErrorCode());
     }
     
@@ -91,7 +93,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(DisabledException.class)
     protected ResponseEntity<ErrorResponse> handleDisabledException(DisabledException e) {
-        log.error("handleDisabledException", e);
+        logger.error("handleDisabledException", e);
         return ErrorResponse.toResponseEntity(ErrorCode.DISABLED_USER);
     }
     
@@ -100,7 +102,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(BadCredentialsException.class)
     protected ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException e) {
-        log.error("handleBadCredentialsException", e);
+        logger.error("handleBadCredentialsException", e);
         return ErrorResponse.toResponseEntity(ErrorCode.BAD_CREDENTIAL);
     }
 
@@ -109,7 +111,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(UsernameNotFoundException.class)
     protected ResponseEntity<ErrorResponse> handleUsernameNotFoundException(UsernameNotFoundException e) {
-        log.error("handleUsernameNotFoundException", e);
+        logger.error("handleUsernameNotFoundException", e);
         return ErrorResponse.toResponseEntity(ErrorCode.USER_NAME_NOT_FOUND);
     }
 
@@ -119,7 +121,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(NoSuchElementException.class)
     protected ResponseEntity<ErrorResponse> handleNoSuchElementException(NoSuchElementException e) {
-    	log.error("handleNoSuchElementException", e);
+    	logger.error("handleNoSuchElementException", e);
         return ErrorResponse.toResponseEntity(ErrorCode.NO_SUCH_ELEMENT);
     }
     
@@ -129,7 +131,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(DataIntegrityViolationException.class)
     protected ResponseEntity<ErrorResponse> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
-    	log.error("handleDataIntegrityViolationException", e);
+    	logger.error("handleDataIntegrityViolationException", e);
     	return ErrorResponse.toResponseEntity(ErrorCode.DATA_INTEGRITY_VIOLATION);
     }
     
@@ -139,7 +141,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MissingServletRequestParameterException.class)
     protected ResponseEntity<ErrorResponse> handleConstraintRequestParameterException(MissingServletRequestParameterException e) {
-    	log.error("handleMissingServletRequestParameterException", e);
+    	logger.error("handleMissingServletRequestParameterException", e);
     	return ErrorResponse.toResponseEntity(ErrorCode.MISSING_SERVLET_REQUEST_PARAMETER);
     }
     
@@ -149,7 +151,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(ConstraintViolationException.class)
     protected ResponseEntity<ErrorResponse> handleConstraintViolationException(ConstraintViolationException e) {
-    	log.error("handleConstraintViolationException", e);
+    	logger.error("handleConstraintViolationException", e);
     	return ErrorResponse.toResponseEntity(ErrorCode.MISSING_SERVLET_REQUEST_PARAMETER);
     }
     
@@ -161,7 +163,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(UnrecognizedPropertyException.class)
     protected ResponseEntity<ErrorResponse> handleUnrecognizedPropertyException(UnrecognizedPropertyException e) {
-        log.error("handleUnrecognizedPropertyException", e);
+        logger.error("handleUnrecognizedPropertyException", e);
         return ErrorResponse.toResponseEntity(ErrorCode.INTERNAL_SERVER_ERROR);
     }
     
@@ -170,7 +172,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(ExpiredJwtException.class)
     protected ResponseEntity<ErrorResponse> handleExpiredJwtException(ExpiredJwtException e) {
-    	log.error("handleExpiredJwtException", e);
+    	logger.error("handleExpiredJwtException", e);
     	return ErrorResponse.toResponseEntity(ErrorCode.TOKEN_EXPIRED);
     }
     
@@ -180,7 +182,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MalformedJwtException.class)
     protected ResponseEntity<ErrorResponse> handleMalformedJwtException(MalformedJwtException e) {
-    	log.error("handleMalformedJwtException", e);
+    	logger.error("handleMalformedJwtException", e);
     	return ErrorResponse.toResponseEntity(ErrorCode.UNAUTHORIZED);
     }
     
@@ -189,7 +191,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(UnsupportedJwtException.class)
     protected ResponseEntity<ErrorResponse> handleUnsupportedJwtException(UnsupportedJwtException e) {
-    	log.error("handleUnsupportedJwtException", e);
+    	logger.error("handleUnsupportedJwtException", e);
     	return ErrorResponse.toResponseEntity(ErrorCode.UNAUTHORIZED);
     }
     
@@ -198,7 +200,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(SignatureException.class)
     protected ResponseEntity<ErrorResponse> handleSignatureException(SignatureException e) {
-    	log.error("handleSignatureException", e);
+    	logger.error("handleSignatureException", e);
     	return ErrorResponse.toResponseEntity(ErrorCode.UNAUTHORIZED);
     }
     
@@ -211,7 +213,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(InvalidDataAccessApiUsageException.class)
     protected ResponseEntity<ErrorResponse> handleTransientPropertyValueException(InvalidDataAccessApiUsageException e) {
-    	log.error("handleInvalidDataAccessApiUsageException", e);
+    	logger.error("handleInvalidDataAccessApiUsageException", e);
     	return ErrorResponse.toResponseEntity(ErrorCode.INVALID_DATA_ACCESS_API_USAGE);
     }
     
@@ -220,7 +222,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(ClassCastException.class)
     protected ResponseEntity<ErrorResponse> handleClassCastException(ClassCastException e) {
-    	log.error("handleClassCastException", e);
+    	logger.error("handleClassCastException", e);
     	return ErrorResponse.toResponseEntity(ErrorCode.CLASS_CAST_ERROR);
     }
     
@@ -231,7 +233,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(HttpMessageNotReadableException.class)
     protected ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
-    	log.error("handleHttpMessageNotReadableException", e);
+    	logger.error("handleHttpMessageNotReadableException", e);
     	return ErrorResponse.toResponseEntity(ErrorCode.HTTP_MESSAGE_NOT_READABLE);
     }
     
@@ -241,7 +243,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(WebClientRequestException.class)
     protected ResponseEntity<ErrorResponse> handleWebClientRequestException(WebClientRequestException e) {
-    	log.error("handleWebClientRequestException", e);
+    	logger.error("handleWebClientRequestException", e);
     	return ErrorResponse.toResponseEntity(ErrorCode.WEBCLIENT_REQUEST_ERROR);
     }
     
@@ -251,13 +253,13 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(DateTimeParseException.class)
     protected ResponseEntity<ErrorResponse> handleDateTimeParseExceptionException(DateTimeParseException e) {
-    	log.error("handleDateTimeParseExceptionException", e);
+    	logger.error("handleDateTimeParseExceptionException", e);
     	return ErrorResponse.toResponseEntity(ErrorCode.DATE_TIME_PARSING_ERROR);
     }
     
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<ErrorResponse> handleException(Exception e) {
-    	log.error("handleException", e);
+    	logger.error("handleException", e);
     	return ErrorResponse.toResponseEntity(ErrorCode.INTERNAL_SERVER_ERROR);
     }
 }

@@ -68,11 +68,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     		failResponse(response, ErrorCode.FAIL_AUTHORIZED);
     		return;
     	} catch (ExpiredJwtException e) {
-    		logger.info("JWT Token has expired", e);
+    		logger.error("JWT Token has expired", e);
     		failResponse(response, ErrorCode.TOKEN_EXPIRED);
     		return;
     	} catch (Exception e) {
-    		logger.info("Unable to get JWT Token", e);
+    		logger.error("Unable to get JWT Token", e);
     		failResponse(response, ErrorCode.FAIL_AUTHORIZED);
     		return;
     	}
