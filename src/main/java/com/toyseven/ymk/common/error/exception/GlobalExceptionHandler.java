@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -255,6 +256,17 @@ public class GlobalExceptionHandler {
     protected ResponseEntity<ErrorResponse> handleDateTimeParseExceptionException(DateTimeParseException e) {
     	logger.error("handleDateTimeParseExceptionException", e);
     	return ErrorResponse.toResponseEntity(ErrorCode.DATE_TIME_PARSING_ERROR);
+    }
+    
+    /**
+     * Entity Field 매핑에러
+     * 	ex) 존재하지 않는(잘못 된) 필드를 이용하여 정렬 등을 처리 했을 때
+     *  정렬 할 때 stationId 를 사용해야 하지만, stationId2 를 사용 한 경우
+     */
+    @ExceptionHandler(PropertyReferenceException.class)
+    protected ResponseEntity<ErrorResponse> handlePropertyReferenceException(PropertyReferenceException e) {
+    	logger.error("handlePropertyReferenceException", e);
+    	return ErrorResponse.toResponseEntity(ErrorCode.PROPERTY_REFRENCE_ERROR);
     }
     
     @ExceptionHandler(Exception.class)

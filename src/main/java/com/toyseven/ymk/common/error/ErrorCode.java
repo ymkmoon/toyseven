@@ -27,6 +27,8 @@ public enum ErrorCode {
     ADMIN_IS_NOT_EXIST(HttpStatus.BAD_REQUEST, "해당 Admin 조회가 불가능 합니다."),
     
     FAIL_REFRESH_COGNITO_ACCESSTOKEN(HttpStatus.BAD_REQUEST, "Cognito 토큰 갱신 실패"),
+    PROPERTY_REFRENCE_ERROR(HttpStatus.BAD_REQUEST, "요청 데이터가 정상적이지 않습니다. 필드명 등을 다시 확인해주세요."),
+    
 
     // 401
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "토큰 값을 다시 한번 확인해주세요."),
