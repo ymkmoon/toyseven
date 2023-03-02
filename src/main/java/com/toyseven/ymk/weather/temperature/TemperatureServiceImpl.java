@@ -15,8 +15,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
 import com.toyseven.ymk.common.ResponseEntityComponent;
+import com.toyseven.ymk.common.WebClientFactory;
 import com.toyseven.ymk.common.dto.WeatherDto;
-import com.toyseven.ymk.common.util.WebClientUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -40,7 +40,7 @@ public class TemperatureServiceImpl implements TemperatureService {
     	
     	WeatherDto.TemperatureRequest temperatureRequest = setTemperatureRequest(weatherRequest);
 
-        WebClient wc = WebClientUtil.buildWebClient(BASE_URL, DefaultUriBuilderFactory.EncodingMode.VALUES_ONLY);
+        WebClient wc = new WebClientFactory(BASE_URL, DefaultUriBuilderFactory.EncodingMode.VALUES_ONLY).buildWebClient();
         ResponseEntity<JSONObject> response = responseEntityComponent.temperatureApi(wc, temperatureRequest);
         
         Map<String, Object> responseData = ((Map<String, Object>)response.getBody().get("response"))

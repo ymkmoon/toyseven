@@ -12,11 +12,11 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
 import com.toyseven.ymk.common.ResponseEntityComponent;
+import com.toyseven.ymk.common.WebClientFactory;
 import com.toyseven.ymk.common.dto.CognitoDto;
 import com.toyseven.ymk.common.error.ErrorCode;
 import com.toyseven.ymk.common.error.exception.BusinessException;
 import com.toyseven.ymk.common.util.DataParsingUtil;
-import com.toyseven.ymk.common.util.WebClientUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -37,7 +37,7 @@ public class CognitoServiceImpl implements CognitoService {
 	@Override
 	public CognitoDto.RefreshResponse refreshAccessToken(CognitoDto.RefreshRequest request) {
 		
-		WebClient wc = WebClientUtil.buildWebClient(ISSUER_URI, DefaultUriBuilderFactory.EncodingMode.NONE);
+		WebClient wc = new WebClientFactory(ISSUER_URI, DefaultUriBuilderFactory.EncodingMode.NONE).buildWebClient();
 		
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		params.add("grant_type", REFRESH_TOKEN);

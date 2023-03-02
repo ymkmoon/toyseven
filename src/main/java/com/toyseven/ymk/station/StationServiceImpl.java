@@ -17,13 +17,13 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toyseven.ymk.common.ResponseEntityComponent;
+import com.toyseven.ymk.common.WebClientFactory;
 import com.toyseven.ymk.common.dto.StationInformationDto;
 import com.toyseven.ymk.common.error.ErrorCode;
 import com.toyseven.ymk.common.model.entity.StationInformationEntity;
 import com.toyseven.ymk.common.search.StationSearchCondition;
 import com.toyseven.ymk.common.util.DataParsingUtil;
 import com.toyseven.ymk.common.util.ToysevenCommonUtil;
-import com.toyseven.ymk.common.util.WebClientUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -78,7 +78,7 @@ public class StationServiceImpl implements StationService {
     @SuppressWarnings("unchecked")
 	private List<StationInformationEntity> requestToStation(int index) {
     	
-    	WebClient wc = WebClientUtil.buildWebClient(BASE_URL, DefaultUriBuilderFactory.EncodingMode.VALUES_ONLY);
+    	WebClient wc = new WebClientFactory(BASE_URL, DefaultUriBuilderFactory.EncodingMode.VALUES_ONLY).buildWebClient();
         List<StationInformationEntity> row = new ArrayList<>();
         
         StationInformationDto.Request stationRequest = setStationRequest(index);
