@@ -17,11 +17,11 @@ import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.toyseven.ymk.common.Constants;
+import com.toyseven.ymk.common.QuerydslOrder;
 import com.toyseven.ymk.common.dto.QVocQuestionDto_Response;
 import com.toyseven.ymk.common.dto.VocQuestionDto;
 import com.toyseven.ymk.common.model.entity.QVocQuestionEntity;
 import com.toyseven.ymk.common.search.VocQuestionSearchCondition;
-import com.toyseven.ymk.common.util.QuerydslUtil;
 import com.toyseven.ymk.common.util.ToysevenCommonUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -123,7 +123,7 @@ public class VocQuestionRepositoryCustom {
 	
 	private List<OrderSpecifier<?>> getAllOrderSpecifiers() {
         List<OrderSpecifier<?>> orders = new ArrayList<>();
-        OrderSpecifier<?> updatedAt = QuerydslUtil.getSortedColumn(Order.DESC, question, "updatedAt");
+        OrderSpecifier<?> updatedAt = new QuerydslOrder(Order.DESC, question, "updatedAt").getSortedColumn();
         orders.add(updatedAt);
         return orders;
     }

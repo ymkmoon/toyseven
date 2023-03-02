@@ -14,11 +14,11 @@ import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.toyseven.ymk.common.QuerydslOrder;
 import com.toyseven.ymk.common.dto.QStationInformationDto_Response;
 import com.toyseven.ymk.common.dto.StationInformationDto;
 import com.toyseven.ymk.common.model.entity.QStationInformationEntity;
 import com.toyseven.ymk.common.search.StationSearchCondition;
-import com.toyseven.ymk.common.util.QuerydslUtil;
 import com.toyseven.ymk.common.util.ToysevenCommonUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -81,7 +81,7 @@ public class StationRepositoryCustom {
 
                 switch (order.getProperty()) {
                     case "stationId":
-                        OrderSpecifier<?> stationId = QuerydslUtil.getSortedColumn(direction, station, "stationId");
+                        OrderSpecifier<?> stationId = new QuerydslOrder(direction, station, "stationId").getSortedColumn();
                         orders.add(stationId);
                         break;
                     default:
