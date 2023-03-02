@@ -24,11 +24,12 @@ import org.apache.http.entity.ContentType;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 public class ReadableRequestWrapper extends HttpServletRequestWrapper { // 상속
+	
+	Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	private final Charset encoding;
 	private byte[] rawData;
@@ -69,7 +70,7 @@ public class ReadableRequestWrapper extends HttpServletRequestWrapper { // 상�
 				}
 			}
 		} catch (Exception e) {
-			log.error("ReadableRequestWrapper init error", e);
+			logger.error("ReadableRequestWrapper init error", e);
 		}
 	}
 
