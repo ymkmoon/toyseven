@@ -26,7 +26,6 @@ import com.toyseven.ymk.common.ReadableRequestWrapper;
 import com.toyseven.ymk.common.ResponseEntityComponent;
 import com.toyseven.ymk.common.error.ErrorCode;
 import com.toyseven.ymk.common.error.ErrorResponse;
-import com.toyseven.ymk.common.error.exception.BusinessException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -88,7 +87,7 @@ public class OAuth2RequestFilter extends OncePerRequestFilter {
             return bearerToken.substring(7);
         }
 
-        throw new BusinessException(ErrorCode.FAIL_AUTHORIZED);
+        return null;
     }
     
     private void failResponse(HttpServletResponse response, ErrorCode errorCode) throws IOException {
