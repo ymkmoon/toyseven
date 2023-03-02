@@ -1,15 +1,18 @@
-package com.toyseven.ymk.common.util;
+package com.toyseven.ymk.common;
 
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import org.springframework.web.util.DefaultUriBuilderFactory.EncodingMode;
 
-import lombok.experimental.UtilityClass;
+import lombok.AllArgsConstructor;
 
-@UtilityClass
-public final class WebClientUtil {
+@AllArgsConstructor
+public class WebClientFactory {
 	
-	public static WebClient buildWebClient(String baseUrl, EncodingMode encodingMode) {
+	private final String baseUrl;
+	private final EncodingMode encodingMode;
+	
+	public WebClient buildWebClient() {
 		DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory(baseUrl);
         factory.setEncodingMode(encodingMode);
         return WebClient.builder().uriBuilderFactory(factory).baseUrl(baseUrl).build();

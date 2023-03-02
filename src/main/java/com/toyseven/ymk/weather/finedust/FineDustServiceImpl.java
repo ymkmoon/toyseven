@@ -15,10 +15,10 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
 import com.toyseven.ymk.common.ResponseEntityComponent;
+import com.toyseven.ymk.common.WebClientFactory;
 import com.toyseven.ymk.common.dto.WeatherDto;
 import com.toyseven.ymk.common.error.ErrorCode;
 import com.toyseven.ymk.common.error.exception.BusinessException;
-import com.toyseven.ymk.common.util.WebClientUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -40,7 +40,7 @@ public class FineDustServiceImpl implements FineDustService {
     @Override
 	public String getFineDustInfo(WeatherDto.Request weatherRequest) {
 		WeatherDto.FineDustRequest fineDustRequest = setFineDustRequest(weatherRequest.getStationName());
-        WebClient wc = WebClientUtil.buildWebClient(BASE_URL, DefaultUriBuilderFactory.EncodingMode.NONE);
+        WebClient wc = new WebClientFactory(BASE_URL, DefaultUriBuilderFactory.EncodingMode.NONE).buildWebClient();
         ResponseEntity<JSONObject> response = responseEntityComponent.fineDustApi(wc, fineDustRequest);
         
         Map<String, Object> responseData = ((Map<String, Object>)response.getBody().get("response"))
