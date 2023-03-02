@@ -85,7 +85,7 @@ public class ResponseEntityComponent {
 				.retrieve()
 				.onStatus(status -> !status.is2xxSuccessful() , clientResponse ->
 				clientResponse.bodyToMono(String.class)
-				.map(body -> new BusinessException(ErrorCode.FAIL_COGNITO_REFRESH_ACCESSTOKEN)))
+				.map(body -> new BusinessException(ErrorCode.FAIL_REFRESH_COGNITO_ACCESSTOKEN)))
 				.toEntity(JSONObject.class)
 				.block();
 	}
@@ -103,7 +103,7 @@ public class ResponseEntityComponent {
 				.retrieve()
 				.onStatus(status -> !status.is2xxSuccessful() , clientResponse ->
 				clientResponse.bodyToMono(String.class)
-				.map(body -> new BusinessException(ErrorCode.FAIL_COGNITO_GET_USERINFO)))
+				.map(body -> new BusinessException(ErrorCode.FAIL_GET_COGNITO_USERINFO)))
 				.toEntity(JSONObject.class)
 				.block();
 	}

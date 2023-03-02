@@ -58,7 +58,7 @@ public class OAuth2RequestFilter extends OncePerRequestFilter {
 			usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 			SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 		} catch(Exception e) {
-			new FailResponse(response, ErrorCode.FAIL_COGNITO_GET_USERINFO).writer();
+			new FailResponse(response, ErrorCode.FAIL_GET_COGNITO_USERINFO).writer();
 			return;
 		}
 		
