@@ -1,7 +1,6 @@
 package com.toyseven.ymk.common.filter;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -9,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,11 +19,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.toyseven.ymk.common.FailResponse;
 import com.toyseven.ymk.common.ReadableRequestWrapper;
 import com.toyseven.ymk.common.ResponseEntityComponent;
 import com.toyseven.ymk.common.error.ErrorCode;
-import com.toyseven.ymk.common.error.ErrorResponse;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,7 +31,6 @@ public class OAuth2RequestFilter extends OncePerRequestFilter {
 	
 	private final ResponseEntityComponent responseEntityComponent;
 	private final String ISSUER_URI;
-    private final ObjectMapper objectMapper;
     
 //    private static final List<String> INCLUDE_URL =
 //            Collections.unmodifiableList(
@@ -62,7 +58,7 @@ public class OAuth2RequestFilter extends OncePerRequestFilter {
 			usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 			SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 		} catch(Exception e) {
-			failResponse(response, ErrorCode.FAIL_COGNITO_GET_USERINFO);
+			new FailResponse(response, ErrorCode.FAIL_GET_COGNITO_USERINFO).writer();
 			return;
 		}
 		
@@ -88,15 +84,5 @@ public class OAuth2RequestFilter extends OncePerRequestFilter {
         }
 
         return null;
-    }
-    
-    private void failResponse(HttpServletResponse response, ErrorCode errorCode) throws IOException {
-    	ErrorResponse fail = ErrorResponse.toBuilder(errorCode);
-		response.setStatus(errorCode.getHttpStatus().value());
-	    response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-	    String json = objectMapper.writeValueAsString(fail);
-	    PrintWriter writer = response.getWriter();
-	    writer.write(json);
-	    writer.flush();
     }
 }

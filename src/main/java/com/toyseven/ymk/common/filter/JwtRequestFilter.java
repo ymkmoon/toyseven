@@ -1,7 +1,6 @@
 package com.toyseven.ymk.common.filter;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -11,7 +10,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,11 +18,10 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toyseven.ymk.common.Constants;
+import com.toyseven.ymk.common.FailResponse;
 import com.toyseven.ymk.common.ReadableRequestWrapper;
 import com.toyseven.ymk.common.error.ErrorCode;
-import com.toyseven.ymk.common.error.ErrorResponse;
 import com.toyseven.ymk.common.util.JwtUtil;
 import com.toyseven.ymk.jwt.JwtService;
 
@@ -38,7 +35,6 @@ import lombok.RequiredArgsConstructor;
 public class JwtRequestFilter extends OncePerRequestFilter {
 	
 	private final JwtService jwtService;
-    private final ObjectMapper objectMapper;
     
     private static final List<String> INCLUDE_URL =
             Collections.unmodifiableList(
@@ -65,15 +61,15 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     		}
     	} catch (IllegalArgumentException | AccessDeniedException | MalformedJwtException | SignatureException e) {
     		logger.error("Unable to get JWT Token", e);
-    		failResponse(response, ErrorCode.FAIL_AUTHORIZED);
+    		new FailResponse(response, ErrorCode.FAIL_AUTHORIZED).writer();
     		return;
     	} catch (ExpiredJwtException e) {
     		logger.error("JWT Token has expired", e);
-    		failResponse(response, ErrorCode.TOKEN_EXPIRED);
+    		new FailResponse(response, ErrorCode.TOKEN_EXPIRED).writer();
     		return;
     	} catch (Exception e) {
     		logger.error("Unable to get JWT Token", e);
-    		failResponse(response, ErrorCode.FAIL_AUTHORIZED);
+    		new FailResponse(response, ErrorCode.FAIL_AUTHORIZED).writer();
     		return;
     	}
         
@@ -99,15 +95,5 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
 
         return null;
-    }
-    
-    private void failResponse(HttpServletResponse response, ErrorCode errorCode) throws IOException {
-    	ErrorResponse fail = ErrorResponse.toBuilder(errorCode);
-		response.setStatus(errorCode.getHttpStatus().value());
-	    response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-	    String json = objectMapper.writeValueAsString(fail);
-	    PrintWriter writer = response.getWriter();
-	    writer.write(json);
-	    writer.flush();
     }
 }

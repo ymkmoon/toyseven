@@ -26,7 +26,9 @@ public enum ErrorCode {
     ANSWER_IS_NOT_EXIST(HttpStatus.BAD_REQUEST, "해당 Answer 조회가 불가능 합니다."),
     ADMIN_IS_NOT_EXIST(HttpStatus.BAD_REQUEST, "해당 Admin 조회가 불가능 합니다."),
     
-    FAIL_COGNITO_REFRESH_ACCESSTOKEN(HttpStatus.BAD_REQUEST, "Cognito 토큰 갱신 실패"),
+    FAIL_REFRESH_COGNITO_ACCESSTOKEN(HttpStatus.BAD_REQUEST, "Cognito 토큰 갱신 실패"),
+    PROPERTY_REFRENCE_ERROR(HttpStatus.BAD_REQUEST, "요청 데이터가 정상적이지 않습니다. 필드명 등을 다시 확인해주세요."),
+    
 
     // 401
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "토큰 값을 다시 한번 확인해주세요."),
@@ -38,13 +40,14 @@ public enum ErrorCode {
     TOKEN_IS_NOT_AUTHORIZED(HttpStatus.UNAUTHORIZED, "인증되지 않은 토큰 입니다."),
     IS_NOT_WRITER(HttpStatus.UNAUTHORIZED, "작성자만 수정 가능합니다."),
     
-    FAIL_COGNITO_GET_USERINFO(HttpStatus.UNAUTHORIZED, "Cognito 유저 정보 획득 실패"),
+    FAIL_GET_COGNITO_USERINFO(HttpStatus.UNAUTHORIZED, "Cognito 유저 정보 획득 실패"),
     
     // 403
     ACCESS_DENIED(HttpStatus.FORBIDDEN, "허가되지 않은 권한입니다."),
     
     // 404
     NO_SUCH_ELEMENT(HttpStatus.NOT_FOUND, "데이터가 존재하지 않습니다."),
+    NOT_FOUND(HttpStatus.NOT_FOUND, "NOT FOUND"),
     
     // 405
     METHOD_NOT_ALLOWED(HttpStatus.METHOD_NOT_ALLOWED, "지원하지 않은 HTTP method 입니다."),

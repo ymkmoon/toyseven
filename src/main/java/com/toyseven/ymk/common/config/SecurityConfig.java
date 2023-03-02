@@ -19,7 +19,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toyseven.ymk.common.ResponseEntityComponent;
 import com.toyseven.ymk.common.error.exception.JwtAccessDeniedHandler;
 import com.toyseven.ymk.common.error.exception.JwtAuthenticationEntryPoint;
@@ -56,7 +55,6 @@ public class SecurityConfig {
 		private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
 		private final JwtService jwtService;
-	    private final ObjectMapper objectMapper;
 	    
 		@Bean
 		protected SecurityFilterChain adminFilterChain(HttpSecurity http) throws Exception {
@@ -80,7 +78,7 @@ public class SecurityConfig {
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // 토큰 기반 인증이므로 세션 사용 x
 	    	http.httpBasic().disable()
 				.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
-	    	http.addFilterBefore(new JwtRequestFilter(jwtService, objectMapper), UsernamePasswordAuthenticationFilter.class);
+	    	http.addFilterBefore(new JwtRequestFilter(jwtService), UsernamePasswordAuthenticationFilter.class);
 	    	
 	    	return http.build();
 		}
@@ -104,7 +102,6 @@ public class SecurityConfig {
 		private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 		
 		private final ResponseEntityComponent responseEntityComponent;
-		private final ObjectMapper objectMapper;
 		@Value("${aws.cognito.domaim}")
 		private String ISSUER_URI;
 		
@@ -133,7 +130,7 @@ public class SecurityConfig {
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // 토큰 기반 인증이므로 세션 사용 x
 			http.httpBasic().disable()
 				.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
-			http.addFilterBefore(new OAuth2RequestFilter(responseEntityComponent, ISSUER_URI, objectMapper), UsernamePasswordAuthenticationFilter.class);
+			http.addFilterBefore(new OAuth2RequestFilter(responseEntityComponent, ISSUER_URI), UsernamePasswordAuthenticationFilter.class);
 			
 			return http.build();
 		}
