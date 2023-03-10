@@ -262,7 +262,6 @@ public class GlobalExceptionHandler {
      * Entity Field 매핑에러
      * 	ex) 존재하지 않는(잘못 된) 필드를 이용하여 정렬 등을 처리 했을 때
      *  정렬 할 때 stationId 를 사용해야 하지만, stationId2 를 사용 한 경우
-     *  주로 런타임에 발생
      */
     @ExceptionHandler(PropertyReferenceException.class)
     protected ResponseEntity<ErrorResponse> handlePropertyReferenceException(PropertyReferenceException e) {
