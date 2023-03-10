@@ -36,7 +36,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 	
 	private final JwtService jwtService;
     
-    private static final List<String> INCLUDE_URL =
+    private static final List<String> WHITE_LIST =
             Collections.unmodifiableList(
                     Arrays.asList(
                         "/voc/answer",
@@ -85,7 +85,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
      */
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return INCLUDE_URL.stream().noneMatch(exclude -> exclude.equalsIgnoreCase(request.getServletPath()));
+        return WHITE_LIST.stream().noneMatch(exclude -> exclude.equalsIgnoreCase(request.getServletPath()));
     }
 
     private String getAccessTokenFromRequestHeader(HttpServletRequest request) {
