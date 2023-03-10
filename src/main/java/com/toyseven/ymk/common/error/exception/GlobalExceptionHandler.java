@@ -262,11 +262,25 @@ public class GlobalExceptionHandler {
      * Entity Field 매핑에러
      * 	ex) 존재하지 않는(잘못 된) 필드를 이용하여 정렬 등을 처리 했을 때
      *  정렬 할 때 stationId 를 사용해야 하지만, stationId2 를 사용 한 경우
+     *  주로 런타임에 발생
      */
     @ExceptionHandler(PropertyReferenceException.class)
     protected ResponseEntity<ErrorResponse> handlePropertyReferenceException(PropertyReferenceException e) {
     	logger.error("handlePropertyReferenceException", e);
     	return ErrorResponse.toResponseEntity(ErrorCode.PROPERTY_REFRENCE_ERROR);
+    }
+    
+    /**
+     * 파라미터가 적절하지 않은 경우
+     * 	ex) 적합하지 않거나(illegal) 적절하지 못한(inappropriate) 인자를 메소드에 넘겨주었을 때 발생
+     *  정렬 할 때 stationId 를 사용해야 하지만, stationId2 를 사용 한 경우
+     *  
+     *  현재 프로젝트 에서는 OffsetBasedPageRequest 에서 Limit 와 Offset 의 값이 잘못 됐을 경우 해당 에러를 반환 
+     */
+    @ExceptionHandler(IllegalArgumentException.class)
+    protected ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException e) {
+    	logger.error("handleIllegalArgumentException", e);
+    	return ErrorResponse.toResponseEntity(ErrorCode.ILLEGAL_ARGUMENT_ERROR);
     }
     
     @ExceptionHandler(Exception.class)

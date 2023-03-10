@@ -28,6 +28,7 @@ public enum ErrorCode {
     
     FAIL_REFRESH_COGNITO_ACCESSTOKEN(HttpStatus.BAD_REQUEST, "Cognito 토큰 갱신 실패"),
     PROPERTY_REFRENCE_ERROR(HttpStatus.BAD_REQUEST, "요청 데이터가 정상적이지 않습니다. 필드명 등을 다시 확인해주세요."),
+    ILLEGAL_ARGUMENT_ERROR(HttpStatus.BAD_REQUEST, "요청 데이터가 정상적이지 않습니다."),
     
 
     // 401
