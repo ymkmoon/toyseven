@@ -86,11 +86,27 @@
 	    </rollingPolicy>
     </appender>
     
+    <!-- <property resource="application.yml" />
+	<springProperty name="spring.datasource.driverClassName" source="spring.datasource.driver-class-name"/>
+	<springProperty name="spring.datasource.url" source="spring.datasource.url"/>
+	<springProperty name="spring.datasource.username" source="spring.datasource.username"/>
+	<springProperty name="spring.datasource.password" source="spring.datasource.password"/>
+	
+	<appender name="DB" class="ch.qos.logback.classic.db.DBAppender">
+	    <connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">
+	        <driverClass>${spring.datasource.driverClassName}</driverClass>
+	        <url>${spring.datasource.url}</url>
+	        <user>${spring.datasource.username}</user>
+	        <password>${spring.datasource.password}</password>
+	    </connectionSource>
+	</appender> -->
+    
     <!-- 루트 레벨 설정 -->
     <root level="${LOG_LEVEL}">
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="FILE" />
         <appender-ref ref="Error" />
+        <!-- <appender-ref ref="DB" /> -->
     </root>
     
     <!-- 특정패키지 로깅레벨 설정 -->
@@ -98,6 +114,7 @@
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="FILE" />
         <appender-ref ref="Error" />
+        <!-- <appender-ref ref="DB" /> -->
     </logger>
     
     <!-- Log4jdbc 옵션 설정 -->
@@ -121,6 +138,5 @@
     
     <!-- SQL 결과 조회된 데이터의 table를 로그로 남긴다. -->
     <logger name="jdbc.resultsettable" level="OFF" />
-    
     
 </configuration>
