@@ -3,7 +3,7 @@ package com.toyseven.ymk.common.dto;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.ConstructorExpression;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * com.toyseven.ymk.common.dto.QVocQuestionDto_Response is a Querydsl Projection type for Response

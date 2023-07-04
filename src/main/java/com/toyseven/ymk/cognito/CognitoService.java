@@ -1,6 +1,6 @@
 package com.toyseven.ymk.cognito;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 
 import com.toyseven.ymk.common.dto.CognitoDto;
 

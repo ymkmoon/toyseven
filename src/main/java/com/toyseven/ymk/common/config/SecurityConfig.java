@@ -17,6 +17,7 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 
 import com.toyseven.ymk.common.ResponseEntityComponent;
@@ -58,14 +59,23 @@ public class SecurityConfig {
 	    
 		@Bean
 		protected SecurityFilterChain adminFilterChain(HttpSecurity http) throws Exception {
+			
+			AntPathRequestMatcher temp = new AntPathRequestMatcher("/voc/answer", "/actuator/**");
+			
+			http.securityMatcher(temp);
+			
+			
+//			http.securityMatcher("/voc/answer", HttpMethod.POST);
+//			
+//			http.securi
 
 			http
-				.requestMatchers().antMatchers("/voc/answer").and()
-				.requestMatchers().antMatchers("/actuator/**").and()
+				.securityMatchers().requestMatchers("/voc/answer").and()
+				.securityMatchers().requestMatchers("/actuator/**").and()
 				.authorizeRequests()
 //				.anyRequest().hasAnyRole("ADMIN", "SYSTEM")
-				.antMatchers(HttpMethod.POST, "/voc/answer").hasAnyRole("ADMIN", "ADMIN2")
-				.antMatchers("/actuator/**").hasAnyRole("ADMIN", "SYSTEM")
+				.requestMatchers(HttpMethod.POST, "/voc/answer").hasAnyRole("ADMIN", "ADMIN2")
+				.requestMatchers("/actuator/**").hasAnyRole("ADMIN", "SYSTEM")
 				.and().cors();
 			
 			http.csrf().disable(); 
@@ -109,12 +119,12 @@ public class SecurityConfig {
 		protected SecurityFilterChain userFilterChain(HttpSecurity http) throws Exception {
 			
 			http
-				.requestMatchers().antMatchers("/voc/question").and()
-				.requestMatchers().antMatchers("/cognito/payload/**").and()
+				.securityMatchers().requestMatchers("/voc/question").and()
+				.securityMatchers().requestMatchers("/cognito/payload/**").and()
 				.authorizeRequests()
-				.antMatchers(HttpMethod.POST, "/voc/question").authenticated()
-	        	.antMatchers(HttpMethod.PATCH, "/voc/question").authenticated()
-	        	.antMatchers(HttpMethod.GET, "/cognito/payload/**").authenticated()
+				.requestMatchers(HttpMethod.POST, "/voc/question").authenticated()
+	        	.requestMatchers(HttpMethod.PATCH, "/voc/question").authenticated()
+	        	.requestMatchers(HttpMethod.GET, "/cognito/payload/**").authenticated()
 				.and().cors()
 				.and()
 				.oauth2ResourceServer()
@@ -152,7 +162,7 @@ public class SecurityConfig {
 		protected SecurityFilterChain defaultFilterChain(HttpSecurity http) throws Exception {
 			http
             	.authorizeRequests()
-	            .antMatchers("/**/**").permitAll()
+	            .requestMatchers("/**/**").permitAll()
                 .anyRequest().permitAll()
                 .and()
                 .cors() // cross-origin

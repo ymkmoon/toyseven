@@ -2,7 +2,7 @@ package com.toyseven.ymk.aop;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.IOUtils;
 import org.aspectj.lang.JoinPoint;

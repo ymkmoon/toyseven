@@ -139,4 +139,10 @@ public class OffsetBasedPageRequest implements Pageable, Serializable {
                 .append("sort", sort)
                 .toString();
     }
+
+	@Override
+	public Pageable withPage(int pageNumber) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

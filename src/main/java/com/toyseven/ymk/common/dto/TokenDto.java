@@ -1,6 +1,6 @@
 package com.toyseven.ymk.common.dto;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 import com.toyseven.ymk.common.model.entity.AdminEntity;
 import com.toyseven.ymk.common.model.entity.RefreshTokenEntity;

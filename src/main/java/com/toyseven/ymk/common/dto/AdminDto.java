@@ -1,7 +1,7 @@
 package com.toyseven.ymk.common.dto;
 
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 import lombok.AccessLevel;
 import lombok.Builder;

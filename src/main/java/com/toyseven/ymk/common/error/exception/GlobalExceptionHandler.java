@@ -3,7 +3,7 @@ package com.toyseven.ymk.common.error.exception;
 import java.time.format.DateTimeParseException;
 import java.util.NoSuchElementException;
 
-import javax.validation.ConstraintViolationException;
+import jakarta.validation.ConstraintViolationException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
