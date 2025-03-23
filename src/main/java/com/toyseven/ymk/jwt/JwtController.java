@@ -2,6 +2,7 @@ package com.toyseven.ymk.jwt;
 
 import jakarta.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,8 +27,10 @@ import lombok.RequiredArgsConstructor;
 public class JwtController {
 
     private final JwtService jwtService;
-    private final AuthenticationManager authenticationManager;
-
+//    private final AuthenticationManager authenticationManager;
+//    @Autowired
+//    private AuthenticationManager authenticationManager;
+    
     @PostMapping(value = "/login")
     public ResponseEntity<TokenDto.Response> login(@RequestBody @Valid AdminDto.Request adminRequest) {
         UserDetails userDetails = jwtService.loadUserByUsername(adminRequest.getUsername());
@@ -35,7 +38,7 @@ public class JwtController {
         
         jwtService.saveRefreshToken(token);
 
-        authenticate(adminRequest.getUsername(), adminRequest.getPassword());
+//        authenticate(adminRequest.getUsername(), adminRequest.getPassword());
         
         TokenDto.Response response = TokenDto.Response.builder()
         									.accessToken(token.getAccessToken())
@@ -60,7 +63,7 @@ public class JwtController {
     	
     }
 
-    private void authenticate(String username, String password) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-    }
+//    private void authenticate(String username, String password) {
+//        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+//    }
 }

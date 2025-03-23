@@ -54,6 +54,7 @@ public class StationController {
         return new ResponseEntity<>(stations, HttpStatus.OK);
     }
 
+	// http://127.0.0.1:8000/toyseven/stations/search?offset=0&limit=1000&name=2318. 삼성중앙역4번출구(문화센터더 리빌)
     @GetMapping(value = "/search")
     public ResponseEntity<List<StationInformationDto.Response>> searchStations(
     		@RequestParam(name="name") @NotBlank String name,

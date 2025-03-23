@@ -12,6 +12,7 @@ server:
 logging:
   level:
     root: info
+    org.springframework.security.web.FilterChainProxy : debug
     
 spring:
   main:
@@ -97,6 +98,7 @@ spring:
           jwk-set-uri: https://cognito-idp.ap-northeast-2.amazonaws.com/ap-northeast-2_xxxxxxxxx/.well-known/jwks.json
         opaquetoken:
           client-id: xxxxxxxxxxxxxxxx
+    debug: true
           
   boot:
     admin:

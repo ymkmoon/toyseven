@@ -10,8 +10,6 @@ import java.util.stream.Collectors;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import com.google.common.base.Joiner;
-
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
@@ -49,7 +47,9 @@ public final class DataParsingUtil {
 	
 	public static String paramMapToString(Map<String, String[]> paramMap) {
 	    return paramMap.entrySet().stream()
-	    		.map(entry -> String.format("%s -> (%s)",entry.getKey(), Joiner.on(",").join(entry.getValue())))
-	    		.collect(Collectors.joining(", "));
+	            .map((Map.Entry<String, String[]> entry) -> 
+	                String.format("%s -> (%s)", entry.getKey(), String.join(",", entry.getValue()))
+	            )
+	            .collect(Collectors.joining(", "));
 	}
 }
